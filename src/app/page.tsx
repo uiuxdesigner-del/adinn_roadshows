@@ -15,7 +15,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 import { CTABanner } from "@/components/site/CTABanner";
 import { ContactForm } from "@/components/site/ContactForm";
-import { Footer } from "@/components/site/Footer";
+import  Footer  from "@/components/site/Footer";
 
 export default function Home() {
   return (

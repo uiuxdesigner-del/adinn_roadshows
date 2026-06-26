@@ -1,0 +1,332 @@
+.FooterCTAMain {
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+    padding: 5% 5%;
+    align-items: center;
+}
+
+.FooterCTAContent1 {
+    font-weight: 400;
+    font-size: 66px;
+}
+
+.FooterCTAContent2 {
+    font-weight: 400;
+    font-size: 46px;
+}
+
+.FooterCTAButton {
+    background: white;
+    color: black;
+    padding: 16px 40px;
+    border-radius: 50px;
+    transition: background-color 0.2s ease-in-out;
+    font-family: Outfit;
+    font-weight: 400;
+    font-size: 40px;
+
+}
+
+
+
+.FooterCol1Logo {
+    width: 150px;
+    height: auto;
+}
+
+.FooterCol1Social {
+    gap: 20px;
+}
+
+.FooterCol1SocialIcon {
+    height: 40px;
+    width: 40px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.FooterCol1Contact {
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+
+}
+
+.FooterCol1Newsletter {
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.FooterCol23Heading {
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.FooterCol23Contents {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 6px 0;
+}
+
+.FooterCol3LocationSpan {
+    font-weight: 600;
+}
+
+.FooterContentDivider {
+    width: 70%;
+    height: 1px;
+    border: none;
+    margin: 10px auto;
+    background-image: repeating-linear-gradient(90deg,
+            #636363 0px,
+            #636363 10px,
+            transparent 10px,
+            transparent 20px);
+
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #fff 15%, #fff 85%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #fff 15%, #fff 85%, transparent 100%);
+}
+
+.FooterBottomContents {
+    color: white;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+
+/* RESPONSIVE ADDITIONS — FOOTER */
+
+/* ── 2XL: 1536px+ ── */
+@media (min-width: 1536px) {
+    /* .FooterCTAContent1 { font-size: 80px; }
+    .FooterCTAContent2 { font-size: 56px; }
+    .FooterCTAButton   { font-size: 48px; padding: 20px 52px; }
+    .FooterCol23Heading  { font-size: 24px; }
+    .FooterCol23Contents { font-size: 18px; } */
+}
+
+/* ── XL: 1280px ── */
+@media (max-width: 1280px) {
+    .FooterCTAContent1 { font-size: 52px; }
+    .FooterCTAContent2 { font-size: 36px; }
+    .FooterCTAButton   { font-size: 32px; padding: 14px 32px; }
+}
+
+/* ── LG: 1024px ── */
+@media (max-width: 1024px) {
+    .FooterCTAContent1 { font-size: 42px; }
+    .FooterCTAContent2 { font-size: 28px; }
+    .FooterCTAButton   { font-size: 24px; padding: 12px 28px; }
+    .FooterCol23Heading  { font-size: 18px; }
+    .FooterCol23Contents { font-size: 15px; }
+}
+
+/* ── MD: 768px — stack CTA, 1-col grid ── */
+@media (max-width: 768px) {
+    .FooterCTAMain {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 32px 5%;
+    }
+    .FooterCTAContent1 { font-size: 34px; }
+    .FooterCTAContent2 { font-size: 22px; }
+    .FooterCTAButton   { font-size: 20px; padding: 12px 28px; align-self: flex-start; }
+
+    /* grid already handled by Tailwind md:grid-cols-3 → 1 col below md */
+    /* but override padding for content area */
+    .FooterMain .grid { padding-left: 5%; padding-right: 5%; }
+
+    .FooterCol1Logo        { width: 120px; }
+    .FooterCol1SocialIcon  { width: 34px; height: 34px; }
+    .FooterCol23Heading    { font-size: 17px; }
+    .FooterCol23Contents   { font-size: 14px; }
+    .FooterContentDivider  { width: 90%; }
+}
+
+/* ── SM: 640px ── */
+@media (max-width: 640px) {
+    .FooterCTAContent1 { font-size: 28px; }
+    .FooterCTAContent2 { font-size: 18px; }
+    .FooterCTAButton   { font-size: 17px; padding: 10px 22px; }
+    .FooterCol1Newsletter { font-size: 15px; }
+    .FooterBottomContents { font-size: 13px; }
+}
+
+/* ── XS: 480px ── */
+@media (max-width: 480px) {
+    .FooterCTAContent1 { font-size: 24px; }
+    .FooterCTAContent2 { font-size: 16px; }
+    .FooterCTAButton   { font-size: 15px; padding: 10px 20px; }
+    .FooterCol1Social  { gap: 12px; }
+    .FooterCol1SocialIcon { width: 30px; height: 30px; }
+}
+
+/* ── 2XS: 320px ── */
+@media (max-width: 320px) {
+    .FooterCTAContent1 { font-size: 20px; }
+    .FooterCTAContent2 { font-size: 14px; }
+    .FooterCTAButton   { font-size: 13px; padding: 8px 16px; width: 100%; text-align: center; }
+    .FooterCol23Heading  { font-size: 15px; }
+    .FooterCol23Contents { font-size: 13px; }
+    .FooterCol1Logo      { width: 100px; }
+    .FooterBottomContents { font-size: 11px; }
+    .FooterContentDivider { width: 95%; }
+}
+
+
+.RA_RightContent1 {
+    color: #000000;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 100%;
+}
+
+.RA_RightSecondContentInsideMain {
+    margin: 8% auto;
+}
+
+.RA_RightSecondContent1 {
+    margin: 5px auto;
+}
+
+.RA_RightSecondContent1 {
+    color: #ACACAC;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 100%;
+}
+
+.RA_RightContent2Input {
+    height: 40px;
+}
+
+.RA_RightContent2InpBtn {
+    color: #FFFFFF;
+    background: linear-gradient(270deg, #E3000F 0%, #7D0008 100%);
+    padding: 8px 30px;
+    font-size: 25px;
+
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   FOOTER ANIMATIONS  (newly added — does not change existing styles)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Animated "road" centre-line at the top of the footer ── */
+.FooterRoadLine {
+    position: relative;
+    width: 100%;
+    height: 3px;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(90deg,
+            #E3000F 0 26px,
+            transparent 26px 52px);
+    opacity: 0.45;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #fff 12%, #fff 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #fff 12%, #fff 88%, transparent);
+}
+
+.FooterRoadLinePulse {
+    position: absolute;
+    top: 0;
+    left: -25%;
+    width: 25%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ff2a38, #ffffff, #ff2a38, transparent);
+    filter: blur(1px);
+    animation: footerRoadMove 3.2s linear infinite;
+}
+
+@keyframes footerRoadMove {
+    0%   { left: -25%; }
+    100% { left: 125%; }
+}
+
+/* ── Social icon hover (lift + tilt + brand glow) ── */
+.FooterCol1SocialIcon {
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+.FooterSocialIcon:hover .FooterCol1SocialIcon {
+    transform: translateY(-5px) scale(1.15) rotate(-4deg);
+    filter: drop-shadow(0 6px 10px rgba(227, 0, 15, 0.35));
+}
+
+/* ── CTA button hover lift ── */
+.FooterCTAButton {
+    transition: all 0.25s ease-in-out;
+}
+.FooterCTAButton:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 34px rgba(255, 255, 255, 0.18);
+}
+
+/* ── Service items: slide + brand colour on hover ── */
+.FooterServiceItem {
+    display: inline-block;
+    cursor: default;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.FooterServiceItem:hover {
+    color: #E3000F !important;
+    transform: translateX(6px);
+}
+
+/* ── Newsletter input states ── */
+.RA_RightContent2Main {
+    transition: box-shadow 0.25s ease;
+}
+.RA_RightContent2Main:focus-within {
+    box-shadow: 0 0 0 3px rgba(227, 0, 15, 0.25);
+}
+.FooterNLError {
+    box-shadow: 0 0 0 2px #E3000F !important;
+    animation: footerShake 0.4s ease;
+}
+@keyframes footerShake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-5px); }
+    75%      { transform: translateX(5px); }
+}
+.FooterNLErrorMsg   { color: #ff6b6b; }
+.FooterNLSuccessMsg { color: #4ade80; }
+
+/* ── Newsletter subscribe button micro-interaction ── */
+.RA_RightContent2InpBtn {
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+.RA_RightContent2InpBtn:hover:not(:disabled) {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+.RA_RightContent2InpBtn:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
+/* ── Scroll reveal (triggered by .footer-in-view added in Footer.tsx) ── */
+.footer-reveal {
+    will-change: transform, opacity;
+}
+.footer-in-view .footer-reveal {
+    animation: footerFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes footerFadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ── Respect users who prefer reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+    .footer-in-view .footer-reveal,
+    .FooterRoadLinePulse,
+    .FooterCTAButton,
+    .FooterServiceItem,
+    .RA_RightContent2InpBtn {
+        animation: none !important;
+        transition: none !important;
+    }
+}

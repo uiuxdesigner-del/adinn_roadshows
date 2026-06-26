@@ -395,3 +395,63 @@
   cursor: not-allowed;
   pointer-events: none;
 }
+
+.bleed-button.bleed-icon-button {
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  padding: 0;
+  border-radius: 24px;
+  background: #ececee;
+}
+
+.bleed-button.bleed-icon-button span {
+  display: grid;
+  place-items: center;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.bleed-button.bleed-icon-button:hover span {
+  color: #ffffff;
+}
+
+.nav-bleed-link {
+  --nav-base-color: rgba(255, 255, 255, 0.5);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-bleed-link.nav-bleed-dark {
+  --nav-base-color: rgba(0, 0, 0, 0.5);
+}
+
+.nav-bleed-link.nav-bleed-light {
+  --nav-base-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-bleed-text {
+  position: relative;
+  display: inline-block;
+  color: var(--nav-base-color);
+  white-space: nowrap;
+}
+
+.nav-bleed-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #e3000f;
+  white-space: nowrap;
+
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-bleed-link:hover .nav-bleed-text::after {
+  clip-path: inset(0 0 0 0);
+}

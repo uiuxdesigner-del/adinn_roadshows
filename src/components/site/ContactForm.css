@@ -1,0 +1,791 @@
+.adinn-contact-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 120px 0 72px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(248, 247, 244, 0.92)
+    ),
+    url("/assets/adinn_contact-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.adinn-contact-bg-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 2% 36%, rgba(0, 0, 0, 0.035), transparent 15%),
+    radial-gradient(circle at 96% 8%, rgba(195, 9, 22, 0.06), transparent 18%),
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.035), transparent 28%);
+}
+
+.adinn-contact-bg-pattern::before {
+  content: "";
+  position: absolute;
+  left: -80px;
+  bottom: 110px;
+  width: 420px;
+  height: 160px;
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.14);
+  border-radius: 50%;
+  transform: rotate(-10deg);
+  opacity: 0.55;
+}
+
+.adinn-contact-bg-pattern::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: 58px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.16;
+  background-image: radial-gradient(#c30916 2px, transparent 2px);
+  background-size: 18px 18px;
+}
+
+.adinn-contact-container {
+  width: min(1420px, calc(100% - 72px));
+  margin: 0 auto;
+}
+
+.adinn-contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.adinn-contact-left {
+  min-width: 0;
+}
+
+.adinn-contact-eyebrow {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #15171d;
+  border: 1px solid rgba(20, 22, 28, 0.06);
+  box-shadow:
+    0 14px 34px rgba(18, 18, 20, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.adinn-contact-eyebrow svg {
+  color: #c30916;
+}
+
+.adinn-contact-eyebrow:hover {
+  background: #111318;
+  color: #ffffff;
+  box-shadow: 0 18px 42px rgba(17, 19, 24, 0.13);
+}
+
+.adinn-contact-title {
+  margin: 32px 0 0;
+  color: #090b10;
+  font-size: clamp(54px, 5.5vw, 96px);
+  line-height: 0.92;
+  letter-spacing: -0.075em;
+  font-weight: 950;
+}
+
+.adinn-contact-title span {
+  display: block;
+  margin-top: 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.055em;
+}
+
+.adinn-contact-desc {
+  max-width: 560px;
+  margin: 28px 0 0;
+  color: #6b6d72;
+  font-size: 19px;
+  line-height: 1.72;
+}
+
+.adinn-contact-cards {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.adinn-contact-cards a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.adinn-contact-info-card {
+  position: relative;
+  min-height: 132px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(18, 18, 22, 0.06);
+  box-shadow:
+    0 18px 45px rgba(18, 18, 22, 0.065),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
+  display: flex;
+  gap: 18px;
+  overflow: hidden;
+  transition:
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    background 0.28s ease;
+}
+
+.adinn-contact-info-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(195, 9, 22, 0.08), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.75), transparent 48%);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.adinn-contact-info-card:hover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(195, 9, 22, 0.16);
+  box-shadow:
+    0 26px 58px rgba(18, 18, 22, 0.1),
+    0 15px 34px rgba(195, 9, 22, 0.07);
+}
+
+.adinn-contact-info-card:hover::before {
+  opacity: 1;
+}
+
+.adinn-contact-info-icon {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f0efeb;
+  color: #101216;
+  transition:
+    background 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
+}
+
+.adinn-contact-info-card:hover .adinn-contact-info-icon {
+  background: #111318;
+  color: #ffffff;
+  transform: scale(1.08) rotate(-6deg);
+}
+
+.adinn-contact-info-card div {
+  position: relative;
+  z-index: 1;
+}
+
+.adinn-contact-info-card h3 {
+  margin: 0;
+  color: #15171d;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.adinn-contact-info-card p {
+  margin: 10px 0 0;
+  color: #1f2229;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.adinn-contact-info-card small {
+  display: block;
+  margin-top: 8px;
+  color: #84868c;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.adinn-card-number {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: rgba(195, 9, 22, 0.1);
+  font-size: 32px;
+  font-weight: 950;
+}
+
+.adinn-contact-sketch {
+  position: relative;
+  margin-top: 32px;
+  margin-left: 245px;
+  color: rgba(17, 19, 24, 0.25);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  transform: rotate(-8deg);
+}
+
+.adinn-plane {
+  position: absolute;
+  left: -85px;
+  top: -24px;
+  font-size: 48px;
+  color: rgba(17, 19, 24, 0.22);
+  animation: adinnPlaneFloat 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes adinnPlaneFloat {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-8px) rotate(8deg);
+  }
+}
+
+.adinn-contact-sketch p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.adinn-contact-form-wrap {
+  min-width: 0;
+}
+
+.adinn-contact-form {
+  position: relative;
+  padding: 42px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(18, 18, 22, 0.07);
+  box-shadow:
+    0 34px 90px rgba(18, 18, 22, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
+  backdrop-filter: blur(20px);
+}
+
+.adinn-contact-form::before {
+  content: "";
+  position: absolute;
+  top: -130px;
+  right: -130px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(195, 9, 22, 0.055);
+  filter: blur(18px);
+  pointer-events: none;
+  animation: adinnFormOrb 6s ease-in-out infinite alternate;
+}
+
+@keyframes adinnFormOrb {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(-20px, 18px) scale(1.08);
+  }
+}
+
+.adinn-form-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 34px;
+}
+
+.adinn-form-header-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #f0efeb;
+  color: #111318;
+  box-shadow: inset 0 0 0 1px rgba(17, 19, 24, 0.04);
+}
+
+.adinn-form-header h2 {
+  margin: 0;
+  color: #101216;
+  font-size: 27px;
+  letter-spacing: -0.035em;
+  font-weight: 900;
+}
+
+.adinn-form-header p {
+  margin: 6px 0 0;
+  color: #777a81;
+  font-size: 15px;
+}
+
+.adinn-form-error {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 22px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  color: #9b0711;
+  background: #fff2f3;
+  border: 1px solid rgba(195, 9, 22, 0.16);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.adinn-form-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+
+.adinn-form-field {
+  min-width: 0;
+}
+
+.adinn-form-field label {
+  display: block;
+  margin-bottom: 9px;
+  color: #34373e;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.adinn-form-field label span {
+  color: #c30916;
+}
+
+.adinn-form-field input,
+.adinn-form-field select,
+.adinn-form-field textarea {
+  width: 100%;
+  border: 1px solid rgba(18, 18, 22, 0.1);
+  outline: none;
+  background: rgba(255, 255, 255, 0.82);
+  color: #111318;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease;
+}
+
+.adinn-form-field input,
+.adinn-form-field select {
+  height: 50px;
+  padding: 0 16px;
+}
+
+.adinn-form-field textarea {
+  min-height: 90px;
+  padding: 15px 16px;
+  resize: vertical;
+}
+
+.adinn-form-field input::placeholder,
+.adinn-form-field textarea::placeholder {
+  color: #9a9ca2;
+  font-weight: 500;
+}
+
+.adinn-form-field input:focus,
+.adinn-form-field select:focus,
+.adinn-form-field textarea:focus {
+  background: #ffffff;
+  border-color: #111318;
+  box-shadow:
+    0 0 0 4px rgba(17, 19, 24, 0.06),
+    0 10px 25px rgba(18, 18, 22, 0.06);
+  transform: translateY(-2px);
+}
+
+.adinn-form-field input.has-error,
+.adinn-form-field select.has-error,
+.adinn-form-field textarea.has-error {
+  border-color: #c30916;
+  box-shadow: 0 0 0 4px rgba(195, 9, 22, 0.08);
+}
+
+.adinn-select-wrap {
+  position: relative;
+}
+
+.adinn-select-wrap select {
+  appearance: none;
+  padding-right: 44px;
+}
+
+.adinn-select-wrap svg {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  pointer-events: none;
+  color: #6d7077;
+  transform: translateY(-50%);
+  transition:
+    transform 0.22s ease,
+    color 0.22s ease;
+}
+
+.adinn-select-wrap:focus-within svg {
+  color: #111318;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.adinn-form-message {
+  grid-column: 1 / -1;
+}
+
+.adinn-field-error {
+  margin: 7px 0 0;
+  color: #c30916;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.shake {
+  animation: adinnShake 0.42s ease;
+}
+
+@keyframes adinnShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-7px);
+  }
+
+  40% {
+    transform: translateX(7px);
+  }
+
+  60% {
+    transform: translateX(-5px);
+  }
+
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.adinn-submit-btn {
+  position: relative;
+  z-index: 1;
+  margin-top: 26px;
+  height: 56px;
+  min-width: 260px;
+  border: 0;
+  border-radius: 12px;
+  background: #111318;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  cursor: pointer;
+  box-shadow:
+    0 18px 38px rgba(17, 19, 24, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.16) inset;
+  transition:
+    background 0.24s ease,
+    box-shadow 0.24s ease;
+}
+
+.adinn-submit-btn:hover {
+  background: #c30916;
+  box-shadow:
+    0 22px 46px rgba(195, 9, 22, 0.23),
+    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+}
+
+.adinn-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.adinn-submit-btn span {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111318;
+  transition:
+    transform 0.24s ease,
+    color 0.24s ease;
+}
+
+.adinn-submit-btn:hover span {
+  color: #c30916;
+  transform: translateX(4px) rotate(-8deg);
+}
+
+.spin {
+  animation: adinnSpin 0.8s linear infinite;
+}
+
+@keyframes adinnSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.adinn-form-note {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #777a81;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.adinn-success-box {
+  position: relative;
+  z-index: 1;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.adinn-success-box span {
+  width: 82px;
+  height: 82px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 140, 70, 0.1);
+  color: #148c46;
+  animation: adinnSuccessPop 0.52s ease;
+}
+
+@keyframes adinnSuccessPop {
+  0% {
+    transform: scale(0.72);
+  }
+
+  65% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.adinn-success-box h3 {
+  margin: 24px 0 0;
+  color: #111318;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.adinn-success-box p {
+  max-width: 420px;
+  margin: 12px 0 0;
+  color: #73767d;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.adinn-contact-stats {
+  margin-top: 34px;
+  min-height: 92px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(18, 18, 22, 0.06);
+  box-shadow:
+    0 20px 55px rgba(18, 18, 22, 0.07),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.adinn-stat-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-radius: 16px;
+  transition: background 0.25s ease;
+}
+
+.adinn-stat-card:hover {
+  background: rgba(195, 9, 22, 0.045);
+}
+
+.adinn-stat-card span {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #111318;
+  background: #f0efeb;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.adinn-stat-card:hover span {
+  background: #c30916;
+  color: #ffffff;
+  transform: rotate(-7deg) scale(1.08);
+}
+
+.adinn-stat-card h3 {
+  margin: 0;
+  color: #111318;
+  font-size: 23px;
+  font-weight: 950;
+}
+
+.adinn-stat-card p {
+  margin: 4px 0 0;
+  color: #777a81;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adinn-toast .Toastify__toast {
+  border-radius: 14px;
+  font-family: inherit;
+  box-shadow: 0 18px 42px rgba(18, 18, 22, 0.12);
+}
+
+@media (max-width: 1100px) {
+  .adinn-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+
+  .adinn-contact-title {
+    max-width: 720px;
+  }
+
+  .adinn-contact-desc {
+    max-width: 720px;
+  }
+
+  .adinn-contact-sketch {
+    margin-left: 140px;
+  }
+}
+
+@media (max-width: 760px) {
+  .adinn-contact-section {
+    padding: 86px 0 54px;
+  }
+
+  .adinn-contact-container {
+    width: min(100% - 30px, 1420px);
+  }
+
+  .adinn-contact-title {
+    font-size: 54px;
+  }
+
+  .adinn-contact-desc {
+    font-size: 16px;
+  }
+
+  .adinn-contact-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .adinn-contact-form {
+    padding: 24px;
+    border-radius: 22px;
+  }
+
+  .adinn-form-header {
+    align-items: flex-start;
+  }
+
+  .adinn-form-header-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .adinn-form-header h2 {
+    font-size: 23px;
+  }
+
+  .adinn-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adinn-submit-btn {
+    width: 100%;
+  }
+
+  .adinn-contact-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .adinn-stat-card {
+    justify-content: flex-start;
+    padding: 12px;
+  }
+
+  .adinn-contact-sketch {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .adinn-contact-title {
+    font-size: 44px;
+  }
+
+  .adinn-contact-stats {
+    grid-template-columns: 1fr;
+  }
+}

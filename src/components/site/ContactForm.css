@@ -4,11 +4,11 @@
   isolation: isolate;
   padding: 120px 0 72px;
   background:
-    linear-gradient(
+    /* linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.94),
       rgba(248, 247, 244, 0.92)
-    ),
+    ), */
     url("/assets/adinn_contact-bg.png");
   background-size: cover;
   background-position: center;
@@ -298,7 +298,7 @@
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  background: rgba(195, 9, 22, 0.055);
+  /* background: rgba(195, 9, 22, 0.055); */
   filter: blur(18px);
   pointer-events: none;
   animation: adinnFormOrb 6s ease-in-out infinite alternate;

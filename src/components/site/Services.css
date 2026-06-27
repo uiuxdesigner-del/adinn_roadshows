@@ -54,7 +54,8 @@
 }
 
 .services-container {
-  width: min(1510px, calc(100% - 72px));
+  /* width: min(1510px, calc(100% - 72px)); */
+  width: min(1780px, calc(100% - 72px));
   margin: 0 auto;
 }
 

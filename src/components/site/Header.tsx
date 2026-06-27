@@ -57,18 +57,18 @@ export function Header() {
       "
     >
       <div
-  className={`
-    mx-auto
-    flex
-    h-20
-    w-full
-    max-w-[860px]
-    items-center
-    justify-between
-    rounded-full
-    border
-    pl-7
-    pr-4
+        className={`
+          mx-auto
+          flex
+          h-20
+          w-full
+          max-w-[860px]
+          items-center
+          justify-between
+          rounded-full
+          border
+          pl-7
+          pr-4
           transition-all
           duration-500
           ease-[cubic-bezier(.16,1,.3,1)]
@@ -80,17 +80,17 @@ export function Header() {
         `}
       >
         <a href="#home" className="flex items-center">
-  <img
-    src={logo}
-    alt="ADINN"
-    className="
-      h-7
-      w-auto
-      transition-opacity
-      duration-500
-    "
-  />
-</a>
+          <img
+            src={logo}
+            alt="ADINN"
+            className="
+              h-7
+              w-auto
+              transition-opacity
+              duration-500
+            "
+          />
+        </a>
 
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
@@ -98,18 +98,15 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={`
+                nav-bleed-link
+                ${isScrolled ? "nav-bleed-dark" : "nav-bleed-light"}
                 text-[16px]
                 font-semibold
-                transition-colors
-                duration-300
-                ${
-                  isScrolled
-                    ? "text-black/50 hover:text-black"
-                    : "text-white/50 hover:text-white"
-                }
               `}
             >
-              {link.label}
+              <span className="nav-bleed-text" data-text={link.label}>
+                {link.label}
+              </span>
             </a>
           ))}
         </nav>

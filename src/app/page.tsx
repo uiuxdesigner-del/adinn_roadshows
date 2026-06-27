@@ -5,7 +5,7 @@ import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { About } from "@/components/site/About";
 import { Services } from "@/components/site/Services";
-import { HowItWorks } from "@/components/site/HowItWorks";
+import { Process } from "@/components/site/Process";
 import { WhyChoose } from "@/components/site/WhyChoose";
 import { GPSTracking } from "@/components/site/GPSTracking";
 import { Coverage } from "@/components/site/Coverage";
@@ -25,7 +25,7 @@ export default function Home() {
         <Hero />
         <About />
         <Services />
-        <HowItWorks />
+        <Process />
         <WhyChoose />
         <GPSTracking />
         <Coverage />

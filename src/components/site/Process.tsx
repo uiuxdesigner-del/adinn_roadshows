@@ -1,5 +1,12 @@
 "use client";
 
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import {
   BarChart3,
   FilePenLine,
@@ -61,9 +68,101 @@ const toneStyles = {
   },
 };
 
+type ProcessCardProps = {
+  step: (typeof steps)[number];
+  index: number;
+  progress: MotionValue<number>;
+};
+
+function ProcessCard({ step, index, progress }: ProcessCardProps) {
+  const Icon = step.icon;
+  const tone = toneStyles[step.tone as keyof typeof toneStyles];
+
+  const start = index * 0.09;
+  const end = start + 0.42;
+
+  const x = useTransform(progress, [start, end], [220, 0]);
+  const y = useTransform(progress, [start, end], [95, 0]);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const scale = useTransform(progress, [start, end], [0.96, 1]);
+
+  return (
+    <motion.article
+      style={{
+        x,
+        y,
+        opacity,
+        scale,
+      }}
+      className="
+        relative
+        flex
+        min-h-[330px]
+        w-full
+        flex-col
+        overflow-hidden
+        rounded-[28px]
+        bg-white
+        px-8
+        py-9
+        shadow-[0_16px_50px_rgba(0,0,0,0.04)]
+        will-change-transform
+      "
+    >
+      <div
+        className={`
+          grid
+          size-[74px]
+          place-items-center
+          rounded-full
+          ${tone.iconBg}
+          ${tone.iconText}
+        `}
+      >
+        <Icon className="size-9" strokeWidth={1.2} />
+      </div>
+
+      <h3
+        className="
+          mt-12
+          max-w-[310px]
+          font-display
+          text-[25px]
+          font-semibold
+          leading-[1.22]
+          tracking-[-0.04em]
+          text-[#071426]
+        "
+      >
+        {step.title}
+      </h3>
+
+      <p
+        className="
+          mt-5
+          max-w-[310px]
+          text-[16px]
+          leading-7
+          text-[#4D5563]
+        "
+      >
+        {step.desc}
+      </p>
+    </motion.article>
+  );
+}
+
 export function Process() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 85%", "end 25%"],
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="process"
       className="
         relative
@@ -84,11 +183,11 @@ export function Process() {
           xl:px-16
         "
       >
-        <Reveal>
+        {/* <Reveal>
           <div className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#2F6BFF]">
             How It Works
           </div>
-        </Reveal>
+        </Reveal> */}
 
         <Reveal delay={1}>
           <h2
@@ -96,11 +195,12 @@ export function Process() {
               mt-5
               max-w-5xl
               font-display
-              font- semibold
+              text-[28px]
+              font-semibold
               leading-[1.05]
               tracking-[-0.055em]
               text-[#071426]
-              md:text-[18px]
+              md:text-[32px]
               lg:text-[34px]
             "
           >
@@ -118,72 +218,14 @@ export function Process() {
             2xl:grid-cols-5
           "
         >
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            const tone = toneStyles[step.tone as keyof typeof toneStyles];
-
-            return (
-              <Reveal key={step.title} delay={index}>
-                <article
-                  className="
-                    relative
-                    flex
-                    min-h-[330px]
-                    w-full
-                    flex-col
-                    overflow-hidden
-                    rounded-[28px]
-                    border
-                    border-black/[0.035]
-                    bg-white
-                    px-8
-                    py-9
-                    shadow-[0_16px_50px_rgba(0,0,0,0.04)]
-                  "
-                >
-                  <div
-                    className={`
-                      grid
-                      size-[74px]
-                      place-items-center
-                      rounded-full
-                      ${tone.iconBg}
-                      ${tone.iconText}
-                    `}
-                  >
-                    <Icon className="size-9" strokeWidth={1.2} />
-                  </div>
-
-                  <h3
-                    className="
-                      mt-12
-                      max-w-[310px]
-                      font-display
-                      text-[25px]
-                      font-semibold
-                      leading-[1.22]
-                      tracking-[-0.04em]
-                      text-[#071426]
-                    "
-                  >
-                    {step.title}
-                  </h3>
-
-                  <p
-                    className="
-                      mt-5
-                      max-w-[310px]
-                      text-[16px]
-                      leading-7
-                      text-[#4D5563]
-                    "
-                  >
-                    {step.desc}
-                  </p>
-                </article>
-              </Reveal>
-            );
-          })}
+          {steps.map((step, index) => (
+            <ProcessCard
+              key={step.title}
+              step={step}
+              index={index}
+              progress={scrollYProgress}
+            />
+          ))}
         </div>
       </div>
     </section>

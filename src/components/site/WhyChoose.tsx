@@ -35,23 +35,23 @@ const items = [
     d: "Strategy to execution under one roof.",
   },
   {
-  i: Headphones,
-  image: "/assets/headset.png",
-  t: "24/7 Coordination\nSupport",
-  d: "Dedicated team across the campaign.",
-},
+    i: Headphones,
+    image: "/assets/headset.png",
+    t: "24/7 Coordination\nSupport",
+    d: "Dedicated team across the campaign.",
+  },
   {
-  i: Route,
-  image: "/assets/why-map.png",
-  t: "High-Traffic Route\nPlanning",
-  d: "Routes engineered for maximum eyeballs.",
-},
+    i: Route,
+    image: "/assets/why-map.png",
+    t: "High-Traffic Route\nPlanning",
+    d: "Routes engineered for maximum eyeballs.",
+  },
   {
-  i: UsersRound,
-  image: "/assets/professional.png",
-  t: "Professional\nExecution",
-  d: "Trained crew, polished delivery.",
-},,
+    i: UsersRound,
+    image: "/assets/professional.png",
+    t: "Professional\nExecution",
+    d: "Trained crew, polished delivery.",
+  },
 ];
 
 function CardVisual({
@@ -185,14 +185,14 @@ export function WhyChoose() {
                         delay: index * 0.18,
                       }}
                       className="
-                        inline-flex
-                        size-11
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-white
-                        text-[#2878F0]
-                      "
+  inline-flex
+  size-11
+  items-center
+  justify-center
+  rounded-full
+  bg-white
+  text-[#E3000F]
+"
                     >
                       <Icon className="size-6" strokeWidth={2.2} />
                     </motion.div>

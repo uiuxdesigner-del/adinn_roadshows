@@ -183,11 +183,11 @@ export function Process() {
           xl:px-16
         "
       >
-        <Reveal>
+        {/* <Reveal>
           <div className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#2F6BFF]">
             How It Works
           </div>
-        </Reveal>
+        </Reveal> */}
 
         <Reveal delay={1}>
           <h2

@@ -1,14 +1,18 @@
 .client-logo-section {
+  --adinn-red: #d71920;
+  --adinn-black: #111111;
+  --adinn-ink: #171717;
+  --adinn-muted: #666666;
+  --adinn-line: rgba(17, 17, 17, 0.1);
+  --adinn-soft: #f5f5f5;
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: 105px 0 95px;
+  padding: clamp(72px, 7vw, 112px) 0 clamp(70px, 6vw, 96px);
   background:
-    radial-gradient(circle at 50% 8%, rgba(195, 9, 22, 0.08), transparent 28%),
-    radial-gradient(circle at 10% 40%, rgba(235, 225, 210, 0.75), transparent 32%),
-    radial-gradient(circle at 90% 40%, rgba(232, 218, 199, 0.62), transparent 32%),
-    linear-gradient(180deg, #fbfaf7 0%, #f4f1ec 100%);
-  border-block: 1px solid rgba(15, 17, 22, 0.06);
+    radial-gradient(circle at 50% 8%, rgba(215, 25, 32, 0.065), transparent 27%),
+    linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+  border-block: 1px solid rgba(17, 17, 17, 0.06);
 }
 
 .client-logo-bg {
@@ -18,34 +22,31 @@
   pointer-events: none;
 }
 
-.client-logo-bg::before {
-  content: "";
-  position: absolute;
-  top: 170px;
-  left: 11%;
-  width: 120px;
-  height: 120px;
-  opacity: 0.18;
-  background-image: radial-gradient(#c30916 2px, transparent 2px);
-  background-size: 18px 18px;
-  transform: rotate(-10deg);
-}
-
+.client-logo-bg::before,
 .client-logo-bg::after {
   content: "";
   position: absolute;
-  top: 190px;
-  right: 10%;
-  width: 160px;
-  height: 120px;
-  opacity: 0.14;
-  background-image: radial-gradient(#c30916 2px, transparent 2px);
-  background-size: 18px 18px;
-  transform: rotate(14deg);
+  width: 150px;
+  height: 128px;
+  opacity: 0.18;
+  background-image: radial-gradient(rgba(17, 17, 17, 0.42) 1.4px, transparent 1.4px);
+  background-size: 17px 17px;
+}
+
+.client-logo-bg::before {
+  top: 120px;
+  left: 8%;
+  transform: rotate(-9deg);
+}
+
+.client-logo-bg::after {
+  top: 130px;
+  right: 8%;
+  transform: rotate(12deg);
 }
 
 .client-logo-container {
-  width: min(1500px, calc(100% - 72px));
+  width: min(1480px, calc(100% - 72px));
   margin: 0 auto;
 }
 
@@ -59,578 +60,419 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #11141d;
-  font-size: 13px;
-  font-weight: 950;
+  color: var(--adinn-black);
+  font-size: clamp(11px, 0.8vw, 13px);
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.2em;
 }
 
-.client-logo-eyebrow svg {
-  color: #c30916;
-}
-
+.client-logo-eyebrow svg,
 .client-logo-eyebrow span {
-  color: #c30916;
+  color: var(--adinn-red);
 }
 
 .client-logo-heading h2 {
-  margin: 22px 0 0;
-  color: #11141d;
-  font-size: clamp(42px, 4.6vw, 82px);
+  margin: 20px 0 0;
+  color: var(--adinn-black);
+  font-size: clamp(40px, 5vw, 82px);
   line-height: 0.96;
   letter-spacing: -0.07em;
   font-weight: 950;
 }
 
 .client-logo-heading h2 span {
-  color: #c30916;
+  color: var(--adinn-red);
 }
 
 .client-logo-heading p {
   margin: 22px auto 0;
-  max-width: 640px;
-  color: #626671;
-  font-size: 17px;
+  max-width: 650px;
+  color: var(--adinn-muted);
+  font-size: clamp(14px, 1.05vw, 17px);
   line-height: 1.7;
 }
 
-.client-coverflow-wrap {
+.client-logo-marquee-block {
   position: relative;
-  margin-top: 58px;
-  height: 330px;
-  perspective: 1300px;
-}
-
-.client-coverflow-stage {
-  position: relative;
-  height: 100%;
-  transform-style: preserve-3d;
-}
-
-.client-logo-card {
-  --logo-accent: #c30916;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 250px;
-  padding: 28px 24px 22px;
-  border: 1px solid rgba(17, 20, 29, 0.07);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow:
-    0 28px 76px rgba(20, 20, 24, 0.075),
-    0 1px 0 rgba(255, 255, 255, 0.92) inset;
-  backdrop-filter: blur(20px);
-  transform-style: preserve-3d;
-  transform-origin: center;
-  translate: -50% -50%;
-  cursor: pointer;
+  margin-top: clamp(38px, 4vw, 58px);
   overflow: hidden;
-  transition:
-    border-color 0.28s ease,
-    box-shadow 0.28s ease,
-    background 0.28s ease;
+  border-radius: 34px;
+  border: 1px solid var(--adinn-line);
+  background: rgba(255, 255, 255, 0.62);
+  padding: clamp(14px, 1.7vw, 24px) 0;
 }
 
-.client-logo-card::before {
-  content: "";
+.client-logo-fade {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--logo-accent) 20%, transparent), transparent 44%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent 46%);
-  opacity: 0;
-  transition: opacity 0.28s ease;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: min(17vw, 220px);
   pointer-events: none;
 }
 
-.client-logo-card::after {
-  content: "";
-  position: absolute;
-  top: -110%;
-  left: -55%;
-  width: 55%;
-  height: 300%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.82),
-    transparent
-  );
-  transform: rotate(24deg);
-  opacity: 0;
-  pointer-events: none;
+.client-logo-fade.left {
+  left: 0;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.client-logo-card:hover::after {
-  animation: clientLogoShine 0.82s ease forwards;
+.client-logo-fade.right {
+  right: 0;
+  background: linear-gradient(270deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-@keyframes clientLogoShine {
-  0% {
-    opacity: 0;
-    left: -55%;
+.client-logo-marquee-row {
+  overflow: hidden;
+}
+
+.client-logo-marquee-row.compact {
+  margin-top: 16px;
+}
+
+.client-logo-track {
+  width: max-content;
+  display: flex;
+  gap: clamp(12px, 1.2vw, 18px);
+  padding: 0 clamp(12px, 1.4vw, 20px);
+  animation: clientLinearMove 32s linear infinite;
+  will-change: transform;
+}
+
+.client-logo-track.reverse {
+  animation-direction: reverse;
+  animation-duration: 38s;
+}
+
+.client-logo-track.paused,
+.client-logo-marquee-block:hover .client-logo-track {
+  animation-play-state: paused;
+}
+
+@keyframes clientLinearMove {
+  from {
+    transform: translateX(0);
   }
-
-  30% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    left: 125%;
+  to {
+    transform: translateX(-50%);
   }
 }
 
-.client-logo-card:hover,
-.client-logo-card.active {
-  background: rgba(255, 255, 255, 0.94);
-  border-color: color-mix(in srgb, var(--logo-accent) 28%, transparent);
-  box-shadow:
-    0 36px 95px rgba(20, 20, 24, 0.12),
-    0 18px 48px color-mix(in srgb, var(--logo-accent) 13%, transparent);
-}
-
-.client-logo-card:hover::before,
-.client-logo-card.active::before {
-  opacity: 1;
-}
-
-.client-logo-card.active {
-  box-shadow:
-    0 40px 100px rgba(20, 20, 24, 0.13),
-    0 0 0 1px color-mix(in srgb, var(--logo-accent) 24%, transparent),
-    0 0 48px color-mix(in srgb, var(--logo-accent) 18%, transparent);
-}
-
-.client-logo-card-glow {
-  position: absolute;
-  left: 50%;
-  bottom: -40px;
-  width: 180px;
-  height: 60px;
+.client-logo-pill {
+  min-width: clamp(210px, 18vw, 275px);
+  height: clamp(82px, 7vw, 105px);
+  padding: 0 26px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--logo-accent) 20%, transparent);
-  filter: blur(28px);
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.28s ease;
+  background: #ffffff;
+  color: #4f4f4f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  cursor: pointer;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    background 0.28s ease,
+    color 0.28s ease;
 }
 
-.client-logo-card.active .client-logo-card-glow,
-.client-logo-card:hover .client-logo-card-glow {
-  opacity: 1;
+.client-logo-pill.small {
+  min-width: clamp(180px, 15vw, 230px);
+  height: clamp(62px, 5vw, 74px);
 }
 
-.client-logo-media {
-  position: relative;
-  z-index: 1;
-  height: 105px;
-  display: grid;
-  place-items: center;
-}
-
-.client-logo-media img {
-  max-width: 180px;
-  max-height: 82px;
+.client-logo-pill img {
+  max-width: 76px;
+  max-height: 40px;
   object-fit: contain;
   filter: grayscale(1);
-  opacity: 0.68;
+  opacity: 0.62;
   transition:
     filter 0.28s ease,
     opacity 0.28s ease,
     transform 0.28s ease;
 }
 
-.client-logo-card.active .client-logo-media img,
-.client-logo-card:hover .client-logo-media img {
+.client-logo-pill span {
+  max-width: 130px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.client-logo-pill:hover,
+.client-logo-pill.active {
+  color: var(--adinn-black);
+  border-color: rgba(215, 25, 32, 0.38);
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  transform: translateY(-4px);
+}
+
+.client-logo-pill:hover img,
+.client-logo-pill.active img {
   filter: grayscale(0);
   opacity: 1;
-  transform: scale(1.07);
+  transform: scale(1.06);
 }
 
-.client-logo-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-}
-
-.client-logo-content h3 {
-  margin: 18px 0 0;
-  color: #171a22;
-  font-size: 29px;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  font-weight: 950;
-}
-
-.client-logo-content p {
-  margin: 8px 0 0;
-  color: #777b83;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 800;
-}
-
-.client-logo-status {
-  position: relative;
-  z-index: 1;
-  width: fit-content;
-  margin: 18px auto 0;
-  display: inline-flex;
-  padding: 7px 13px;
-  border-radius: 999px;
-  color: color-mix(in srgb, var(--logo-accent) 90%, #11141d);
-  background: color-mix(in srgb, var(--logo-accent) 8%, white);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 950;
-  transition:
-    color 0.28s ease,
-    background 0.28s ease;
-}
-
-.client-logo-card.active .client-logo-status,
-.client-logo-card:hover .client-logo-status {
-  color: #ffffff;
-  background: var(--logo-accent);
+.client-logo-pill.active {
+  box-shadow: inset 0 -3px 0 var(--adinn-red);
 }
 
 .client-logo-fallback {
-  color: #171a22;
-  font-size: 25px;
+  color: var(--adinn-black);
+  font-size: 13px;
   font-weight: 950;
   letter-spacing: 0.12em;
-  text-align: center;
 }
 
-.client-logo-fallback.compact {
-  font-size: 13px;
-  letter-spacing: 0.08em;
-}
-
-.client-nav-btn {
-  position: absolute;
-  top: 50%;
-  z-index: 35;
-  width: 54px;
-  height: 54px;
-  border: 0;
-  border-radius: 999px;
+.client-feature-panel {
+  margin: clamp(30px, 3.5vw, 48px) auto 0;
+  max-width: 1180px;
+  border: 1px solid var(--adinn-line);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.82);
   display: grid;
-  place-items: center;
-  color: #c30916;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow:
-    0 18px 42px rgba(17, 20, 29, 0.12),
-    0 1px 0 rgba(255, 255, 255, 0.95) inset;
-  backdrop-filter: blur(16px);
-  cursor: pointer;
-  transform: translateY(-50%);
-  transition:
-    transform 0.24s ease,
-    background 0.24s ease,
-    color 0.24s ease,
-    box-shadow 0.24s ease;
-}
-
-.client-nav-btn:hover {
-  transform: translateY(-50%) scale(1.12);
-  background: #c30916;
-  color: #ffffff;
-  box-shadow:
-    0 22px 45px rgba(195, 9, 22, 0.24),
-    0 1px 0 rgba(255, 255, 255, 0.26) inset;
-}
-
-.client-nav-btn:active {
-  transform: translateY(-50%) scale(0.94);
-}
-
-.client-nav-btn.left {
-  left: 0;
-}
-
-.client-nav-btn.right {
-  right: 0;
-}
-
-.client-logo-dots {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 11px;
-}
-
-.client-logo-dots button {
-  width: 11px;
-  height: 11px;
-  border: 0;
-  border-radius: 999px;
-  background: #ddd8d2;
-  cursor: pointer;
-  transition:
-    width 0.28s ease,
-    transform 0.28s ease,
-    background 0.28s ease;
-}
-
-.client-logo-dots button:hover {
-  transform: scale(1.2);
-  background: rgba(195, 9, 22, 0.34);
-}
-
-.client-logo-dots button.active {
-  width: 32px;
-  background: linear-gradient(135deg, #e51a28, #b3000c);
-  box-shadow: 0 8px 18px rgba(195, 9, 22, 0.22);
-}
-
-.client-active-caption {
-  margin-top: 18px;
-  text-align: center;
-  color: #737780;
-  font-size: 14px;
-}
-
-.client-active-caption strong {
-  color: #c30916;
-  letter-spacing: 0.08em;
-}
-
-.client-stats-bar {
-  margin: 58px auto 0;
-  max-width: 1320px;
-  min-height: 122px;
-  padding: 18px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.66);
-  border: 1px solid rgba(17, 20, 29, 0.065);
-  box-shadow:
-    0 28px 75px rgba(20, 20, 24, 0.075),
-    0 1px 0 rgba(255, 255, 255, 0.92) inset;
-  backdrop-filter: blur(20px);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.client-stat-item {
-  position: relative;
-  display: flex;
+  grid-template-columns: 0.8fr 1.4fr auto;
   align-items: center;
-  justify-content: center;
-  gap: 18px;
-  border-radius: 22px;
-  transition: background 0.24s ease;
+  gap: clamp(18px, 2.4vw, 34px);
+  padding: clamp(20px, 2.4vw, 34px);
 }
 
-.client-stat-item:hover {
-  background: rgba(195, 9, 22, 0.045);
+.client-feature-kicker {
+  color: var(--adinn-red);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 950;
 }
 
-.client-stat-icon {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 auto;
+.client-feature-logo {
+  margin-top: 18px;
+  width: clamp(150px, 16vw, 230px);
+  height: clamp(82px, 8vw, 112px);
+  border-radius: 24px;
+  border: 1px solid var(--adinn-line);
+  background: #ffffff;
   display: grid;
   place-items: center;
-  border-radius: 999px;
-  color: #c30916;
-  background: rgba(195, 9, 22, 0.1);
-  box-shadow: 0 14px 32px rgba(195, 9, 22, 0.08);
 }
 
-.client-stat-item strong {
-  display: block;
-  color: #c30916;
-  font-size: 32px;
+.client-feature-logo img {
+  max-width: 70%;
+  max-height: 62%;
+  object-fit: contain;
+}
+
+.client-feature-brand h3 {
+  margin: 18px 0 0;
+  color: var(--adinn-black);
+  font-size: clamp(24px, 2.2vw, 36px);
   line-height: 1;
   letter-spacing: -0.04em;
   font-weight: 950;
 }
 
-.client-stat-item p {
-  margin: 7px 0 0;
-  color: #51545c;
-  font-size: 15px;
+.client-feature-brand p {
+  margin: 8px 0 0;
+  color: var(--adinn-muted);
+  font-size: clamp(13px, 0.95vw, 15px);
   font-weight: 700;
 }
 
-.client-stat-divider {
-  position: absolute;
-  right: 0;
-  width: 1px;
-  height: 54px;
-  background: rgba(17, 20, 29, 0.1);
+.client-feature-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
-.client-logo-ribbon {
-  margin-top: 44px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.48);
-  border: 1px solid rgba(17, 20, 29, 0.05);
-  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-}
-
-.client-ribbon-track {
+.client-stat-item {
+  min-height: 118px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 24px;
+  background: #f8f8f8;
   display: flex;
-  width: max-content;
-  gap: 18px;
-  padding: 14px 0;
-  animation: clientRibbon 45s linear infinite;
-}
-
-.client-ribbon-track.paused,
-.client-logo-ribbon:hover .client-ribbon-track {
-  animation-play-state: paused;
-}
-
-@keyframes clientRibbon {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-33.333%);
-  }
-}
-
-.client-ribbon-logo {
-  min-width: 190px;
-  height: 54px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.74);
-  border: 1px solid rgba(17, 20, 29, 0.055);
-  display: inline-flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
   gap: 12px;
-  color: #6c7078;
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  padding: 18px;
   transition:
-    transform 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease;
+    background 0.24s ease,
+    border-color 0.24s ease;
 }
 
-.client-ribbon-logo:hover {
-  transform: translateY(-3px);
-  color: #c30916;
-  border-color: rgba(195, 9, 22, 0.16);
+.client-stat-item:hover {
+  background: #ffffff;
+  border-color: rgba(215, 25, 32, 0.24);
 }
 
-.client-ribbon-logo img {
-  max-width: 42px;
-  max-height: 28px;
-  object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.65;
+.client-stat-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--adinn-red);
+  background: rgba(215, 25, 32, 0.08);
 }
 
-.client-ribbon-logo:hover img {
-  filter: grayscale(0);
-  opacity: 1;
+.client-stat-item strong {
+  display: block;
+  color: var(--adinn-black);
+  font-size: clamp(24px, 2.1vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 950;
 }
 
-@media (max-width: 1024px) {
-  .client-logo-section {
-    padding: 86px 0 78px;
+.client-stat-item p {
+  margin: 7px 0 0;
+  color: var(--adinn-muted);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.client-feature-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.client-feature-actions > button {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--adinn-line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--adinn-black);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition:
+    transform 0.24s ease,
+    background 0.24s ease,
+    color 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.client-feature-actions > button:hover {
+  transform: translateY(-2px);
+  background: var(--adinn-black);
+  color: #ffffff;
+  border-color: var(--adinn-black);
+}
+
+.client-logo-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.client-logo-dots button {
+  width: 9px;
+  height: 9px;
+  border: 0;
+  border-radius: 999px;
+  background: #d6d6d6;
+  cursor: pointer;
+  transition:
+    height 0.28s ease,
+    background 0.28s ease,
+    transform 0.28s ease;
+}
+
+.client-logo-dots button:hover {
+  transform: scale(1.18);
+  background: rgba(215, 25, 32, 0.38);
+}
+
+.client-logo-dots button.active {
+  height: 28px;
+  background: var(--adinn-red);
+}
+
+@media (max-width: 1180px) {
+  .client-feature-panel {
+    grid-template-columns: 1fr;
   }
 
-  .client-logo-container {
-    width: min(100% - 38px, 1500px);
-  }
-
-  .client-coverflow-wrap {
-    height: 310px;
-  }
-
-  .client-logo-card {
-    width: 270px;
-    height: 238px;
-  }
-
-  .client-stats-bar {
+  .client-feature-stats {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
   }
 
-  .client-stat-divider {
-    display: none;
-  }
-}
-
-@media (max-width: 680px) {
-  .client-logo-section {
-    padding: 70px 0 64px;
-  }
-
-  .client-logo-container {
-    width: min(100% - 28px, 1500px);
-  }
-
-  .client-logo-heading h2 {
-    font-size: 42px;
-  }
-
-  .client-logo-heading p {
-    font-size: 15px;
-  }
-
-  .client-coverflow-wrap {
-    margin-top: 38px;
-    height: 290px;
-  }
-
-  .client-logo-card {
-    width: 245px;
-    height: 232px;
-    padding: 24px 18px 20px;
-  }
-
-  .client-logo-content h3 {
-    font-size: 22px;
-  }
-
-  .client-nav-btn {
-    top: auto;
-    bottom: -72px;
-    width: 46px;
-    height: 46px;
-  }
-
-  .client-nav-btn.left {
-    left: calc(50% - 58px);
-  }
-
-  .client-nav-btn.right {
-    right: calc(50% - 58px);
+  .client-feature-actions {
+    flex-direction: row;
+    justify-content: center;
   }
 
   .client-logo-dots {
-    margin-top: 76px;
+    flex-direction: row;
   }
 
-  .client-stats-bar {
-    margin-top: 42px;
+  .client-logo-dots button.active {
+    width: 28px;
+    height: 9px;
+  }
+}
+
+@media (max-width: 760px) {
+  .client-logo-container {
+    width: min(100% - 28px, 1480px);
+  }
+
+  .client-logo-bg::before,
+  .client-logo-bg::after {
+    display: none;
+  }
+
+  .client-logo-heading h2 {
+    letter-spacing: -0.055em;
+  }
+
+  .client-logo-marquee-block {
+    border-radius: 24px;
+  }
+
+  .client-logo-pill {
+    min-width: 205px;
+    padding: 0 18px;
+  }
+
+  .client-logo-pill.small {
+    min-width: 170px;
+  }
+
+  .client-feature-panel {
+    border-radius: 26px;
+  }
+
+  .client-feature-stats {
     grid-template-columns: 1fr;
-    padding: 12px;
   }
 
   .client-stat-item {
+    min-height: 94px;
+    flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
-    padding: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-logo-track {
+    animation: none;
+    transform: none;
   }
 
-  .client-ribbon-logo {
-    min-width: 160px;
+  .client-logo-pill,
+  .client-feature-actions > button,
+  .client-stat-item {
+    transition: none;
   }
 }

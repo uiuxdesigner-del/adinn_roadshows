@@ -13,7 +13,7 @@ import { UseCases } from "@/components/site/UseCases";
 import { ClientLogos } from "@/components/site/ClientLogos";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
-import { CTABanner } from "@/components/site/CTABanner";
+// import { CTABanner } from "@/components/site/CTABanner";
 import { ContactForm } from "@/components/site/ContactForm";
 import  Footer  from "@/components/site/Footer";
 
@@ -33,7 +33,7 @@ export default function Home() {
         <ClientLogos />
         <Testimonials />
         <FAQ />
-        <CTABanner />
+        {/* <CTABanner /> */}
         <ContactForm />
         <Footer />
       </main>

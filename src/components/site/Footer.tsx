@@ -255,9 +255,6 @@
 
 
 
-
-
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -265,7 +262,6 @@ import Link from "next/link";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import Image from "next/image";
-
 
 import {
   Phone,
@@ -284,6 +280,8 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 
+import "./Footer.css";
+
 const EMAILJS_SERVICE_ID = "service_m7blrwk";
 const EMAILJS_PUBLIC_KEY = "0LqsQAkcgAOP2XMOe";
 const NEWSLETTER_TEMPLATE_ID = "template_jg2dlpo";
@@ -297,10 +295,8 @@ export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
-  // Scroll reveal animation
   useEffect(() => {
     const el = footerRef.current;
-
     if (!el) return;
 
     const observer = new IntersectionObserver(
@@ -310,24 +306,18 @@ export default function Footer() {
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.12,
-      }
+      { threshold: 0.12 }
     );
 
     observer.observe(el);
-
     return () => observer.disconnect();
   }, []);
 
-  // Validation
   const isValidEmail = (v: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
   const isValidPhone = (v: string) =>
-    /^[6-9]\d{9}$/.test(
-      v.replace(/\s+/g, "").replace(/^\+91/, "")
-    );
+    /^[6-9]\d{9}$/.test(v.replace(/\s+/g, "").replace(/^\+91/, ""));
 
   const handleSubscribe = async () => {
     const trimmed = value.trim();
@@ -361,37 +351,25 @@ export default function Footer() {
         NEWSLETTER_TEMPLATE_ID,
         {
           subscriber: trimmed,
-          type: isValidEmail(trimmed)
-            ? "Email"
-            : "Phone",
-          subscribedAt: new Date().toLocaleString(
-            "en-IN",
-            {
-              timeZone: "Asia/Kolkata",
-            }
-          ),
+          type: isValidEmail(trimmed) ? "Email" : "Phone",
+          subscribedAt: new Date().toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+          }),
         },
         EMAILJS_PUBLIC_KEY
       );
 
       setStatus("success");
       setValue("");
-
-      toast.success(
-        "Subscribed successfully 🎉"
-      );
+      toast.success("Subscribed successfully 🎉");
 
       setTimeout(() => {
         setStatus("idle");
       }, 4000);
     } catch (error) {
       console.log(error);
-
       setStatus("error");
-
-      toast.error(
-        "Subscription failed. Try again."
-      );
+      toast.error("Subscription failed. Try again.");
 
       setTimeout(() => {
         setStatus("idle");
@@ -419,254 +397,204 @@ export default function Footer() {
         "No. 407/8, 4th Cross, Jayanagar 7th Block, Opp-Saraswat Cooperative Bank, Bangalore - 560 070.",
     },
   ];
+
+  const socialLinks = [
+    {
+      icon: <FaInstagram />,
+      link: "https://www.instagram.com/adinnroadshows_/",
+      label: "Instagram",
+    },
+    {
+      icon: <FaFacebookF />,
+      link: "https://www.facebook.com/adinnroadshow",
+      label: "Facebook",
+    },
+    {
+      icon: <FaXTwitter />,
+      link: "https://x.com/AdinnRoadshow",
+      label: "X",
+    },
+    {
+      icon: <FaLinkedinIn />,
+      link: "https://www.linkedin.com/company/adinn-roadshows/",
+      label: "LinkedIn",
+    },
+  ];
+
+  const services = [
+    "LED Screen Vehicle",
+    "L-Type LED Vehicle",
+    "3-Side LED Truck",
+    "Customize Fabrication Vehicle",
+  ];
+
   return (
     <footer
       ref={footerRef}
-      className={`bg-black text-white px-6 md:px-14 py-12 transition-all duration-1000 ${inView
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-10"
-        }`}
+      className={`adinn-footer ${inView ? "footer-in-view" : ""}`}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="footer-grid-bg" />
+      <div className="footer-light footer-light-one" />
+      <div className="footer-light footer-light-two" />
+
+      <div className="footer-inner">
+        {/* <div className="footer-road-line">
+          <span />
+        </div> */}
 
         {/* CTA */}
+        <div className="footer-cta footer-reveal" style={{ "--delay": "0ms" } as React.CSSProperties}>
+          <div className="footer-cta-content">
+            <p className="footer-kicker">LET&apos;S GROW TOGETHER</p>
 
-        <div className="rounded-3xl border border-purple-500/20 bg-gradient-to-r from-[#090015] to-[#140024] p-8 mb-14 flex flex-col lg:flex-row justify-between items-center gap-8">
-
-          <div>
-            <p className="text-purple-400 text-sm uppercase">
-              LET'S GROW TOGETHER
-            </p>
-
-            <h2 className="text-4xl md:text-6xl font-bold mt-3">
-              Launch your{" "}
-              <span className="text-purple-500">
-                campaign
-              </span>{" "}
-              now.
+            <h2>
+              Launch your <span>campaign</span> now.
             </h2>
 
-            <p className="text-gray-400 mt-3">
+            <p className="footer-cta-subtitle">
               Quick setup, instant visibility
             </p>
           </div>
 
-          {/* <button className="bg-gradient-to-r from-purple-700 to-pink-500 rounded-full px-8 py-4 flex items-center gap-4 font-semibold">
-
-            Reach Us
-
-            <span className="bg-white rounded-full text-black p-2">
+          <a href="#contact" className="footer-cta-button">
+            <span>Reach Us</span>
+            <span className="footer-cta-icon">
               <ArrowRight size={18} />
-            </span>
-
-          </button> */}
-
-          <a
-            href="#contact"
-            className="bg-gradient-to-r from-purple-700 to-pink-500 rounded-full px-8 py-4 flex items-center gap-4 font-semibold"
-          >
-            Reach Us
-
-            <span className="bg-white rounded-full text-black p-2">
-              <ArrowRight
-                size={18}
-              />
             </span>
           </a>
         </div>
 
         {/* Main Grid */}
-
-        <div className="grid lg:grid-cols-4 gap-10">
-
+        <div className="footer-main-grid">
           {/* Company */}
-
-          <div>
-
+          <div className="footer-column footer-company footer-reveal" style={{ "--delay": "100ms" } as React.CSSProperties}>
             <Image
               src="/assets/Roadshow_AdinnLogo_WithoutBg.svg"
               alt="Roadshow Logo"
-              className="FooterCol1Logo"
-              width={200}
-              height={60}
+              className="FooterCol1Logo footer-logo"
+              width={210}
+              height={70}
               priority
             />
 
-            <p className="text-gray-400 mt-5">
-              We help brands move forward with
-              powerful outdoor advertising solutions.
+            <p className="footer-company-text">
+              We help brands move forward with powerful outdoor advertising
+              solutions.
             </p>
 
-            {/* Social */}
-
-            <div className="flex gap-4 mt-6">
-
-              {[
-                {
-                  icon: <FaInstagram />,
-                  link:
-                    "https://www.instagram.com/adinnroadshows_/",
-                },
-                {
-                  icon: <FaFacebookF />,
-                  link:
-                    "https://www.facebook.com/adinnroadshow",
-                },
-                {
-                  icon: <FaXTwitter />,
-                  link:
-                    "https://x.com/AdinnRoadshow",
-                },
-                {
-                  icon: <FaLinkedinIn />,
-                  link:
-                    "https://www.linkedin.com/company/adinn-roadshows/",
-                },
-              ].map((item, index) => (
+            <div className="footer-socials">
+              {socialLinks.map((item) => (
                 <a
-                  key={index}
+                  key={item.label}
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-11 h-11 rounded-full bg-[#111] border border-gray-700 flex items-center justify-center hover:border-purple-500 transition"
+                  className="footer-social-link"
+                  aria-label={item.label}
                 >
                   {item.icon}
                 </a>
               ))}
             </div>
 
-            {/* Contact */}
-
-            <div className="bg-[#111] rounded-2xl p-5 border border-gray-800 mt-8 space-y-4">
-
-              <div className="flex gap-3">
-                <Phone className="text-purple-500" />
+            <div className="footer-contact-card">
+              <div className="footer-contact-row">
+                <span className="footer-contact-icon">
+                  <Phone size={21} />
+                </span>
 
                 <div>
-                  <a href="tel:+917373785057">
-                    +91 73737 85057
-                  </a>
-
+                  <a href="tel:+917373785057">+91 73737 85057</a>
                   <br />
-
-                  <a href="tel:+919626987861">
-                    +91 96269 87861
-                  </a>
+                  <a href="tel:+919626987861">+91 96269 87861</a>
                 </div>
               </div>
 
-              <hr className="border-gray-700" />
+              <div className="footer-divider" />
 
-              <div className="flex gap-3">
+              <div className="footer-contact-row">
+                <span className="footer-contact-icon">
+                  <Mail size={21} />
+                </span>
 
-                <Mail className="text-purple-500" />
-
-                <a href="mailto:ba@adinn.co.in">
-                  ba@adinn.co.in
-                </a>
-
+                <a href="mailto:ba@adinn.co.in">ba@adinn.co.in</a>
               </div>
-
             </div>
-
           </div>
 
           {/* Services */}
+          <div className="footer-column footer-reveal" style={{ "--delay": "180ms" } as React.CSSProperties}>
+            <h3 className="footer-heading">Services</h3>
 
-          <div>
-
-            <h3 className="font-bold text-2xl mb-6">
-              Services
-            </h3>
-
-            {[
-              "LED Screen Vehicle",
-              "L-Type LED Vehicle",
-              "3-Side LED Truck",
-              "Customize Fabrication Vehicle",
-            ].map((item) => (
-              <div
-                key={item}
-                className="bg-[#111] p-5 rounded-xl border border-gray-800 mb-4"
-              >
-                {item}
-              </div>
-            ))}
-
-          </div>
-          {/* Locations */}
-          <div>
-            <h3 className="font-bold text-2xl mb-6">
-              Locations
-            </h3>
-
-            {locations.map((location) => (
-              <div
-                key={location.id}
-                className="flex gap-3 mb-6"
-              >
-                <MapPin className="text-purple-500 shrink-0 mt-1" />
-
-                <div>
-                  <p className="font-semibold">
-                    {location.city}
-                  </p>
-
-                  <p className="text-gray-400 text-sm">
-                    {location.address}
-                  </p>
+            <div className="footer-service-list">
+              {services.map((item, index) => (
+                <div
+                  key={item}
+                  className="footer-service-card"
+                  style={{ "--item-delay": `${index * 90}ms` } as React.CSSProperties}
+                >
+                  <span>{item}</span>
+                  <ArrowRight size={17} />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Locations */}
+          <div className="footer-column footer-reveal" style={{ "--delay": "260ms" } as React.CSSProperties}>
+            <h3 className="footer-heading">Locations</h3>
+
+            <div className="footer-location-list">
+              {locations.map((location) => (
+                <div key={location.id} className="footer-location-item">
+                  <span className="footer-location-icon">
+                    <MapPin size={22} />
+                  </span>
+
+                  <div>
+                    <p>{location.city}</p>
+                    <span>{location.address}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Newsletter */}
-
-          <div>
-
-            <div className="bg-[#111] border border-gray-800 rounded-3xl p-8">
-
-              <div className="w-14 h-14 rounded-full bg-purple-900/30 flex items-center justify-center">
-                <Send className="text-purple-500" />
+          <div className="footer-column footer-reveal" style={{ "--delay": "340ms" } as React.CSSProperties}>
+            <div className="footer-newsletter-card">
+              <div className="footer-newsletter-icon">
+                <Send size={23} />
               </div>
 
-              <h3 className="text-3xl font-bold mt-6">
-                Stay Updated
-              </h3>
+              <h3>Stay Updated</h3>
+
+              <p>
+                Get campaign updates, new vehicle options and roadshow ideas.
+              </p>
 
               <input
                 type="text"
                 value={value}
-                onChange={(e) =>
-                  setValue(e.target.value)
-                }
+                onChange={(e) => setValue(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     handleSubscribe();
                   }
                 }}
-                disabled={
-                  status === "loading" ||
-                  status === "success"
-                }
+                disabled={status === "loading" || status === "success"}
                 placeholder="Email or phone"
-                className="w-full mt-6 rounded-xl px-4 py-4 bg-black border border-gray-700 outline-none"
+                className="footer-newsletter-input"
               />
 
               <button
                 onClick={handleSubscribe}
-                disabled={
-                  status === "loading" ||
-                  status === "success"
-                }
-                className="w-full mt-6 rounded-full bg-gradient-to-r from-purple-700 to-pink-500 py-4 flex justify-center items-center gap-2"
+                disabled={status === "loading" || status === "success"}
+                className="footer-newsletter-button"
               >
                 {status === "loading" && (
                   <>
-                    <Loader2
-                      size={18}
-                      className="animate-spin"
-                    />
+                    <Loader2 size={18} className="footer-loader" />
                     Sending...
                   </>
                 )}
@@ -678,46 +606,29 @@ export default function Footer() {
                   </>
                 )}
 
-                {(status === "idle" ||
-                  status === "error") && (
-                    <>
-                      Subscribe
-                      <ArrowRight size={18} />
-                    </>
-                  )}
+                {(status === "idle" || status === "error") && (
+                  <>
+                    Subscribe
+                    <ArrowRight size={18} />
+                  </>
+                )}
               </button>
-
             </div>
-
           </div>
-
         </div>
-
-
-        <div className="border-t border-gray-800 mt-14 pt-6 flex flex-col md:flex-row justify-between items-center">
-
-          <p className="text-gray-500">
-            © 2025 Adinn Advertising Services
-          </p>
-
-          <div className="flex gap-6 text-gray-500 mt-5 md:mt-0">
-
-            <Link href="#">
-              Cookies
-            </Link>
-
-            <Link href="#">
-              Privacy
-            </Link>
-
-            <Link href="#">
-              Terms
-            </Link>
-
+ <div className="footer-road-line">
+            <span />
           </div>
+        <div className="footer-bottom footer-reveal" style={{ "--delay": "420ms" } as React.CSSProperties}>
+         
+          <p>© 2025 Adinn Advertising Services</p>
 
+          <div>
+            <Link href="#">Cookies</Link>
+            <Link href="#">Privacy</Link>
+            <Link href="#">Terms</Link>
+          </div>
         </div>
-
       </div>
     </footer>
   );

@@ -291,15 +291,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -451,8 +442,8 @@ function Underline() {
           x2="230"
           y2="0"
         >
-          <stop stopColor="#6d4cff" />
-          <stop offset="1" stopColor="#8d73ff" />
+          <stop stopColor="#111111" />
+          <stop offset="1" stopColor="#d71920" />
         </linearGradient>
       </defs>
     </svg>
@@ -466,7 +457,6 @@ export function Testimonials() {
   const shouldReduceMotion = useReducedMotion();
 
   const gap = viewportWidth < 640 ? 16 : 22;
-
   const cardWidth =
     viewportWidth > 0 ? (viewportWidth - gap * (perView - 1)) / perView : 0;
 
@@ -610,26 +600,15 @@ export function Testimonials() {
                 <div
                   className="adinn-testimonial-slide"
                   key={`${item.n}-${index}`}
-                  style={{
-                    width: cardWidth,
-                    minWidth: cardWidth,
-                  }}
+                  style={{ width: cardWidth, minWidth: cardWidth }}
                 >
                   <motion.article
                     className="adinn-testimonial-card"
-                    whileHover={{
-                      y: -10,
-                      scale: 1.015,
-                      transition: { duration: 0.28 },
-                    }}
+                    whileHover={{ y: -8, transition: { duration: 0.28 } }}
                   >
                     <div className="adinn-testimonial-stars">
                       {Array.from({ length: 5 }).map((_, starIndex) => (
-                        <Star
-                          key={starIndex}
-                          size={17}
-                          fill="currentColor"
-                        />
+                        <Star key={starIndex} size={17} fill="currentColor" />
                       ))}
                     </div>
 

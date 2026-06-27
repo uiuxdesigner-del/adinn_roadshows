@@ -9,7 +9,7 @@
       rgba(255, 255, 255, 0.94),
       rgba(248, 247, 244, 0.92)
     ), */
-    url("/assets/adinn_contact-bg.png");
+     url("/assets/adinn_contact-bg3.png"); /* bg2 is more enough */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -20,10 +20,10 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
+  /* background:
     radial-gradient(circle at 2% 36%, rgba(0, 0, 0, 0.035), transparent 15%),
     radial-gradient(circle at 96% 8%, rgba(195, 9, 22, 0.06), transparent 18%),
-    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.035), transparent 28%);
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.035), transparent 28%); */
 }
 
 .adinn-contact-bg-pattern::before {
@@ -47,7 +47,7 @@
   width: 140px;
   height: 140px;
   opacity: 0.16;
-  background-image: radial-gradient(#c30916 2px, transparent 2px);
+  /* background-image: radial-gradient(#c30916 2px, transparent 2px); */
   background-size: 18px 18px;
 }
 
@@ -104,9 +104,9 @@
   margin: 32px 0 0;
   color: #090b10;
   font-size: clamp(54px, 5.5vw, 96px);
-  line-height: 0.92;
-  letter-spacing: -0.075em;
-  font-weight: 950;
+  line-height: 110px;
+  letter-spacing: -5%;
+  font-weight: 600;
 }
 
 .adinn-contact-title span {
@@ -377,7 +377,7 @@
   display: block;
   margin-bottom: 9px;
   color: #34373e;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -450,19 +450,19 @@
 
 .adinn-select-wrap svg {
   position: absolute;
-  right: 16px;
+  right: -21px;
   top: 50%;
   pointer-events: none;
   color: #6d7077;
   transform: translateY(-50%);
-  transition:
+  /* transition:
     transform 0.22s ease,
-    color 0.22s ease;
+    color 0.22s ease; */
 }
 
 .adinn-select-wrap:focus-within svg {
   color: #111318;
-  transform: translateY(-50%) rotate(180deg);
+  /* transform: translateY(-50%) rotate(180deg); */
 }
 
 .adinn-form-message {
@@ -508,7 +508,8 @@
   z-index: 1;
   margin-top: 26px;
   height: 56px;
-  min-width: 260px;
+  /* min-width: 260px; */
+  width: 100%;
   border: 0;
   border-radius: 12px;
   background: #111318;
@@ -526,6 +527,16 @@
   transition:
     background 0.24s ease,
     box-shadow 0.24s ease;
+
+
+
+
+    width:100%;
+    height:62px;
+    border-radius:16px;
+    background:linear-gradient(90deg,#0d1017,#080b11);
+    justify-content:center;
+    position:relative;
 }
 
 .adinn-submit-btn:hover {
@@ -550,12 +561,29 @@
   color: #111318;
   transition:
     transform 0.24s ease,
-    color 0.24s ease;
+    color 0.24s ease; 
+
+
+     position:absolute;
+    left:18px;
+    width:44px;
+    height:44px;
+    background:#fff;
+    border-radius:50%;
 }
 
 .adinn-submit-btn:hover span {
   color: #c30916;
   transform: translateX(4px) rotate(-8deg);
+}
+
+.adinn-submit-btn::after{
+    content:"→";
+    position:absolute;
+    right:26px;
+    color:#fff;
+    font-size:24px;
+    font-weight:500;
 }
 
 .spin {
@@ -788,4 +816,148 @@
   .adinn-contact-stats {
     grid-template-columns: 1fr;
   }
+}
+
+
+.adinn-input-icon{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#555;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+}
+/* 
+.adinn-input-wrap input,
+.adinn-select-wrap select{
+    padding-left:52px;
+} */
+
+.adinn-input-wrap,
+.adinn-select-wrap,
+.adinn-textarea-wrap {
+    position: relative;
+   
+}
+
+
+.adinn-select-wrap .adinn-input-icon{
+
+    position:absolute;
+
+    left:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#6b7280;
+
+    pointer-events:none;
+
+    z-index:2;
+}
+
+
+.adinn-input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.adinn-input-wrap input {
+    width: 100%;
+    padding-left: 50px;
+}
+
+.adinn-select-wrap select{
+
+    width:100%;
+
+    padding-left:50px;
+
+    padding-right:42px;
+
+    appearance:none;
+
+    -webkit-appearance:none;
+
+    -moz-appearance:none;
+}
+.adinn-select-arrow{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#6b7280;
+
+    pointer-events:none;
+
+    transition:none;
+}
+.adinn-textarea-wrap .adinn-input-icon {
+    top: 18px;
+    transform: none;
+}
+
+.adinn-textarea-wrap textarea {
+    width: 100%;
+    padding-left: 50px;
+}
+
+.adinn-textarea-wrap .adinn-input-icon{
+    top:18px;
+    transform:none;
+}
+
+.adinn-textarea-wrap textarea{
+    padding-left:52px;
+}
+
+.adinn-select-wrap{
+position:relative;
+}
+
+.adinn-select-wrap .adinn-input-icon{
+position:absolute;
+left:18px;
+top:50%;
+transform:translateY(-50%);
+z-index:2;
+}
+
+.adinn-select-wrap select{
+padding-left:50px;
+padding-right:42px;
+appearance:none;
+}
+
+.adinn-select-arrow{
+position:absolute;
+right: 8px;
+top:50%;
+transform:translateY(-50%);
+pointer-events:none;
+transition:none;
 }

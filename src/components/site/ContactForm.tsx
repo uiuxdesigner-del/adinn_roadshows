@@ -386,11 +386,15 @@
 // }
 
 
-
+/*eslint-disable*/
+//@ts-nocheck
 "use client";
 
 import { useState, type FormEvent } from "react";
 import {
+  User,
+  Car, 
+  PencilLine,
   Phone,
   Mail,
   MapPin,
@@ -443,34 +447,65 @@ const EMAILJS_SERVICE_ID = "service_m7blrwk";
 const EMAILJS_TEMPLATE_ID = "template_6l5cw1b";
 const EMAILJS_PUBLIC_KEY = "0LqsQAkcgAOP2XMOe";
 
+// const contactInfo = [
+//   {
+//     icon: Phone,
+//     title: "Call Us",
+//     value: "+91 73737 85057",
+//     sub: "Mon – Sat, 9:30 AM – 7:00 PM",
+//     href: "tel:+917373785057",
+//   },
+//   {
+//     icon: Mail,
+//     title: "Email Us",
+//     value: "ba@adinn.co.in",
+//     sub: "We reply within 24 hours",
+//     href: "mailto:ba@adinn.co.in",
+//   },
+//   {
+//     icon: MapPin,
+//     title: "Head Office",
+//     value: "Madurai, Tamil Nadu, India",
+//     sub: "We are here to help",
+//   },
+//   {
+//     icon: Clock,
+//     title: "Business Hours",
+//     value: "Mon – Sat, 9:30 AM – 7:00 PM",
+//     sub: "Sunday Closed",
+//   },
+// ];
+
+
 const contactInfo = [
-  {
-    icon: Phone,
-    title: "Call Us",
-    value: "+91 73737 85057",
-    sub: "Mon – Sat, 9:30 AM – 7:00 PM",
-    href: "tel:+917373785057",
-  },
-  {
-    icon: Mail,
-    title: "Email Us",
-    value: "ba@adinn.co.in",
-    sub: "We reply within 24 hours",
-    href: "mailto:ba@adinn.co.in",
-  },
-  {
-    icon: MapPin,
-    title: "Head Office",
-    value: "Madurai, Tamil Nadu, India",
-    sub: "We are here to help",
-  },
-  {
-    icon: Clock,
-    title: "Business Hours",
-    value: "Mon – Sat, 9:30 AM – 7:00 PM",
-    sub: "Sunday Closed",
-  },
-];
+{
+icon:Target,
+title:"Campaign Planning",
+value:"Tailored roadshow strategies",
+sub:"Customized campaigns for your audience"
+},
+
+{
+icon:CalendarDays,
+title:"Quick Turnaround",
+value:"Proposal within 24 Hours",
+sub:"Fast response from our campaign team"
+},
+
+{
+icon:MapPin,
+title:"Pan India Coverage",
+value:"200+ Cities Served",
+sub:"Execute campaigns anywhere in India"
+},
+
+{
+icon:BadgeCheck,
+title:"Trusted Experience",
+value:"10+ Years Expertise",
+sub:"Successful activations for leading brands"
+}
+]
 
 const stats = [
   {
@@ -545,21 +580,21 @@ export function ContactForm() {
       nextErrors.email = "Enter a valid email address.";
     }
 
-    if (!form.city.trim()) {
-      nextErrors.city = "City / service location is required.";
-    }
+    // if (!form.city.trim()) {
+    //   nextErrors.city = "City / service location is required.";
+    // }
 
-    if (!form.startDate.trim()) {
-      nextErrors.startDate = "Campaign start date is required.";
-    }
+    // if (!form.startDate.trim()) {
+    //   nextErrors.startDate = "Campaign start date is required.";
+    // }
 
-    const days = Number(form.duration.replace(/\D/g, ""));
+    // const days = Number(form.duration.replace(/\D/g, ""));
 
-    if (!form.duration.trim()) {
-      nextErrors.duration = "Campaign duration is required.";
-    } else if (!days || days < 10) {
-      nextErrors.duration = "Minimum campaign duration is 10 days.";
-    }
+    // if (!form.duration.trim()) {
+    //   nextErrors.duration = "Campaign duration is required.";
+    // } else if (!days || days < 10) {
+    //   nextErrors.duration = "Minimum campaign duration is 10 days.";
+    // }
 
     if (!form.message.trim()) {
       nextErrors.message = "Please enter your campaign requirement.";
@@ -723,7 +758,7 @@ ${form.message}`;
                       <small>{item.sub}</small>
                     </div>
 
-                    <span className="adinn-card-number">0{index + 1}</span>
+                    {/* <span className="adinn-card-number">0{index + 1}</span> */}
                   </motion.div>
                 );
 
@@ -809,6 +844,7 @@ ${form.message}`;
                       error={errors.fullName}
                       shake={shakeFields.has("fullName")}
                       required
+                      icon={<User size={18}/>}
                     />
 
                     <Field
@@ -820,6 +856,7 @@ ${form.message}`;
                       error={errors.phone}
                       shake={shakeFields.has("phone")}
                       required
+                      icon={<Phone size={18}/>}
                     />
 
                     <Field
@@ -832,15 +869,16 @@ ${form.message}`;
                       error={errors.email}
                       shake={shakeFields.has("email")}
                       required
+                      icon={<Mail size={18}/>}
                     />
 
-                    <Field
+                    {/* <Field
                       label="Campaign Type"
                       name="campaignType"
                       placeholder="Product launch, retail, promotion..."
                       value={form.campaignType}
                       onChange={handleChange}
-                    />
+                    /> */}
 
                     <Select
                       label="Preferred Vehicle"
@@ -857,7 +895,7 @@ ${form.message}`;
                       ]}
                     />
 
-                    <Field
+                    {/* <Field
                       label="City / Service Location"
                       name="city"
                       placeholder="Enter city"
@@ -866,9 +904,9 @@ ${form.message}`;
                       error={errors.city}
                       shake={shakeFields.has("city")}
                       required
-                    />
+                    /> */}
 
-                    <DateField
+                    {/* <DateField
                       label="Campaign Start Date"
                       name="startDate"
                       value={form.startDate}
@@ -900,9 +938,9 @@ ${form.message}`;
                         "₹7 Lakh+",
                         "Discuss",
                       ]}
-                    />
+                    /> */}
 
-                    <div className="adinn-form-field adinn-form-message">
+                    {/* <div className="adinn-form-field adinn-form-message">
                       <label>
                         Message / Requirement <span>*</span>
                       </label>
@@ -921,7 +959,37 @@ ${form.message}`;
                       {errors.message && (
                         <p className="adinn-field-error">{errors.message}</p>
                       )}
-                    </div>
+                    </div> */}
+
+
+                    <div className="adinn-form-field adinn-form-message">
+  <label>
+    Message / Requirement <span>*</span>
+  </label>
+
+  <div className="adinn-textarea-wrap">
+    <span className="adinn-input-icon">
+      <PencilLine size={18} />
+    </span>
+
+    <textarea
+      name="message"
+      rows={4}
+      placeholder="Tell us about your campaign goal, audience, locations, etc."
+      value={form.message}
+      onChange={handleChange}
+      className={`${errors.message ? "has-error" : ""} ${
+        shakeFields.has("message") ? "shake" : ""
+      }`}
+    />
+  </div>
+
+  {errors.message && (
+    <p className="adinn-field-error">{errors.message}</p>
+  )}
+</div>
+
+
                   </div>
 
                   <motion.button
@@ -957,7 +1025,7 @@ ${form.message}`;
           </motion.div>
         </div>
 
-        <motion.div
+        {/* <motion.div
           className="adinn-contact-stats"
           initial={{ opacity: 0, y: 34 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -984,7 +1052,7 @@ ${form.message}`;
               </motion.div>
             );
           })}
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -1000,11 +1068,12 @@ type FieldProps = {
   error?: string;
   shake?: boolean;
   required?: boolean;
+  icon?: React.ReactNode;
 };
 
 function Field({
   label,
-  name,
+ name,
   value,
   onChange,
   placeholder,
@@ -1012,6 +1081,7 @@ function Field({
   error,
   shake,
   required,
+  icon,
 }: FieldProps) {
   return (
     <div className="adinn-form-field">
@@ -1019,20 +1089,25 @@ function Field({
         {label} {required && <span>*</span>}
       </label>
 
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`${error ? "has-error" : ""} ${shake ? "shake" : ""}`}
-      />
+      <div className="adinn-input-wrap">
+        <span className="adinn-input-icon">{icon}</span>
+
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={`${error ? "has-error" : ""} ${shake ? "shake" : ""}`}
+        />
+      </div>
 
       {error && <p className="adinn-field-error">{error}</p>}
     </div>
   );
 }
+
 
 type SelectProps = {
   label: string;
@@ -1043,12 +1118,25 @@ type SelectProps = {
   error?: string;
 };
 
-function Select({ label, name, value, onChange, options, error }: SelectProps) {
+
+function Select({
+  label,
+  name,
+  value,
+  onChange,
+  options,
+  error,
+}: SelectProps) {
   return (
     <div className="adinn-form-field">
       <label htmlFor={name}>{label}</label>
 
-      <div className="adinn-select-wrap">
+      <div className="adinn-input-wrap adinn-select-wrap">
+        {/* ICON INSIDE WRAP */}
+        <span className="adinn-input-icon">
+          <Car size={18} />
+        </span>
+
         <select
           id={name}
           name={name}
@@ -1065,13 +1153,16 @@ function Select({ label, name, value, onChange, options, error }: SelectProps) {
           ))}
         </select>
 
-        <ChevronDown size={17} />
+        {/* <ChevronDown size={17} 
+            className="adinn-select-arrow"
+/> */}
       </div>
 
       {error && <p className="adinn-field-error">{error}</p>}
     </div>
   );
 }
+
 
 type DateFieldProps = {
   label: string;

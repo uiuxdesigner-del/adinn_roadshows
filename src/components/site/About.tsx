@@ -188,7 +188,7 @@ export function About() {
         >
           {/* LEFT CONTENT */}
           <div className="relative z-20">
-            <p
+            {/* <p
               className="
                 text-[12px]
                 font-semibold
@@ -198,7 +198,7 @@ export function About() {
               "
             >
               About Us
-            </p>
+            </p> */}
 
             <h2
               className="

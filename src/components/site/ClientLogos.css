@@ -1,109 +1,337 @@
-.client-logo-section {
+.client-roadshow-section {
   --adinn-red: #d71920;
+  --adinn-red-soft: rgba(215, 25, 32, 0.08);
   --adinn-black: #111111;
-  --adinn-ink: #171717;
+  --adinn-text: #202020;
   --adinn-muted: #666666;
   --adinn-line: rgba(17, 17, 17, 0.1);
-  --adinn-soft: #f5f5f5;
+  --adinn-soft: #f7f7f7;
+
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: clamp(72px, 7vw, 112px) 0 clamp(70px, 6vw, 96px);
+  padding: clamp(70px, 7vw, 112px) 0 clamp(58px, 6vw, 90px);
   background:
-    radial-gradient(circle at 50% 8%, rgba(215, 25, 32, 0.065), transparent 27%),
-    linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+    radial-gradient(circle at 52% 4%, rgba(215, 25, 32, 0.075), transparent 28%),
+    radial-gradient(circle at 80% 32%, rgba(17, 17, 17, 0.045), transparent 28%),
+    linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
   border-block: 1px solid rgba(17, 17, 17, 0.06);
 }
 
-.client-logo-bg {
+.client-roadshow-grid-bg {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  
+    background: url(/assets/RS_Client_Roadshow_BG.png);
+background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.client-logo-bg::before,
-.client-logo-bg::after {
+.client-roadshow-grid-bg::before,
+.client-roadshow-grid-bg::after {
   content: "";
   position: absolute;
-  width: 150px;
-  height: 128px;
-  opacity: 0.18;
-  background-image: radial-gradient(rgba(17, 17, 17, 0.42) 1.4px, transparent 1.4px);
+  width: 156px;
+  height: 126px;
+  opacity: 0.16;
+  background-image: radial-gradient(rgba(17, 17, 17, 0.5) 1.3px, transparent 1.3px);
   background-size: 17px 17px;
 }
 
-.client-logo-bg::before {
-  top: 120px;
-  left: 8%;
-  transform: rotate(-9deg);
+.client-roadshow-grid-bg::before {
+  top: 100px;
+  left: 7%;
+  transform: rotate(-8deg);
 }
 
-.client-logo-bg::after {
-  top: 130px;
+.client-roadshow-grid-bg::after {
+  top: 108px;
   right: 8%;
-  transform: rotate(12deg);
+  transform: rotate(10deg);
 }
 
-.client-logo-container {
-  width: min(1480px, calc(100% - 72px));
+.client-roadshow-container {
+  width: min(1300px, calc(100% - 72px));
   margin: 0 auto;
 }
 
-.client-logo-heading {
-  text-align: center;
+.client-roadshow-hero {
+  min-height: 470px;
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 76px);
+
 }
 
-.client-logo-eyebrow {
-  width: fit-content;
-  margin: 0 auto;
+.client-roadshow-copy {
+  position: relative;
+  z-index: 2;
+
+}
+
+.client-roadshow-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   color: var(--adinn-black);
-  font-size: clamp(11px, 0.8vw, 13px);
-  font-weight: 900;
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 950;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
 }
 
-.client-logo-eyebrow svg,
-.client-logo-eyebrow span {
+.client-roadshow-eyebrow svg,
+.client-roadshow-eyebrow span {
   color: var(--adinn-red);
 }
 
-.client-logo-heading h2 {
-  margin: 20px 0 0;
+.client-roadshow-copy h2 {
+  margin: 22px 0 0;
   color: var(--adinn-black);
-  font-size: clamp(40px, 5vw, 82px);
+  font-size: clamp(46px, 5.4vw, 86px);
   line-height: 0.96;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.052em;
   font-weight: 950;
 }
 
-.client-logo-heading h2 span {
+.client-roadshow-copy h2 span {
   color: var(--adinn-red);
 }
 
-.client-logo-heading p {
-  margin: 22px auto 0;
-  max-width: 650px;
+.client-roadshow-copy p {
+  max-width: 500px;
+  margin: 24px 0 0;
   color: var(--adinn-muted);
-  font-size: clamp(14px, 1.05vw, 17px);
-  line-height: 1.7;
+  font-size: clamp(15px, 1.04vw, 18px);
+  line-height: 1.65;
+  font-weight: 560;
 }
 
-.client-logo-marquee-block {
+.client-roadshow-proof {
+  margin-top: clamp(32px, 3vw, 48px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.7vw, 24px);
+}
+
+.client-roadshow-proof-item {
   position: relative;
-  margin-top: clamp(38px, 4vw, 58px);
-  overflow: hidden;
-  border-radius: 34px;
-  border: 1px solid var(--adinn-line);
-  background: rgba(255, 255, 255, 0.62);
-  padding: clamp(14px, 1.7vw, 24px) 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
 
-.client-logo-fade {
+.client-roadshow-proof-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  width: 1px;
+  height: 36px;
+  transform: translateY(-50%);
+  background: rgba(17, 17, 17, 0.12);
+}
+
+.client-roadshow-proof-item > span {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f0f0f0;
+  color: var(--adinn-black);
+  transition:
+    background 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
+}
+
+.client-roadshow-proof-item:hover > span {
+  background: var(--adinn-red-soft);
+  color: var(--adinn-red);
+  transform: rotate(-8deg);
+}
+
+.client-roadshow-proof-item strong {
+  display: block;
+  color: var(--adinn-black);
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 850;
+}
+
+.client-roadshow-proof-item small {
+  display: block;
+  margin-top: 3px;
+  color: var(--adinn-muted);
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.client-roadshow-visual {
+  position: relative;
+  min-height: 470px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.client-roadshow-visual::before {
+  content: "";
+  position: absolute;
+  /* width: min(45vw, 620px);
+  height: min(45vw, 620px);
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.045); */
+  filter: blur(1px);
+  top: -40px;
+  left: 12%;
+  z-index: -1;
+}
+
+.client-roadshow-visual img {
+  width: min(860px, 100%);
+  max-width: none;
+  user-select: none;
+  object-fit: contain;
+}
+
+.client-roadshow-float-card {
+  position: absolute;
+  right: clamp(20px, 5vw, 74px);
+  bottom: clamp(26px, 4vw, 70px);
+  min-width: min(320px, 80%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(14px);
+}
+
+.client-roadshow-float-card > span {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--adinn-red-soft);
+  color: var(--adinn-red);
+}
+
+.client-roadshow-float-card strong {
+  display: block;
+  color: var(--adinn-black);
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 920;
+}
+
+.client-roadshow-float-card p {
+  margin: 5px 0 0;
+  color: var(--adinn-muted);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.client-roadshow-logo-panel {
+  position: relative;
+  margin-top: clamp(32px, 4vw, 54px);
+  padding: clamp(26px, 2.5vw, 38px) 54px;
+  border: 1px solid var(--adinn-line);
+  border-radius: 36px;
+  background: rgba(255, 255, 255, 0.76);
+  overflow: hidden;
+}
+
+.client-roadshow-logo-window {
+  overflow: hidden;
+}
+
+.client-roadshow-logo-track {
+  width: max-content;
+  display: flex;
+  gap: clamp(12px, 1.3vw, 18px);
+  animation: roadshowLogoMove 34s linear infinite;
+  will-change: transform;
+}
+
+.client-roadshow-logo-track.paused,
+.client-roadshow-logo-panel:hover .client-roadshow-logo-track {
+  animation-play-state: paused;
+}
+
+@keyframes roadshowLogoMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.client-roadshow-logo-card {
+  width: clamp(168px, 13vw, 215px);
+  height: clamp(82px, 6.5vw, 104px);
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 18px;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition:
+    border-color 0.28s ease,
+    background 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.client-roadshow-logo-card img {
+  max-width: 72%;
+  max-height: 48px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.64;
+  transition:
+    filter 0.28s ease,
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.client-roadshow-logo-card:hover,
+.client-roadshow-logo-card.active {
+  border-color: rgba(215, 25, 32, 0.34);
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.client-roadshow-logo-card:hover img,
+.client-roadshow-logo-card.active img {
+  filter: grayscale(0);
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.client-roadshow-logo-card.active {
+  box-shadow: inset 0 -3px 0 var(--adinn-red);
+}
+
+.client-logo-fallback {
+  color: var(--adinn-black);
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.client-roadshow-logo-fade {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -112,367 +340,305 @@
   pointer-events: none;
 }
 
-.client-logo-fade.left {
+.client-roadshow-logo-fade.left {
   left: 0;
   background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.client-logo-fade.right {
+.client-roadshow-logo-fade.right {
   right: 0;
   background: linear-gradient(270deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.client-logo-marquee-row {
-  overflow: hidden;
-}
-
-.client-logo-marquee-row.compact {
-  margin-top: 16px;
-}
-
-.client-logo-track {
-  width: max-content;
-  display: flex;
-  gap: clamp(12px, 1.2vw, 18px);
-  padding: 0 clamp(12px, 1.4vw, 20px);
-  animation: clientLinearMove 32s linear infinite;
-  will-change: transform;
-}
-
-.client-logo-track.reverse {
-  animation-direction: reverse;
-  animation-duration: 38s;
-}
-
-.client-logo-track.paused,
-.client-logo-marquee-block:hover .client-logo-track {
-  animation-play-state: paused;
-}
-
-@keyframes clientLinearMove {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.client-logo-pill {
-  min-width: clamp(210px, 18vw, 275px);
-  height: clamp(82px, 7vw, 105px);
-  padding: 0 26px;
-  border: 1px solid rgba(17, 17, 17, 0.1);
+.client-roadshow-arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--adinn-line);
   border-radius: 999px;
   background: #ffffff;
-  color: #4f4f4f;
-  display: inline-flex;
-  align-items: center;
+  color: var(--adinn-black);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.client-roadshow-arrow.left {
+  left: 18px;
+}
+
+.client-roadshow-arrow.right {
+  right: 18px;
+}
+
+.client-roadshow-arrow:hover {
+  background: var(--adinn-black);
+  color: #ffffff;
+  border-color: var(--adinn-black);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.client-roadshow-logo-dots {
+  margin-top: 22px;
+  display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 8px;
+}
+
+.client-roadshow-logo-dots button {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: #d2d2d2;
   cursor: pointer;
   transition:
-    transform 0.28s ease,
-    border-color 0.28s ease,
+    width 0.28s ease,
     background 0.28s ease,
-    color 0.28s ease;
-}
-
-.client-logo-pill.small {
-  min-width: clamp(180px, 15vw, 230px);
-  height: clamp(62px, 5vw, 74px);
-}
-
-.client-logo-pill img {
-  max-width: 76px;
-  max-height: 40px;
-  object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.62;
-  transition:
-    filter 0.28s ease,
-    opacity 0.28s ease,
     transform 0.28s ease;
 }
 
-.client-logo-pill span {
-  max-width: 130px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: clamp(12px, 0.9vw, 14px);
-  font-weight: 900;
-  letter-spacing: 0.12em;
+.client-roadshow-logo-dots button:hover {
+  transform: scale(1.18);
+  background: rgba(215, 25, 32, 0.38);
 }
 
-.client-logo-pill:hover,
-.client-logo-pill.active {
-  color: var(--adinn-black);
-  border-color: rgba(215, 25, 32, 0.38);
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-  transform: translateY(-4px);
+.client-roadshow-logo-dots button.active {
+  width: 24px;
+  background: var(--adinn-red);
 }
 
-.client-logo-pill:hover img,
-.client-logo-pill.active img {
-  filter: grayscale(0);
-  opacity: 1;
-  transform: scale(1.06);
-}
-
-.client-logo-pill.active {
-  box-shadow: inset 0 -3px 0 var(--adinn-red);
-}
-
-.client-logo-fallback {
-  color: var(--adinn-black);
-  font-size: 13px;
-  font-weight: 950;
-  letter-spacing: 0.12em;
-}
-
-.client-feature-panel {
-  margin: clamp(30px, 3.5vw, 48px) auto 0;
-  max-width: 1180px;
-  border: 1px solid var(--adinn-line);
-  border-radius: 34px;
-  background: rgba(255, 255, 255, 0.82);
-  display: grid;
-  grid-template-columns: 0.8fr 1.4fr auto;
+.client-roadshow-active-client {
+  width: fit-content;
+  max-width: 100%;
+  margin: 26px auto 0;
+  display: flex;
   align-items: center;
-  gap: clamp(18px, 2.4vw, 34px);
-  padding: clamp(20px, 2.4vw, 34px);
+  gap: 18px;
+  padding: 12px 20px 12px 12px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
-.client-feature-kicker {
-  color: var(--adinn-red);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-weight: 950;
-}
-
-.client-feature-logo {
-  margin-top: 18px;
-  width: clamp(150px, 16vw, 230px);
-  height: clamp(82px, 8vw, 112px);
-  border-radius: 24px;
-  border: 1px solid var(--adinn-line);
+.client-roadshow-active-logo {
+  width: 82px;
+  height: 54px;
+  border-radius: 999px;
   background: #ffffff;
   display: grid;
   place-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.08);
 }
 
-.client-feature-logo img {
+.client-roadshow-active-logo img {
   max-width: 70%;
-  max-height: 62%;
+  max-height: 34px;
   object-fit: contain;
 }
 
-.client-feature-brand h3 {
-  margin: 18px 0 0;
+.client-roadshow-active-client span {
+  display: block;
+  color: var(--adinn-red);
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.client-roadshow-active-client h3 {
+  margin: 3px 0 0;
   color: var(--adinn-black);
-  font-size: clamp(24px, 2.2vw, 36px);
+  font-size: 18px;
   line-height: 1;
   letter-spacing: -0.04em;
   font-weight: 950;
 }
 
-.client-feature-brand p {
-  margin: 8px 0 0;
+.client-roadshow-active-client p {
+  margin: 4px 0 0;
   color: var(--adinn-muted);
-  font-size: clamp(13px, 0.95vw, 15px);
+  font-size: 12px;
   font-weight: 700;
 }
 
-.client-feature-stats {
+.client-roadshow-stats {
+  margin-top: clamp(44px, 4.5vw, 64px);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: clamp(18px, 2vw, 32px);
 }
 
-.client-stat-item {
-  min-height: 118px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 24px;
-  background: #f8f8f8;
+.client-roadshow-stat {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  padding: 18px;
-  transition:
-    background 0.24s ease,
-    border-color 0.24s ease;
-}
-
-.client-stat-item:hover {
-  background: #ffffff;
-  border-color: rgba(215, 25, 32, 0.24);
-}
-
-.client-stat-icon {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  color: var(--adinn-red);
-  background: rgba(215, 25, 32, 0.08);
-}
-
-.client-stat-item strong {
-  display: block;
-  color: var(--adinn-black);
-  font-size: clamp(24px, 2.1vw, 34px);
-  line-height: 1;
-  letter-spacing: -0.05em;
-  font-weight: 950;
-}
-
-.client-stat-item p {
-  margin: 7px 0 0;
-  color: var(--adinn-muted);
-  font-size: 13px;
-  font-weight: 750;
-}
-
-.client-feature-actions {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
+  min-width: 0;
 }
 
-.client-feature-actions > button {
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--adinn-line);
-  border-radius: 999px;
-  background: #ffffff;
-  color: var(--adinn-black);
+.client-roadshow-stat:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  width: 1px;
+  height: 46px;
+  transform: translateY(-50%);
+  background: rgba(17, 17, 17, 0.12);
+}
+
+.client-roadshow-stat > span {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
-  cursor: pointer;
-  transition:
-    transform 0.24s ease,
-    background 0.24s ease,
-    color 0.24s ease,
-    border-color 0.24s ease;
-}
-
-.client-feature-actions > button:hover {
-  transform: translateY(-2px);
-  background: var(--adinn-black);
-  color: #ffffff;
-  border-color: var(--adinn-black);
-}
-
-.client-logo-dots {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.client-logo-dots button {
-  width: 9px;
-  height: 9px;
-  border: 0;
   border-radius: 999px;
-  background: #d6d6d6;
-  cursor: pointer;
+  background: #eeeeee;
+  color: var(--adinn-black);
   transition:
-    height 0.28s ease,
+    color 0.28s ease,
     background 0.28s ease,
     transform 0.28s ease;
 }
 
-.client-logo-dots button:hover {
-  transform: scale(1.18);
-  background: rgba(215, 25, 32, 0.38);
+.client-roadshow-stat:hover > span {
+  background: var(--adinn-red-soft);
+  color: var(--adinn-red);
+  transform: rotate(-8deg);
 }
 
-.client-logo-dots button.active {
-  height: 28px;
-  background: var(--adinn-red);
+.client-roadshow-stat strong {
+  display: block;
+  color: var(--adinn-black);
+  font-size: clamp(26px, 2.3vw, 38px);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  font-weight: 950;
+}
+
+.client-roadshow-stat p {
+  margin: 8px 0 0;
+  color: var(--adinn-muted);
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 650;
 }
 
 @media (max-width: 1180px) {
-  .client-feature-panel {
+  .client-roadshow-hero {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
-  .client-feature-stats {
+  .client-roadshow-visual {
+    min-height: 420px;
+  }
+
+  .client-roadshow-proof {
+    max-width: 720px;
+  }
+
+  .client-roadshow-stats {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .client-feature-actions {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .client-logo-dots {
-    flex-direction: row;
-  }
-
-  .client-logo-dots button.active {
-    width: 28px;
-    height: 9px;
+  .client-roadshow-stat:nth-child(2)::after {
+    display: none;
   }
 }
 
 @media (max-width: 760px) {
-  .client-logo-container {
-    width: min(100% - 28px, 1480px);
+  .client-roadshow-container {
+    width: min(100% - 28px, 1520px);
   }
 
-  .client-logo-bg::before,
-  .client-logo-bg::after {
+  .client-roadshow-grid-bg::before,
+  .client-roadshow-grid-bg::after {
     display: none;
   }
 
-  .client-logo-heading h2 {
-    letter-spacing: -0.055em;
+  .client-roadshow-copy h2 {
+    letter-spacing: -0.06em;
   }
 
-  .client-logo-marquee-block {
-    border-radius: 24px;
-  }
-
-  .client-logo-pill {
-    min-width: 205px;
-    padding: 0 18px;
-  }
-
-  .client-logo-pill.small {
-    min-width: 170px;
-  }
-
-  .client-feature-panel {
-    border-radius: 26px;
-  }
-
-  .client-feature-stats {
+  .client-roadshow-proof {
     grid-template-columns: 1fr;
   }
 
-  .client-stat-item {
-    min-height: 94px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+  .client-roadshow-proof-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .client-roadshow-visual {
+    min-height: 300px;
+  }
+
+  .client-roadshow-float-card {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: -24px;
+  }
+
+  .client-roadshow-logo-panel {
+    padding: 24px 20px 28px;
+    border-radius: 26px;
+  }
+
+  .client-roadshow-logo-card {
+    width: 165px;
+    height: 86px;
+  }
+
+  .client-roadshow-arrow {
+    display: none;
+  }
+
+  .client-roadshow-logo-fade {
+    width: 70px;
+  }
+
+  .client-roadshow-active-client {
+    border-radius: 24px;
+    align-items: flex-start;
+  }
+
+  .client-roadshow-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .client-roadshow-stat:not(:last-child)::after {
+    display: none;
+  }
+
+  .client-roadshow-stat {
+    padding: 16px;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.72);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .client-logo-track {
+  .client-roadshow-logo-track {
     animation: none;
     transform: none;
   }
 
-  .client-logo-pill,
-  .client-feature-actions > button,
-  .client-stat-item {
+  .client-roadshow-logo-card,
+  .client-roadshow-arrow,
+  .client-roadshow-stat,
+  .client-roadshow-proof-item > span {
     transition: none;
   }
 }

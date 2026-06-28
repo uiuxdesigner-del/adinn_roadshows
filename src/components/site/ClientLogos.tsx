@@ -422,18 +422,22 @@
 //   );
 // }
 
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
+  Eye,
   Handshake,
   MapPin,
+  Megaphone,
   Sparkles,
-  Trophy,
+  Target,
   TrendingUp,
+  Truck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import "./ClientLogos.css";
@@ -448,6 +452,12 @@ type StatItem = {
   icon: LucideIcon;
   value: string;
   label: string;
+};
+
+type ProofItem = {
+  icon: LucideIcon;
+  title: string;
+  text: string;
 };
 
 const logos: ClientLogo[] = [
@@ -503,11 +513,45 @@ const logos: ClientLogo[] = [
   },
 ];
 
+const proofItems: ProofItem[] = [
+  {
+    icon: MapPin,
+    title: "Pan Tamil Nadu",
+    text: "Coverage",
+  },
+  {
+    icon: TrendingUp,
+    title: "High Visibility",
+    text: "Everyday",
+  },
+  {
+    icon: Target,
+    title: "Result Driven",
+    text: "Promotions",
+  },
+];
+
 const stats: StatItem[] = [
-  { icon: Handshake, value: "50+", label: "Happy Clients" },
-  { icon: Trophy, value: "200+", label: "Campaigns" },
-  { icon: MapPin, value: "100+", label: "Cities Covered" },
-  { icon: TrendingUp, value: "98%", label: "Satisfaction" },
+  {
+    icon: Megaphone,
+    value: "500+",
+    label: "Successful Campaigns",
+  },
+  {
+    icon: Truck,
+    value: "100+",
+    label: "Roadshow Vehicles",
+  },
+  {
+    icon: Eye,
+    value: "20L+",
+    label: "Daily Impressions",
+  },
+  {
+    icon: MapPin,
+    value: "TN Wide",
+    label: "Pan Tamil Nadu Presence",
+  },
 ];
 
 function wrapIndex(index: number, total: number) {
@@ -537,10 +581,18 @@ export function ClientLogos() {
   const shouldReduceMotion = useReducedMotion();
 
   const activeLogo = logos[activeIndex];
-  const loopLogos = [...logos, ...logos];
 
-  const next = () => setActiveIndex((prev) => wrapIndex(prev + 1, logos.length));
-  const prev = () => setActiveIndex((prev) => wrapIndex(prev - 1, logos.length));
+  const loopLogos = useMemo(() => {
+    return [...logos, ...logos];
+  }, []);
+
+  const next = useCallback(() => {
+    setActiveIndex((prev) => wrapIndex(prev + 1, logos.length));
+  }, []);
+
+  const prev = useCallback(() => {
+    setActiveIndex((prev) => wrapIndex(prev - 1, logos.length));
+  }, []);
 
   useEffect(() => {
     if (paused || shouldReduceMotion) return;
@@ -550,153 +602,229 @@ export function ClientLogos() {
     }, 2600);
 
     return () => window.clearInterval(timer);
-  }, [paused, shouldReduceMotion]);
+  }, [paused, shouldReduceMotion, next]);
 
   return (
-    <section className="client-logo-section" id="clients">
-      <div className="client-logo-bg" />
+    <section className="client-roadshow-section" id="clients">
+      <div className="client-roadshow-grid-bg" />
 
-      <div className="client-logo-container">
+      <div className="client-roadshow-container">
+        <div className="client-roadshow-hero">
+          <motion.div
+            className="client-roadshow-copy"
+            initial={{ opacity: 0, y: 26 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-90px" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="client-roadshow-eyebrow">
+              <Sparkles size={15} />
+              Trusted by <span>Growing Brands</span>
+            </div>
+
+            <h2>
+              Brands that move <br />
+              with Adinn<span>.</span>
+            </h2>
+
+            <p>
+              From product launches to mass promotions, our roadshows help
+              brands reach farther, faster and more effectively.
+            </p>
+
+            <div className="client-roadshow-proof">
+              {proofItems.map((item, index) => {
+                const Icon = item.icon;
+
+                return (
+                  <motion.div
+                    className="client-roadshow-proof-item"
+                    key={item.title}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.12 + index * 0.08,
+                    }}
+                    whileHover={{ y: -4 }}
+                  >
+                    <span>
+                      <Icon size={20} />
+                    </span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <small>{item.text}</small>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="client-roadshow-visual"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* <motion.img
+              src="/assets/RS_Client_Roadshow_BG.png"
+              alt="Roadshow vehicle campaign"
+              draggable={false}
+              animate={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      y: [0, -8, 0],
+                    }
+              }
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            /> */}
+
+            {/* <motion.div
+              className="client-roadshow-float-card"
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.35 }}
+              whileHover={{ y: -5 }}
+            >
+              <span>
+                <Truck size={22} />
+              </span>
+              <div>
+                <strong>100+ Roadshow Vehicles</strong>
+                <p>On-ground. On-time. On-brand.</p>
+              </div>
+            </motion.div> */}
+          </motion.div>
+        </div>
+
         <motion.div
-          className="client-logo-heading"
-          initial={{ opacity: 0, y: 24 }}
+          className="client-roadshow-logo-panel"
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="client-logo-eyebrow">
-            <Sparkles size={15} />
-            Trusted by <span>Growing Brands</span>
-          </div>
-
-          <h2>
-            Brands that move <br />
-            <span>with Adinn.</span>
-          </h2>
-
-          <p>
-            A clean, corporate client showcase with linear logo movement,
-            neutral tones and a focused active partner panel.
-          </p>
-        </motion.div>
-
-        <div
-          className="client-logo-marquee-block"
+          transition={{ duration: 0.65, delay: 0.1 }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          <div className="client-logo-fade left" />
-          <div className="client-logo-fade right" />
+          <button
+            type="button"
+            className="client-roadshow-arrow left"
+            onClick={prev}
+            aria-label="Previous client"
+          >
+            <ArrowLeft size={20} />
+          </button>
 
-          <div className="client-logo-marquee-row">
-            <div className={`client-logo-track ${paused ? "paused" : ""}`}>
+          <button
+            type="button"
+            className="client-roadshow-arrow right"
+            onClick={next}
+            aria-label="Next client"
+          >
+            <ArrowRight size={20} />
+          </button>
+
+          <div className="client-roadshow-logo-fade left" />
+          <div className="client-roadshow-logo-fade right" />
+
+          <div className="client-roadshow-logo-window">
+            <div
+              className={`client-roadshow-logo-track ${
+                paused ? "paused" : ""
+              }`}
+            >
               {loopLogos.map((logo, index) => {
                 const realIndex = index % logos.length;
                 const isActive = activeIndex === realIndex;
 
                 return (
-                  <button
+                  <motion.button
                     type="button"
-                    className={`client-logo-pill ${isActive ? "active" : ""}`}
-                    key={`${logo.name}-top-${index}`}
+                    className={`client-roadshow-logo-card ${
+                      isActive ? "active" : ""
+                    }`}
+                    key={`${logo.name}-${index}`}
                     onClick={() => setActiveIndex(realIndex)}
                     aria-label={`Highlight ${logo.name}`}
+                    whileHover={{ y: -6 }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <ClientLogoImage logo={logo} />
-                    <span>{logo.name}</span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
           </div>
 
-          <div className="client-logo-marquee-row compact">
-            <div className={`client-logo-track reverse ${paused ? "paused" : ""}`}>
-              {[...loopLogos].reverse().map((logo, index) => {
-                const realIndex = logos.findIndex((item) => item.name === logo.name);
-                const isActive = activeIndex === realIndex;
-
-                return (
-                  <button
-                    type="button"
-                    className={`client-logo-pill small ${isActive ? "active" : ""}`}
-                    key={`${logo.name}-bottom-${index}`}
-                    onClick={() => setActiveIndex(realIndex)}
-                    aria-label={`Highlight ${logo.name}`}
-                  >
-                    <ClientLogoImage logo={logo} />
-                    <span>{logo.name}</span>
-                  </button>
-                );
-              })}
-            </div>
+          <div className="client-roadshow-logo-dots">
+            {logos.slice(0, 4).map((logo, index) => (
+              <button
+                type="button"
+                key={logo.name}
+                className={activeIndex % 4 === index ? "active" : ""}
+                onClick={() => setActiveIndex(index)}
+                aria-label={`Go to ${logo.name}`}
+              />
+            ))}
           </div>
-        </div>
+        </motion.div>
 
-        <motion.div
-          className="client-feature-panel"
+        {/* <motion.div
+          className="client-roadshow-active-client"
           key={activeLogo.name}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
         >
-          <div className="client-feature-brand">
-            <div className="client-feature-kicker">Currently highlighting</div>
+          <div className="client-roadshow-active-logo">
+            <ClientLogoImage logo={activeLogo} />
+          </div>
 
-            <div className="client-feature-logo">
-              <ClientLogoImage logo={activeLogo} />
-            </div>
-
+          <div>
+            <span>Currently highlighting</span>
             <h3>{activeLogo.name}</h3>
             <p>{activeLogo.sub}</p>
           </div>
+        </motion.div> */}
 
-          <div className="client-feature-stats">
-            {stats.map((item) => {
-              const Icon = item.icon;
+        <div className="client-roadshow-stats">
+          {stats.map((item, index) => {
+            const Icon = item.icon;
 
-              return (
-                <motion.div
-                  className="client-stat-item"
-                  key={item.label}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  <span className="client-stat-icon">
-                    <Icon size={21} />
-                  </span>
-                  <div>
-                    <strong>{item.value}</strong>
-                    <p>{item.label}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+            return (
+              <motion.div
+                className="client-roadshow-stat"
+                key={item.label}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.52,
+                  delay: index * 0.08,
+                }}
+                whileHover={{ y: -5 }}
+              >
+                <span>
+                  <Icon size={24} />
+                </span>
 
-          <div className="client-feature-actions">
-            <button type="button" onClick={prev} aria-label="Previous client">
-              <ArrowLeft size={19} />
-            </button>
-
-            <div className="client-logo-dots">
-              {logos.map((logo, index) => (
-                <button
-                  key={logo.name}
-                  className={activeIndex === index ? "active" : ""}
-                  onClick={() => setActiveIndex(index)}
-                  aria-label={`Go to ${logo.name}`}
-                />
-              ))}
-            </div>
-
-            <button type="button" onClick={next} aria-label="Next client">
-              <ArrowRight size={19} />
-            </button>
-          </div>
-        </motion.div>
+                <div>
+                  <strong>{item.value}</strong>
+                  <p>{item.label}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

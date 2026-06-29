@@ -4,7 +4,7 @@ import { Outfit } from "next/font/google";
 import "../styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+import { CleanUrl } from "@/components/site/CleanUrl";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -43,6 +43,9 @@ export default function RootLayout({
           autoClose={3000}
           theme="dark"
         />
+
+        <CleanUrl />
+        
       </body>
     </html>
   );

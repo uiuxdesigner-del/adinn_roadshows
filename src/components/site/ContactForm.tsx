@@ -729,7 +729,7 @@ ${form.message}`;
 
             <h1 className="adinn-contact-title">
               Let&apos;s plan your
-              <span>roadshow.</span>
+              <span>roadshows.</span>
             </h1>
 
             <p className="adinn-contact-desc">

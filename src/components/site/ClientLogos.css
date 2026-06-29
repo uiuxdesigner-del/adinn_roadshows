@@ -24,7 +24,7 @@
   z-index: -1;
   pointer-events: none;
   
-    background: url(/assets/RS_Client_Roadshow_BG.png);
+    background: url(/assets/RS_Client_Roadshow_BG1.png);
 background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -54,7 +54,7 @@ background-size: cover;
 }
 
 .client-roadshow-container {
-  width: min(1300px, calc(100% - 72px));
+  width: min(1600px, calc(100% - 72px));
   margin: 0 auto;
 }
 
@@ -114,7 +114,7 @@ background-size: cover;
 .client-roadshow-proof {
   margin-top: clamp(32px, 3vw, 48px);
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 0.21fr));
   gap: clamp(14px, 1.7vw, 24px);
 }
 
@@ -532,6 +532,14 @@ background-size: cover;
   font-size: 14px;
   line-height: 1.25;
   font-weight: 650;
+}
+/* DESKTOP SCREENS SIZES  */
+@media (min-width: 1024px) and (max-width: 1280px) {
+  
+.client-roadshow-container {
+  width: min(1600px, calc(100% - 72px));
+  margin: 0 auto;
+}
 }
 
 @media (max-width: 1180px) {

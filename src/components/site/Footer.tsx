@@ -382,19 +382,25 @@ export default function Footer() {
       id: 1,
       city: "Madurai",
       address:
-        "29, 1st Cross Street, Vanamamalai Nagar, By-pass Road, Madurai - 625 010.",
+        "29, 1st Cross Street, Vanamamalai Nagar, By-pass Road, Madurai - 625010.",
     },
     {
       id: 2,
       city: "Chennai",
       address:
-        "No. 19/43, MG Chakrapani Street, Sathya Garden, Saligramam, Chennai - 600 092.",
+        "No. 19/43, MG Chakrapani Street, Sathya Garden, Saligramam, Chennai - 600092.",
     },
     {
       id: 3,
       city: "Bangalore",
       address:
-        "No. 407/8, 4th Cross, Jayanagar 7th Block, Opp-Saraswat Cooperative Bank, Bangalore - 560 070.",
+        "No.24, 2nd floor, 9th A Cross road, Park area, Wilson Garden, Bangalore - 560027",
+    },
+    {
+      id: 4,
+      city: "Coimbatore",
+      address:
+        "No. 13, Sivasakthi Colony, (Near coimbatore roller flour mill), Ganapathy, Coimbatore - 641006",
     },
   ];
 

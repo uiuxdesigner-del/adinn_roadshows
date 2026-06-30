@@ -12,8 +12,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "ADINN Roadshows",
-  description: "ADINN Roadshow Campaigns",
+  title: "Adinn Roadshows",
+  description: "Premium LED roadshow vehicle advertising campaigns.",
 };
 
 export default function RootLayout({

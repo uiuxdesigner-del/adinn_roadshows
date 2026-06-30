@@ -139,7 +139,8 @@ export function Hero() {
             lg:text-[50px]
           "
         >
-          Launch roadshow campaigns that move with your audience.
+          {/* Launch roadshow campaigns that move with your audience. */}
+          Take Your Brand Where Your Customers Are
         </h1>
 
         <div

@@ -1,373 +1,718 @@
-.adinn-faq-section {
-  /* --adinn-red: #d71920; */
-  --adinn-red: #666666;
+.adinn-road-faq-section {
+  --faq-black: #111111;
+  --faq-text: #161616;
+  --faq-muted: #555555;
+  --faq-soft: #f1f1f1;
+  --faq-card: rgba(255, 255, 255, 0.76);
+  --faq-line: rgba(17, 17, 17, 0.1);
 
-  --adinn-black: #111111;
-  --adinn-muted: #666666;
-  --adinn-line: rgba(17, 17, 17, 0.1);
-  --adinn-soft: #f5f5f5;
   position: relative;
-  overflow: hidden;
   isolation: isolate;
-  min-height: 760px;
-  padding: clamp(72px, 7vw, 110px) 0;
-  /* background:
-    radial-gradient(circle at 10% 18%, rgba(215, 25, 32, 0.055), transparent 27%),
-    radial-gradient(circle at 92% 90%, rgba(17, 17, 17, 0.055), transparent 28%),
-    linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%); */
-  border-top: 1px solid rgba(17, 17, 17, 0.06);
+  overflow: hidden;
+  padding: clamp(64px, 7vw, 112px) 0;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(255, 255, 255, 0.96), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.72), transparent 30%),
+    linear-gradient(180deg, #eeeeee 0%, #f8f8f8 46%, #eeeeee 100%);
 }
 
-.adinn-faq-bg {
+.adinn-road-faq-bg {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
 }
 
-.adinn-faq-bg::before {
-  content: "";
-  position: absolute;
-  width: 520px;
-  height: 520px;
-  right: -190px;
-  top: -190px;
-  border-radius: 50%;
-  background: rgba(17, 17, 17, 0.035);
-  animation: faqFloat 8s ease-in-out infinite alternate;
-}
-
-.adinn-faq-bg::after {
+.adinn-road-faq-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.24;
-  background-image: radial-gradient(rgba(17, 17, 17, 0.18) 1.1px, transparent 1.1px);
-  background-size: 22px 22px;
-  mask-image: linear-gradient(90deg, black, transparent 48%, black);
+  opacity: 0.45;
+  background-image:
+    linear-gradient(rgba(17, 17, 17, 0.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.034) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black 26%,
+    transparent 46%,
+    transparent 62%,
+    black 100%
+  );
 }
 
-@keyframes faqFloat {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(-24px, 30px, 0) scale(1.06); }
+.adinn-road-faq-bg::after {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  right: -170px;
+  top: -150px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.045);
+  animation: adinnRoadFaqFloat 8s ease-in-out infinite alternate;
 }
 
-.adinn-faq-container {
-  width: min(1440px, calc(100% - 80px));
+@keyframes adinnRoadFaqFloat {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(-30px, 34px, 0) scale(1.05);
+  }
+}
+
+.adinn-road-faq-shell {
+  width: min(1460px, calc(100% - 56px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 0.9fr 1.45fr;
-  gap: clamp(42px, 5vw, 70px);
-  align-items: start;
-}
-
-.adinn-faq-left {
-  padding-top: 35px;
-}
-
-.adinn-faq-eyebrow {
-  width: fit-content;
-  display: inline-flex;
+  grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
+  gap: clamp(34px, 5vw, 86px);
   align-items: center;
-  gap: 9px;
-  padding: 11px 18px;
-  border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid var(--adinn-line);
-  color: var(--adinn-black);
-  font-size: clamp(11px, 0.85vw, 14px);
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition:
-    border-color 0.28s ease,
-    background 0.28s ease,
-    transform 0.28s ease;
 }
 
-.adinn-faq-eyebrow svg {
-  color: var(--adinn-red);
-}
-
-.adinn-faq-eyebrow:hover {
-  background: #fafafa;
-  border-color: rgba(215, 25, 32, 0.22);
-}
-
-.adinn-faq-title {
-  margin-top: 26px;
-  max-width: 520px;
-  font-size: clamp(48px, 5.6vw, 88px);
-  line-height: 0.96;
-  letter-spacing: -0.06em;
-  font-weight: 950;
-  color: var(--adinn-black);
-}
-
-.adinn-faq-title span {
-  display: block;
-  color: var(--adinn-red);
-}
-
-.adinn-faq-desc {
-  margin-top: 28px;
-  max-width: 410px;
-  color: var(--adinn-muted);
-  font-size: clamp(16px, 1.35vw, 20px);
-  line-height: 1.7;
-}
-
-.adinn-faq-cta {
-  margin-top: 36px;
-  display: inline-flex;
-  align-items: center;
-  gap: 13px;
-  padding: 18px 28px;
-  border-radius: 999px;
-  background: var(--adinn-black);
-  color: #ffffff;
-  font-weight: 850;
-  font-size: clamp(15px, 1.05vw, 17px);
-  text-decoration: none;
-  border: 1px solid var(--adinn-black);
-  transition:
-    background 0.24s ease,
-    border-color 0.24s ease,
-    transform 0.24s ease;
-}
-
-.adinn-faq-cta:hover {
-  background: var(--adinn-red);
-  border-color: var(--adinn-red);
-}
-
-.adinn-faq-cta svg {
-  transition: transform 0.25s ease;
-}
-
-.adinn-faq-cta:hover svg {
-  transform: translateX(6px);
-}
-
-.adinn-faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.adinn-faq-card {
-  --mouse-x: 50%;
-  --mouse-y: 50%;
+.adinn-road-faq-left {
   position: relative;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid var(--adinn-line);
-  overflow: hidden;
-  transition:
-    border-color 0.28s ease,
-    background 0.28s ease,
-    transform 0.28s ease;
+  min-width: 0;
+  padding: 8px 0;
 }
 
-.adinn-faq-card::before {
-  content: "";
+
+.adinn-road-faq-eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 26px;
+  color: #666666;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.adinn-road-faq-big-title {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  margin: 0;
+  color: var(--faq-black);
+  font-size: clamp(92px, 8.6vw, 156px);
+  line-height: 0.78;
+  letter-spacing: -0.09em;
+  font-weight: 950;
+}
+.adinn-road-faq-spark {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(320px circle at var(--mouse-x) var(--mouse-y), rgba(215, 25, 32, 0.08), transparent 45%),
-    linear-gradient(135deg, rgba(17, 17, 17, 0.035), transparent 42%);
-  opacity: 0;
-  transition: opacity 0.28s ease;
+  right: -46px;
+  top: -18px;
+  width: 58px;
+  height: 58px;
   pointer-events: none;
 }
 
-.adinn-faq-card:hover,
-.adinn-faq-card.is-open {
-  background: #ffffff;
-  border-color: rgba(215, 25, 32, 0.28);
+.adinn-road-faq-spark i {
+  position: absolute;
+  width: 34px;
+  height: 6px;
+  border-radius: 999px;
+  background: #111111;
+  transform-origin: left center;
+}
+.adinn-road-faq-spark i:first-child {
+    top: 7px;
+    left: 2px;
+    transform: rotate(-65deg);
 }
 
-.adinn-faq-card:hover::before,
-.adinn-faq-card.is-open::before {
+.adinn-road-faq-spark i:nth-child(2) {
+  left: 23px;
+  top: 18px;
+  transform: rotate(-42deg);
+}
+
+.adinn-road-faq-spark i:nth-child(3) {
+  left: 34px;
+  top: 41px;
+  transform: rotate(-18deg);
+}
+
+.adinn-road-faq-big-title span {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.adinn-road-faq-title-mark {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.adinn-road-faq-title-mark i {
+  width: 170px;
+  height: 4px;
+  border-radius: 999px;
+  background: #111111;
+}
+
+.adinn-road-faq-title-mark b {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #111111;
+}
+
+.adinn-road-faq-copy h3 {
+  margin: 42px 0 0;
+  max-width: 430px;
+  color: var(--faq-text);
+  font-size: clamp(32px, 2.7vw, 48px);
+  line-height: 1.16;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+}
+
+.adinn-road-faq-copy h3 span {
+  display: block;
+  color: var(--faq-text);
+  background: transparent;
+}
+
+.adinn-road-faq-copy p {
+  margin: 24px 0 0;
+  max-width: 430px;
+  color: var(--faq-muted);
+  font-size: clamp(16px, 1.15vw, 19px);
+  line-height: 1.75;
+  font-weight: 600;
+}
+
+.adinn-road-faq-support-card {
+  width: min(430px, 100%);
+  margin-top: 54px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 20px;
+  align-items: start;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(235, 235, 235, 0.72)),
+    #eeeeee;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+.adinn-road-faq-support-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  background: linear-gradient(180deg, #f9f9f9, #e6e6e6);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.adinn-road-faq-support-card h4 {
+  margin: 0;
+  color: var(--faq-text);
+  font-size: 21px;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.adinn-road-faq-support-card p {
+  margin: 9px 0 22px;
+  color: #555555;
+  font-size: 15.5px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.adinn-road-faq-support-card a {
+  min-height: 54px;
+  width: fit-content;
+  padding: 0 22px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #ffffff;
+  background: linear-gradient(180deg, #242424, #0d0d0d);
+  border: 1px solid #111111;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.adinn-road-faq-support-card a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.23);
+}
+
+.adinn-road-faq-support-card a svg {
+  transition: transform 0.25s ease;
+}
+
+.adinn-road-faq-support-card a:hover svg {
+  transform: translateX(5px);
+}
+
+.adinn-road-faq-marquee {
+  width: min(430px, 100%);
+  margin-top: 26px;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 14%, black 86%, transparent);
+}
+
+.adinn-road-faq-marquee-track {
+  width: max-content;
+  display: flex;
+  gap: 10px;
+}
+
+.adinn-road-faq-marquee-track span {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: #333333;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.adinn-road-faq-wave-lines {
+  position: absolute;
+  left: -130px;
+  bottom: -80px;
+  width: 560px;
+  height: 180px;
+  opacity: 0.28;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.adinn-road-faq-wave-lines span {
+  position: absolute;
+  left: 0;
+  width: 760px;
+  height: 120px;
+  border: 2px solid rgba(17, 17, 17, 0.12);
+  border-color: rgba(17, 17, 17, 0.12) transparent transparent transparent;
+  border-radius: 50%;
+  animation: adinnRoadFaqWave 10s linear infinite;
+}
+
+.adinn-road-faq-wave-lines span:nth-child(1) {
+  bottom: 0;
+}
+
+.adinn-road-faq-wave-lines span:nth-child(2) {
+  bottom: 28px;
+  animation-duration: 13s;
+}
+
+.adinn-road-faq-wave-lines span:nth-child(3) {
+  bottom: 56px;
+  animation-duration: 16s;
+}
+
+@keyframes adinnRoadFaqWave {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-130px);
+  }
+}
+
+.adinn-road-faq-right {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adinn-road-faq-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 248, 248, 0.76)),
+    #f8f8f8;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.052),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  transition:
+    background 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.adinn-road-faq-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.72) 42%,
+      transparent 62%
+    );
+  transform: translateX(-120%);
+}
+
+.adinn-road-faq-item:hover::before {
   opacity: 1;
+  animation: adinnRoadFaqShine 1.2s ease;
 }
 
-.adinn-faq-card.is-open .adinn-faq-question {
-  min-height: 100px;
+@keyframes adinnRoadFaqShine {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(120%);
+  }
 }
 
-.adinn-faq-card.is-open .adinn-faq-icon,
-.adinn-faq-card:hover .adinn-faq-icon {
-  background: var(--adinn-black);
-  color: #ffffff;
-  transform: scale(1.05) rotate(-4deg);
+.adinn-road-faq-item.is-open {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 248, 248, 0.9)),
+    #ffffff;
+  border-color: rgba(17, 17, 17, 0.16);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
 }
 
-.adinn-faq-card.is-open .adinn-faq-toggle {
-  background: var(--adinn-red);
-  color: #ffffff;
-  border-color: var(--adinn-red);
-  transform: rotate(180deg);
-}
-
-.adinn-faq-question {
+.adinn-road-faq-question {
   position: relative;
   z-index: 1;
   width: 100%;
   min-height: 92px;
-  padding: 26px 28px;
+  /* padding: 24px 28px; */
+      padding: 0px 30px;
   display: grid;
-  grid-template-columns: 54px 1fr 48px;
+  grid-template-columns: 58px minmax(0, 1fr) 42px;
   align-items: center;
   gap: 22px;
-  text-align: left;
   border: 0;
   background: transparent;
+  text-align: left;
   cursor: pointer;
 }
 
-.adinn-faq-icon {
-  width: 54px;
-  height: 54px;
+.adinn-road-faq-item.is-open .adinn-road-faq-question {
+  min-height: 90px;
+  /* padding-bottom: 20px; */
+}
+
+.adinn-road-faq-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  color: var(--adinn-red);
-  background: rgba(215, 25, 32, 0.08);
+  color: #111111;
+  background: linear-gradient(180deg, #fafafa, #e9e9e9);
+  border: 1px solid rgba(17, 17, 17, 0.06);
   transition:
-    transform 0.28s ease,
-    background 0.28s ease,
-    color 0.28s ease;
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.adinn-faq-q-text {
-  color: var(--adinn-black);
-  font-size: clamp(18px, 1.45vw, 24px);
-  font-weight: 850;
-  letter-spacing: -0.025em;
-  line-height: 1.25;
+.adinn-road-faq-item.is-open .adinn-road-faq-icon {
+  background: linear-gradient(180deg, #222222, #090909);
+  color: #ffffff;
+  transform: scale(1.02);
 }
 
-.adinn-faq-toggle {
-  width: 48px;
-  height: 48px;
+.adinn-road-faq-question-text {
+  min-width: 0;
+  color: var(--faq-text);
+  font-size: clamp(18px, 1.45vw, 27px);
+  line-height: 1.22;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.adinn-road-faq-toggle {
+  width: 42px;
+  height: 42px;
   justify-self: end;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  color: var(--adinn-black);
-  background: #ffffff;
-  border: 1px solid var(--adinn-line);
-  transition:
-    transform 0.28s ease,
-    background 0.28s ease,
-    color 0.28s ease,
-    border-color 0.28s ease;
+  color: #111111;
 }
 
-.adinn-faq-card:hover .adinn-faq-toggle {
-  transform: rotate(90deg);
-  border-color: rgba(215, 25, 32, 0.2);
-}
-
-.adinn-faq-answer-wrap {
+.adinn-road-faq-answer {
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
-.adinn-faq-answer {
-  padding: 0 96px 32px 104px;
-  max-width: 860px;
-  color: var(--adinn-muted);
-  font-size: clamp(15.5px, 1.1vw, 18px);
+.adinn-road-faq-answer-inner {
+  padding: 0 88px 30px 108px;
+}
+
+.adinn-road-faq-answer-inner::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-bottom: 24px;
+  background: rgba(17, 17, 17, 0.1);
+}
+
+.adinn-road-faq-answer-inner p {
+  margin: 0;
+  max-width: 850px;
+  color: #333333;
+  font-size: clamp(15.5px, 1.12vw, 18px);
   line-height: 1.75;
+  font-weight: 500;
 }
 
-@media (max-width: 1024px) {
-  .adinn-faq-section {
-    padding: 88px 0;
-  }
+.adinn-road-faq-points {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
 
-  .adinn-faq-container {
+.adinn-road-faq-points span {
+  min-height: 34px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  color: #222222;
+  background: #f0f0f0;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+@media (max-width: 1180px) {
+  .adinn-road-faq-shell {
     grid-template-columns: 1fr;
-    gap: 45px;
+    gap: 48px;
+    align-items: start;
   }
 
-  .adinn-faq-left {
-    padding-top: 0;
+  .adinn-road-faq-left {
+    max-width: 760px;
   }
 
-  .adinn-faq-title {
-    max-width: 700px;
+  .adinn-road-faq-copy h3,
+  .adinn-road-faq-copy p {
+    max-width: 680px;
   }
 
-  .adinn-faq-desc {
-    max-width: 620px;
+  .adinn-road-faq-support-card {
+    max-width: 520px;
+  }
+
+  .adinn-road-faq-wave-lines {
+    display: none;
   }
 }
 
-@media (max-width: 640px) {
-  .adinn-faq-section {
-    padding: 70px 0;
-    min-height: auto;
+@media (max-width: 760px) {
+  .adinn-road-faq-section {
+    padding: 58px 0;
   }
 
-  .adinn-faq-container {
-    width: min(100% - 32px, 1440px);
+  .adinn-road-faq-shell {
+    width: min(100% - 28px, 1460px);
     gap: 34px;
   }
 
-  .adinn-faq-title {
-    font-size: 48px;
+  .adinn-road-faq-dot-grid {
+    width: 90px;
+    height: 70px;
+    background-size: 15px 15px;
   }
 
-  .adinn-faq-cta {
-    width: 100%;
-    justify-content: center;
+  .adinn-road-faq-eyebrow {
+    font-size: 11px;
+    margin-bottom: 22px;
   }
 
-  .adinn-faq-list {
+  .adinn-road-faq-big-title {
+    font-size: clamp(82px, 27vw, 116px);
+  }
+
+  .adinn-road-faq-spark {
+  right: -32px;
+  top: -12px;
+  width: 42px;
+  height: 42px;
+}
+
+.adinn-road-faq-spark i {
+  width: 24px;
+  height: 4px;
+}
+
+.adinn-road-faq-spark i:nth-child(1) {
+  left: 0;
+  top: 25px;
+}
+
+.adinn-road-faq-spark i:nth-child(2) {
+  left: 16px;
+  top: 13px;
+}
+
+.adinn-road-faq-spark i:nth-child(3) {
+  left: 24px;
+  top: 30px;
+}
+  .adinn-road-faq-title-mark {
+    margin-top: 24px;
+  }
+
+  .adinn-road-faq-title-mark i {
+    width: 132px;
+  }
+
+  .adinn-road-faq-copy h3 {
+    margin-top: 34px;
+    font-size: 34px;
+  }
+
+  .adinn-road-faq-copy p {
+    font-size: 16px;
+  }
+
+  .adinn-road-faq-support-card {
+    margin-top: 34px;
+    padding: 22px;
+    grid-template-columns: 58px 1fr;
     gap: 16px;
   }
 
-  .adinn-faq-question {
-    min-height: 78px;
-    padding: 20px;
-    grid-template-columns: 44px 1fr 40px;
+  .adinn-road-faq-support-icon {
+    width: 54px;
+    height: 54px;
+  }
+
+  .adinn-road-faq-support-card h4 {
+    font-size: 20px;
+  }
+
+  .adinn-road-faq-support-card a {
+    width: 100%;
+  }
+
+  .adinn-road-faq-question {
+    min-height: 76px;
+    padding: 18px;
+    grid-template-columns: 48px minmax(0, 1fr) 32px;
     gap: 14px;
   }
 
-  .adinn-faq-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
+  .adinn-road-faq-item.is-open .adinn-road-faq-question {
+    min-height: 76px;
   }
 
-  .adinn-faq-toggle {
-    width: 40px;
-    height: 40px;
+  .adinn-road-faq-icon {
+    width: 48px;
+    height: 48px;
   }
 
-  .adinn-faq-q-text {
+  .adinn-road-faq-question-text {
     font-size: 17px;
   }
 
-  .adinn-faq-answer {
-    padding: 0 22px 24px 78px;
+  .adinn-road-faq-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .adinn-road-faq-answer-inner {
+    padding: 0 20px 24px 80px;
+  }
+
+  .adinn-road-faq-answer-inner::before {
+    margin-bottom: 18px;
+  }
+
+  .adinn-road-faq-answer-inner p {
+    font-size: 15px;
+  }
+
+  .adinn-road-faq-points span {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 460px) {
+  .adinn-road-faq-support-card {
+    grid-template-columns: 1fr;
+  }
+
+  .adinn-road-faq-support-card a {
+    justify-content: center;
+  }
+
+  .adinn-road-faq-question {
+    grid-template-columns: 42px minmax(0, 1fr) 28px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .adinn-road-faq-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .adinn-road-faq-answer-inner {
+    padding: 0 16px 22px 16px;
+  }
+
+  .adinn-road-faq-points {
+    gap: 7px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .adinn-faq-bg::before {
+  .adinn-road-faq-bg::after,
+  .adinn-road-faq-wave-lines span,
+  .adinn-road-faq-item:hover::before {
     animation: none;
   }
 
-  .adinn-faq-card,
-  .adinn-faq-icon,
-  .adinn-faq-toggle,
-  .adinn-faq-cta svg {
+  .adinn-road-faq-item,
+  .adinn-road-faq-icon,
+  .adinn-road-faq-support-card a,
+  .adinn-road-faq-support-card a svg {
     transition: none;
   }
 }

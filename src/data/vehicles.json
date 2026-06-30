@@ -9,11 +9,7 @@
     "packageTotal": "",
     "highlight": "Choose the Flex model that best fits your market activation",
     "images": [
-      "/assets/Flex1_8ftVehicle.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png"
+      "/assets/Flex1_8ftVehicle.png"
     ],
     "quickSpecs": [
       {
@@ -177,11 +173,7 @@
     "packageTotal": "",
     "highlight": "Choose the Flex model that best fits your market activation",
     "images": [
-      "/assets/Flex2_10ftVehicle.png",
-      "/assets/HybridLed_Flex1.png",
-      "/assets/HybridLed_Flex1.png",
-      "/assets/HybridLed_Flex1.png",
-      "/assets/HybridLed_Flex1.png"
+      "/assets/Flex2_10ftVehicle.png"
     ],
     "quickSpecs": [
       {
@@ -405,20 +397,16 @@
   },
   {
     "id": 4,
-    "category": "LED Vehicle",
+    "category": "Hybrid LED Vehicle",
     "type": "Standard Flex / Mobile Van",
     "name": "Tata Ace 8 Feet LED Vehicle",
-    "shortDescription": "Compact LED solution for brands that need video visibility at a controlled budget.",
+    "shortDescription": "A dual-format mobile branding solution delivering both digital impact and static brand presence.",
     "pricePerDay": 8500,
     "leastSellingPricingPerDay": 6500,
     "packageTotal": "",
     "highlight": "LED display 7 x 5 ft / 6 x 4 ft, P6 version",
     "images": [
-      "/assets/Hybrid1_7x5View4.png",
-      "/assets/6x4 LED 1.png",
-      "/assets/Hybrid1_7x5View4.png",
-      "/assets/Hybrid2_7x5View4.png",
-      "/assets/HybridLed_Flex2.png"
+      "/assets/Hybrid1_7x5View4.png"
     ],
     "quickSpecs": [
       {
@@ -475,8 +463,133 @@
       }
     ]
   },
+ 
   {
     "id": 5,
+    "category": "Premium LED",
+    "type": "Premium LED Canter",
+    "name": "Tata Ultra 19 Ft - 3 Sided LED",
+    "shortDescription": "Three-sided premium LED vehicle designed for maximum campaign exposure across high-footfall routes.",
+    "pricePerDay": 27500,
+    "leastSellingPricingPerDay": 25000,
+    "packageTotal": "Rs. 1,00,000 for 4 days",
+    "highlight": "LED size: Left & Right 17.8 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
+    "images": [
+      "/assets/LED2_19ft3Sided.png"
+    ],
+    
+    "quickSpecs": [
+      {
+        "label": "KM",
+        "value": "40 km/day"
+      },
+      {
+        "label": "Extra KM",
+        "value": "₹24 / km"
+      },
+      {
+        "label": "Minimum",
+        "value": "5 days"
+      },
+      {
+        "label": "Extra Hour",
+        "value": "₹3000 / Hour"
+      }
+    ],
+    "included": [
+      "Tata Ultra 19 ft vehicle",
+      "Left, right and back LED display",
+      "40 km/day campaign movement",
+      "High-visibility moving video format"
+    ],
+    "addOns": [
+      "Extra km: ₹24 / km",
+      "Up & down charges applicable below order value of 1 lakh",
+      "Promoter if required"
+    ],
+    "brandingStatus": "No branding cost applicable",
+    "locationCharges": [
+      {
+        "label": "RTO Permission",
+        "chennai": "-",
+        "rotn": "-",
+        "kerala": "₹50,000",
+        "andhara": "₹25,000",
+        "telungana": "₹25,000",
+        "karnataka": "-"
+      },
+      {
+        "label": "Promoter",
+        "Tamilnadu": "₹1,300",
+        "Kerala": "₹1,850",
+        "otherStates": "₹1,700"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "category": "Premium LED",
+    "type": "Premium LED Canter",
+    "name": "Tata Ultra 17 Ft - 3 Sided LED",
+    "shortDescription": "High-impact 3-side LED vehicle built for wider visibility and stronger road-level brand recall.",
+    "pricePerDay": 22500,
+    "leastSellingPricingPerDay": 20000,
+    "packageTotal": "Rs. 1,00,000 for 5 days",
+    "highlight": "LED size: Left & Right 13.6 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
+    "images": [
+      "/assets/LED3_17ft3Sided.png"
+    ],
+    "quickSpecs": [
+      {
+        "label": "KM",
+        "value": "40 km/day"
+      },
+      {
+        "label": "Extra KM",
+        "value": "₹24 / km"
+      },
+      {
+        "label": "Minimum",
+        "value": "5 days"
+      },
+      {
+        "label": "Extra Hour",
+        "value": "₹2,500 / Hour"
+      }
+    ],
+    "included": [
+      "Tata Ultra 17 ft vehicle",
+      "Left, right and back LED display",
+      "40 km/day campaign movement",
+      "High-visibility moving video format"
+    ],
+    "addOns": [
+      "Extra km: ₹24 / km",
+      "Up & down charges applicable below order value of 1 lakh",
+      "Promoter if required"
+    ],
+    "brandingStatus": "No branding cost applicable",
+    "locationCharges": [
+      {
+        "label": "RTO Permission",
+        "chennai": "-",
+        "rotn": "-",
+        "kerala": "₹40,000",
+        "andhara": "₹25,000",
+        "telungana": "₹25,000",
+        "karnataka": "-",
+        "otherStates": "-"
+      },
+      {
+        "label": "Promoter",
+        "Tamilnadu": "₹1,300",
+        "Kerala": "₹1,850",
+        "otherStates": "₹1,700"
+      }
+    ]
+  },
+   {
+    "id": 7,
     "category": "Premium LED",
     "type": "Premium LED Canter",
     "name": "Tata Ultra 19 Ft Single Side LED",
@@ -486,10 +599,7 @@
     "packageTotal": "Rs. 1,05,000 for 7 days",
     "highlight": "LED size: Left 17 ft x 8 ft | Backlit Flex Size: Right 19 ft x 8 ft",
     "images": [
-      "/assets/LED1_19ftSingleSide.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png"
+      "/assets/LED1_19ftSingleSide.png"
     ],
     "quickSpecs": [
       {
@@ -546,135 +656,6 @@
     ]
   },
   {
-    "id": 6,
-    "category": "Premium LED",
-    "type": "Premium LED Canter",
-    "name": "Tata Ultra 19 Ft - 3 Sides LED",
-    "shortDescription": "Three-sided premium LED vehicle designed for maximum campaign exposure across high-footfall routes.",
-    "pricePerDay": 27500,
-    "leastSellingPricingPerDay": 25000,
-    "packageTotal": "Rs. 1,00,000 for 4 days",
-    "highlight": "LED size: Left & Right 17.8 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
-    "images": [
-      "/assets/LED2_19ft3Sided.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png"
-    ],
-    "quickSpecs": [
-      {
-        "label": "KM",
-        "value": "40 km/day"
-      },
-      {
-        "label": "Extra KM",
-        "value": "₹24 / km"
-      },
-      {
-        "label": "Minimum",
-        "value": "5 days"
-      },
-      {
-        "label": "Extra Hour",
-        "value": "₹3000 / Hour"
-      }
-    ],
-    "included": [
-      "Tata Ultra 19 ft vehicle",
-      "Left, right and back LED display",
-      "40 km/day campaign movement",
-      "High-visibility moving video format"
-    ],
-    "addOns": [
-      "Extra km: ₹24 / km",
-      "Up & down charges applicable below order value of 1 lakh",
-      "Promoter if required"
-    ],
-    "brandingStatus": "No branding cost applicable",
-    "locationCharges": [
-      {
-        "label": "RTO Permission",
-        "chennai": "-",
-        "rotn": "-",
-        "kerala": "₹50,000",
-        "andhara": "₹25,000",
-        "telungana": "₹25,000",
-        "karnataka": "-"
-      },
-      {
-        "label": "Promoter",
-        "Tamilnadu": "₹1,300",
-        "Kerala": "₹1,850",
-        "otherStates": "₹1,700"
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "category": "Premium LED",
-    "type": "Premium LED Canter",
-    "name": "Tata Ultra 17 Ft - 3 Sides LED",
-    "shortDescription": "High-impact 3-side LED vehicle built for wider visibility and stronger road-level brand recall.",
-    "pricePerDay": 22500,
-    "leastSellingPricingPerDay": 20000,
-    "packageTotal": "Rs. 1,00,000 for 5 days",
-    "highlight": "LED size: Left & Right 13.6 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
-    "images": [
-      "/assets/LED3_17ft3Sided.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png",
-      "/assets/HybridLed_Flex2.png"
-    ],
-    "quickSpecs": [
-      {
-        "label": "KM",
-        "value": "40 km/day"
-      },
-      {
-        "label": "Extra KM",
-        "value": "₹24 / km"
-      },
-      {
-        "label": "Minimum",
-        "value": "5 days"
-      },
-      {
-        "label": "Extra Hour",
-        "value": "₹2,500 / Hour"
-      }
-    ],
-    "included": [
-      "Tata Ultra 17 ft vehicle",
-      "Left, right and back LED display",
-      "40 km/day campaign movement",
-      "High-visibility moving video format"
-    ],
-    "addOns": [
-      "Extra km: ₹24 / km",
-      "Up & down charges applicable below order value of 1 lakh",
-      "Promoter if required"
-    ],
-    "brandingStatus": "No branding cost applicable",
-    "locationCharges": [
-      {
-        "label": "RTO Permission",
-        "chennai": "-",
-        "rotn": "-",
-        "kerala": "₹40,000",
-        "andhara": "₹25,000",
-        "telungana": "₹25,000",
-        "karnataka": "-",
-        "otherStates": "-"
-      },
-      {
-        "label": "Promoter",
-        "Tamilnadu": "₹1,300",
-        "Kerala": "₹1,850",
-        "otherStates": "₹1,700"
-      }
-    ]
-  },
-  {
     "id": 8,
     "category": "Premium LED",
     "type": "Premium LED Canter",
@@ -685,10 +666,7 @@
     "packageTotal": "Rs. 1,00,000 for 10 days",
     "highlight": "LED size: Left & Right 13.6 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
     "images": [
-      "/assets/LED4_9ft2Sided.png",
-      "/assets/box model 1.png",
-      "/assets/box model 1.png",
-      "/assets/box model 1.png"
+      "/assets/LED4_9ft2Sided.png"
     ],
     "quickSpecs": [
       {

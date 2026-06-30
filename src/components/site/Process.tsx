@@ -25,7 +25,7 @@ const steps = [
   },
   {
     title: "Choose Vehicle & Coverage",
-    desc: "Select the right LED format and city routes.",
+    desc: "Select the right  format and city routes.",
     icon: Truck,
     tone: "green",
   },

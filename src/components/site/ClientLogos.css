@@ -95,7 +95,7 @@ background-size: cover;
   font-size: clamp(46px, 5.4vw, 86px);
   line-height: 0.96;
   letter-spacing: -0.052em;
-  font-weight: 950;
+  font-weight: 600;
 }
 
 .client-roadshow-copy h2 span {

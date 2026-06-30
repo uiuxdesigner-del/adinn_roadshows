@@ -20,7 +20,7 @@ const summaryStats = [
   },
   {
     icon: Building2,
-    value: "5+",
+    value: "150+",
     label: "Active cities",
   },
   {

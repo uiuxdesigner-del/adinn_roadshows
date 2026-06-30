@@ -597,8 +597,7 @@ export function GPSTracking() {
 
           <Reveal delay={2}>
             <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-              GPS-supported visibility for routes, movement, and live execution
-              updates across South India.
+              GPS-supported tracking for route movement, live updates and execution proof.
             </p>
           </Reveal>
 
@@ -652,7 +651,7 @@ export function GPSTracking() {
                 window.history.replaceState(null, "", window.location.pathname);
               }}
             >
-              Talk to Our Campaign Team
+              Consult with Our Campaign Team
             </button>
           </Reveal>
         </div>

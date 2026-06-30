@@ -26,7 +26,7 @@ const items = [
     i: ShieldCheck,
     image: "/assets/why-rto.png",
     t: "RTO Certified\nVehicles",
-    d: "Fully compliant, road-ready fleet.",
+    d: "Fully Certified, campaign-ready fleet.",
   },
   {
     i: Workflow,
@@ -50,7 +50,7 @@ const items = [
     i: UsersRound,
     image: "/assets/professional.png",
     t: "Professional\nExecution",
-    d: "Trained crew, polished delivery.",
+    d: "Trained crew, smooth delivery.",
   },
 ];
 

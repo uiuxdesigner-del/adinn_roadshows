@@ -763,7 +763,7 @@ const items: TestimonialItem[] = [
   },
 ];
 
-const AUTO_CHANGE_TIME = 3000;
+const AUTO_CHANGE_TIME = 2000;
 
 function getNextIndex(index: number) {
   return (index + 1) % items.length;

@@ -38,13 +38,13 @@ const features = [
 
 const stats = [
   {
-    value: "12+",
-    label: "Years of outdoor advertising and roadshow execution experience.",
+    value: "25+",
+    label: "Years of expertise in planning and executing impactful roadshows.",
     icon: Award,
   },
   {
-    value: "500+",
-    label: "Campaigns delivered across India.",
+    value: "5000+",
+    label: "Successful Campaigns delivered across South India.",
     icon: Megaphone,
   },
   {
@@ -214,9 +214,10 @@ export function About() {
                 lg:text-[56px]
               "
             >
-              Mobile campaigns
+              {/* Mobile campaigns
               <br />
-              built for impact.
+              built for impact. */}
+              Turn Every Road Into Your Stage
             </h2>
 
             <p

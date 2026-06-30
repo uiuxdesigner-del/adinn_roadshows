@@ -1238,10 +1238,9 @@ export function Services() {
                   onClick={() => setSelectedVehicle(s)}
                   className="
                     card-premium group flex min-h-[450px] w-[300px] shrink-0
-                    cursor-pointer flex-col overflow-hidden md:w-[360px] lg:w-[390px]
-                  "
+                    cursor-pointer flex-col overflow-hidden md:w-[360px] lg:w-[390px]"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-white">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-white" >
                     <img
                       src={s.images?.[0]}
                       alt={s.name}
@@ -1249,6 +1248,7 @@ export function Services() {
                       width={1024}
                       height={1024}
                       className="
+                      ServicesCardImages
                         h-full w-full object-contain transition-transform
                         duration-[1600ms] ease-[cubic-bezier(.16,1,.3,1)]
                         group-hover:scale-[1.04]
@@ -1455,7 +1455,7 @@ function VehicleModal({
 
         <div className="vehicle-modal-content">
           <aside className="vehicle-modal-media">
-            <div className="vehicle-modal-thumbs">
+            {/* <div className="vehicle-modal-thumbs">
               {images.map((img, index) => (
                 <button
                   key={`${img}-${index}`}
@@ -1470,7 +1470,7 @@ function VehicleModal({
                   <img src={img} alt="" />
                 </button>
               ))}
-            </div>
+            </div> */}
 
             <div
               className={`vehicle-image-stage ${isDragging ? "dragging" : ""}`}
@@ -1483,7 +1483,7 @@ function VehicleModal({
               <span className="vehicle-image-road" />
               <span className="vehicle-image-glow" />
 
-              {images.length > 1 && (
+              {/* {images.length > 1 && (
                 <button
                   type="button"
                   className="vehicle-image-nav left"
@@ -1492,7 +1492,7 @@ function VehicleModal({
                 >
                   <ChevronLeft size={22} />
                 </button>
-              )}
+              )} */}
 
               {images[activeImage] ? (
                 <img
@@ -1506,7 +1506,7 @@ function VehicleModal({
                 <div className="vehicle-no-image">Vehicle Image</div>
               )}
 
-              {images.length > 1 && (
+              {/* {images.length > 1 && (
                 <button
                   type="button"
                   className="vehicle-image-nav right"
@@ -1515,21 +1515,10 @@ function VehicleModal({
                 >
                   <ChevronRight size={22} />
                 </button>
-              )}
-{/* 
-              {images.length > 1 && (
-                <button
-                  type="button"
-                  className={`vehicle-rotate-btn ${autoRotate ? "active" : ""}`}
-                  onClick={() => setAutoRotate((prev) => !prev)}
-                  aria-label="Toggle 360 view"
-                >
-                  <RefreshCw size={18} />
-                  <span>360°</span>
-                </button>
               )} */}
 
-              <div className="vehicle-image-dots">
+
+              {/* <div className="vehicle-image-dots">
                 {images.map((_, index) => (
                   <button
                     key={index}
@@ -1542,7 +1531,7 @@ function VehicleModal({
                     aria-label={`Go to image ${index + 1}`}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
           </aside>
 

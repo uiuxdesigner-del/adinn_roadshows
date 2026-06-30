@@ -13,7 +13,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "ADINN Roadshow",
+  title: "Adinn Roadshows",
   description: "Premium LED roadshow vehicle advertising campaigns.",
 };
 

@@ -83,12 +83,12 @@ export function Coverage() {
       <div className="container-x">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6">
-            <Reveal>
+            {/* <Reveal>
               <div className="text-[13px] font-semibold uppercase tracking-[0.2em] text-[#D80F14]">
                 South India Coverage
               </div>
               <div className="mt-3 h-[3px] w-[70px] rounded-full bg-[#D80F14]" />
-            </Reveal>
+            </Reveal> */}
 
             <Reveal delay={1}>
               <h2 className="mt-7 max-w-3xl font-display text-[30px] font-semibold leading-[1.08] tracking-[-0.04em] text-[#06162B] text-balance-tight md:text-[38px] lg:text-[44px]">

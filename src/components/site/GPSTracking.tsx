@@ -606,18 +606,19 @@ export function GPSTracking() {
               {[
                 {
                   i: Activity,
-                  t: `${VEHICLE_COUNT} moving vehicles`,
-                  d: "Fleet-style smooth movement across major South Indian cities.",
+                  // t: `${VEHICLE_COUNT} moving vehicles`,
+                  t: `Live GPS Monitoring`,
+                  d: "Track every vehicle in real time.",
                 },
                 {
                   i: Navigation2,
-                  t: "Forward movement",
-                  d: "Vehicles turn gently based on direction, without side sliding.",
+                  t: "Execution Photo Reports",
+                  d: "Verified photos from every campaign location.",
                 },
                 {
                   i: MapPin,
-                  t: "Live map visibility",
-                  d: "Zoom, drag and monitor vehicle movement in real time.",
+                  t: "WhatsApp Live Updates",
+                  d: "Instant progress updates delivered to your team.",
                 },
               ].map((f) => (
                 <li key={f.t} className="flex gap-4">

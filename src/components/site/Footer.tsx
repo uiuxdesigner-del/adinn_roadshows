@@ -422,10 +422,9 @@ export default function Footer() {
   ];
 
   const services = [
-    "LED Screen Vehicle",
-    "L-Type LED Vehicle",
-    "3-Side LED Truck",
-    "Customize Fabrication Vehicle",
+    "Traditional Models",
+    "LED Models",
+    "Innovation Models"
   ];
 
   return (

@@ -5,7 +5,7 @@
 import { useState, type FormEvent } from "react";
 import {
   User,
-  Car, 
+  Car,
   PencilLine,
   Phone,
   Mail,
@@ -90,33 +90,33 @@ const EMAILJS_PUBLIC_KEY = "0LqsQAkcgAOP2XMOe";
 
 
 const contactInfo = [
-{
-icon:Target,
-title:"Campaign Planning",
-value:"Tailored roadshow strategies",
-sub:"Customized campaigns for your audience"
-},
+  {
+    icon: Target,
+    title: "Campaign Planning",
+    value: "Tailored roadshow strategies",
+    sub: "Customized campaigns for your audience"
+  },
 
-{
-icon:CalendarDays,
-title:"Quick Turnaround",
-value:"Proposal within 24 Hours",
-sub:"Fast response from our campaign team"
-},
+  {
+    icon: CalendarDays,
+    title: "Quick Turnaround",
+    value: "Proposal within 24 Hours",
+    sub: "Fast response from our campaign team"
+  },
 
-{
-icon:MapPin,
-title:"South Indian Coverage",
-value:"200+ Cities Served",
-sub:"Execute campaigns anywhere in India"
-},
+  {
+    icon: MapPin,
+    title: "South Indian Coverage",
+    value: "200+ Cities Served",
+    sub: "Execute campaigns anywhere in India"
+  },
 
-{
-icon:BadgeCheck,
-title:"Trusted Experience",
-value:"10+ Years Expertise",
-sub:"Successful activations for leading brands"
-}
+  {
+    icon: BadgeCheck,
+    title: "Trusted Experience",
+    value: "25+ Years Expertise",
+    sub: "Successful activations for leading brands"
+  }
 ]
 
 const stats = [
@@ -456,7 +456,7 @@ ${form.message}`;
                       error={errors.fullName}
                       shake={shakeFields.has("fullName")}
                       required
-                      icon={<User size={18}/>}
+                      icon={<User size={18} />}
                     />
 
                     <Field
@@ -468,7 +468,7 @@ ${form.message}`;
                       error={errors.phone}
                       shake={shakeFields.has("phone")}
                       required
-                      icon={<Phone size={18}/>}
+                      icon={<Phone size={18} />}
                     />
 
                     <Field
@@ -481,7 +481,7 @@ ${form.message}`;
                       error={errors.email}
                       shake={shakeFields.has("email")}
                       required
-                      icon={<Mail size={18}/>}
+                      icon={<Mail size={18} />}
                     />
 
                     {/* <Field
@@ -575,31 +575,30 @@ ${form.message}`;
 
 
                     <div className="adinn-form-field adinn-form-message">
-  <label>
-    Message / Requirement <span>*</span>
-  </label>
+                      <label>
+                        Message / Requirement <span>*</span>
+                      </label>
 
-  <div className="adinn-textarea-wrap">
-    <span className="adinn-input-icon">
-      <PencilLine size={18} />
-    </span>
+                      <div className="adinn-textarea-wrap">
+                        <span className="adinn-input-icon">
+                          <PencilLine size={18} />
+                        </span>
 
-    <textarea
-      name="message"
-      rows={4}
-      placeholder="Tell us about your campaign goal, audience, locations, etc."
-      value={form.message}
-      onChange={handleChange}
-      className={`${errors.message ? "has-error" : ""} ${
-        shakeFields.has("message") ? "shake" : ""
-      }`}
-    />
-  </div>
+                        <textarea
+                          name="message"
+                          rows={4}
+                          placeholder="Tell us about your campaign goal, audience, locations, etc."
+                          value={form.message}
+                          onChange={handleChange}
+                          className={`${errors.message ? "has-error" : ""} ${shakeFields.has("message") ? "shake" : ""
+                            }`}
+                        />
+                      </div>
 
-  {errors.message && (
-    <p className="adinn-field-error">{errors.message}</p>
-  )}
-</div>
+                      {errors.message && (
+                        <p className="adinn-field-error">{errors.message}</p>
+                      )}
+                    </div>
 
 
                   </div>
@@ -685,7 +684,7 @@ type FieldProps = {
 
 function Field({
   label,
- name,
+  name,
   value,
   onChange,
   placeholder,

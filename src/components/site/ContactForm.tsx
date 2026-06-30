@@ -232,7 +232,7 @@ Requirement:
 ${form.message}`;
 
     window.open(
-      `https://wa.me/917373785057?text=${encodeURIComponent(msg)}`,
+      `https://wa.me/917339509090?text=${encodeURIComponent(msg)}`,
       "_blank"
     );
   };

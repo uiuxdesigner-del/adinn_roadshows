@@ -503,9 +503,9 @@ export default function Footer() {
                 </span>
 
                 <div>
-                  <a href="tel:+917373785057">+91 73737 85057</a>
+                  <a href="tel:+917339509090">+91 73395 09090</a>
                   <br />
-                  <a href="tel:+919626987861">+91 96269 87861</a>
+                  <a href="tel:+919500388761">+91 95003 88761</a>
                 </div>
               </div>
 
@@ -516,7 +516,7 @@ export default function Footer() {
                   <Mail size={21} />
                 </span>
 
-                <a href="mailto:ba@adinn.co.in">ba@adinn.co.in</a>
+                <a href="mailto:roadshowsales@adinn.co.in">roadshowsales@adinn.co.in</a>
               </div>
             </div>
           </div>

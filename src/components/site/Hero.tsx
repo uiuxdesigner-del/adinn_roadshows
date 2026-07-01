@@ -43,6 +43,8 @@ import {
   Object3D,
   PerspectiveCamera,
   SRGBColorSpace,
+  Texture,
+  TextureLoader,
   Vector3,
   VideoTexture,
 } from "three";
@@ -63,11 +65,23 @@ type AxisKey = "x" | "y" | "z";
 
 const VEHICLES: VehicleItem[] = [
   {
-    id: "7x5",
+    id: "ultra",
 
-    label: "7x5 LED",
+    label: "3 Side LED",
 
-    path: "/assets/7x5.glb",
+    path: "/assets/ultra.glb",
+
+    scale: 1,
+
+    rotationY: -0.25,
+  },
+
+    {
+    id: "single_side",
+
+    label: "3 Side LED Ultra",
+
+    path: "/assets/19_single_side.glb",
 
     scale: 1,
 
@@ -77,7 +91,7 @@ const VEHICLES: VehicleItem[] = [
   {
     id: "l_type_led",
 
-    label: "L Type LED",
+    label: "2 Side LED",
 
     path: "/assets/l_type_led.glb",
 
@@ -86,24 +100,14 @@ const VEHICLES: VehicleItem[] = [
     rotationY: -0.25,
   },
 
-  {
-    id: "ultra",
 
-    label: "Ultra LED",
-
-    path: "/assets/ultra.glb",
-
-    scale: 1,
-
-    rotationY: -0.25,
-  },
 
   {
-    id: "3_side",
+    id: "7x5",
 
-    label: "3 Side LED",
+    label: "Hybrid LED",
 
-    path: "/assets/3_side.glb",
+    path: "/assets/7x5.glb",
 
     scale: 1,
 
@@ -121,6 +125,18 @@ const LED_PANEL_OBJECT_NAMES = [
 const GLOBAL_LOGO_MESH_NAME = "blinn9";
 
 const GLOBAL_LOGO_TEXTURE_SRC = "/assets/adinn_logo_l_type.jpg";
+
+const HYBRID_LED_BRANDING_TEXTURES: Record<string, string> = {
+  "5x1_back_bottom": "/assets/5x1_back_bottom.jpg",
+  "8x1_side_bottom": "/assets/8x1_side_bottom.jpg",
+  aircutter_lf: "/assets/aircutter_lf.jpg",
+  aircutter_rg: "/assets/aircutter_rg.jpg",
+  cabin_poster: "/assets/cabin_poster.jpg",
+};
+
+const HYBRID_LED_BRANDING_MESH_NAMES = Object.keys(
+  HYBRID_LED_BRANDING_TEXTURES,
+);
 
 const DEMO_VIDEO_SRC = "/assets/demo-campaign.mp4";
 
@@ -199,8 +215,8 @@ type VehicleCameraConfig = {
   maxDistance: number;
 };
 
-// Used for vehicle-specific camera fit. 7x5 uses this from initial page load;
-// bigger GLBs use their safer camera once the user switches vehicles.
+// Used for vehicle-specific camera fit. The first/default vehicle uses this from initial page load;
+// other GLBs use their config once the user switches vehicles.
 const AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE: Record<
   string,
   VehicleCameraConfig
@@ -221,6 +237,15 @@ const AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE: Record<
     zoomSpeed: 0.5,
     minDistance: 3.6,
     maxDistance: 9.2,
+  },
+
+  single_side: {
+    position: [6.85, 1.42, 7.75],
+    fov: 30.4,
+    boundsMargin: 1.28,
+    zoomSpeed: 0.42,
+    minDistance: 5.1,
+    maxDistance: 10.2,
   },
 
   ultra: {
@@ -276,9 +301,9 @@ const DRAG_INERTIA_DAMPING = 0.9;
 
 const ROTATION_SMOOTHNESS = 26;
 
-VEHICLES.forEach((vehicle) => {
-  useGLTF.preload(vehicle.path);
-});
+// Preload only the first/default vehicle on initial page load.
+// Other GLBs load only when their vehicle tab is selected.
+useGLTF.preload(VEHICLES[0].path);
 
 function normalizeName(name: string) {
   return name
@@ -313,6 +338,16 @@ function isGlobalLogoTargetName(name: string) {
   const target = compactName(GLOBAL_LOGO_MESH_NAME);
 
   return compact === target;
+}
+
+function getHybridLedBrandingTextureKey(name: string) {
+  const compact = compactName(name);
+
+  return (
+    HYBRID_LED_BRANDING_MESH_NAMES.find(
+      (meshName) => compact === compactName(meshName),
+    ) || null
+  );
 }
 
 type AppliedLogoTextureWindow = Window & {
@@ -642,6 +677,88 @@ function applyMultiPanelUvToMesh(mesh: Mesh) {
       clusters.keys(),
     ).join(", ")}`,
   };
+}
+
+function useHybridLedBrandingTextures(
+  enabled: boolean,
+  maxAnisotropy: number,
+) {
+  const [textures, setTextures] = useState<Record<string, Texture>>({});
+
+  useEffect(() => {
+    if (!enabled) {
+      setTextures({});
+
+      return;
+    }
+
+    let isMounted = true;
+    const loadedTextures: Texture[] = [];
+    const loader = new TextureLoader();
+
+    const configureTexture = (texture: Texture) => {
+      texture.colorSpace = SRGBColorSpace;
+      texture.flipY = false;
+      texture.wrapS = ClampToEdgeWrapping;
+      texture.wrapT = ClampToEdgeWrapping;
+      texture.minFilter = LinearMipmapLinearFilter;
+      texture.magFilter = LinearFilter;
+      texture.generateMipmaps = true;
+      texture.anisotropy = Math.min(16, maxAnisotropy);
+      texture.needsUpdate = true;
+    };
+
+    const loadTexture = ([meshName, textureSrc]: [string, string]) =>
+      new Promise<[string, Texture] | null>((resolve) => {
+        loader.load(
+          textureSrc,
+          (texture) => {
+            configureTexture(texture);
+            loadedTextures.push(texture);
+            resolve([meshName, texture]);
+          },
+          undefined,
+          () => resolve(null),
+        );
+      });
+
+    Promise.all(Object.entries(HYBRID_LED_BRANDING_TEXTURES).map(loadTexture))
+      .then((loadedEntries) => {
+        if (!isMounted) {
+          loadedTextures.forEach((texture) => texture.dispose());
+
+          return;
+        }
+
+        const nextTextures = loadedEntries.reduce<Record<string, Texture>>(
+          (accumulator, entry) => {
+            if (!entry) return accumulator;
+
+            const [meshName, texture] = entry;
+
+            accumulator[meshName] = texture;
+
+            return accumulator;
+          },
+          {},
+        );
+
+        setTextures(nextTextures);
+      })
+      .catch(() => {
+        if (isMounted) {
+          setTextures({});
+        }
+      });
+
+    return () => {
+      isMounted = false;
+
+      loadedTextures.forEach((texture) => texture.dispose());
+    };
+  }, [enabled, maxAnisotropy]);
+
+  return textures;
 }
 
 function useLedVideoTexture(src: string, enabled: boolean) {
@@ -1154,9 +1271,14 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
   const { scene } = useGLTF(vehicle.path);
   const { gl } = useThree();
   const vehicleLogoTexture = useTexture(GLOBAL_LOGO_TEXTURE_SRC);
+  const maxTextureAnisotropy = gl.capabilities.getMaxAnisotropy?.() ?? 1;
+  const hybridLedBrandingTextures = useHybridLedBrandingTextures(
+    vehicle.id === "7x5",
+    maxTextureAnisotropy,
+  );
 
   useEffect(() => {
-    const maxAnisotropy = gl.capabilities.getMaxAnisotropy?.() ?? 1;
+    const maxAnisotropy = maxTextureAnisotropy;
 
     vehicleLogoTexture.colorSpace = SRGBColorSpace;
     vehicleLogoTexture.flipY = false;
@@ -1167,7 +1289,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     vehicleLogoTexture.generateMipmaps = true;
     vehicleLogoTexture.anisotropy = Math.min(16, maxAnisotropy);
     vehicleLogoTexture.needsUpdate = true;
-  }, [gl, vehicleLogoTexture]);
+  }, [maxTextureAnisotropy, vehicleLogoTexture]);
 
   const hasMatchingLedMesh = useMemo(() => {
     let found = false;
@@ -1267,6 +1389,26 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
       sharedVehicleLogoMaterial.needsUpdate = true;
     }
 
+    const hybridLedBrandingMaterials = new Map<string, MeshBasicMaterial>();
+
+    if (vehicle.id === "7x5") {
+      Object.entries(hybridLedBrandingTextures).forEach(
+        ([meshName, texture]) => {
+          const material = new MeshBasicMaterial({
+            name: `hybrid_led_${meshName}_image_material`,
+            color: "#ffffff",
+            map: texture,
+            toneMapped: false,
+            side: DoubleSide,
+          });
+
+          material.needsUpdate = true;
+
+          hybridLedBrandingMaterials.set(meshName, material);
+        },
+      );
+    }
+
     let appliedLogoMeshCount = 0;
 
     clone.traverse((child: Object3D) => {
@@ -1287,6 +1429,24 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
       const uvResult = ledUvResults.get(child);
       const hasUv = uvResult?.hasUv ?? Boolean(child.geometry?.attributes?.uv);
 
+      const hybridLedTextureObjectKey =
+        vehicle.id === "7x5"
+          ? getHybridLedBrandingTextureKey(child.name || "")
+          : null;
+      const hybridLedTextureMaterialKey =
+        vehicle.id === "7x5"
+          ? clonedMaterials
+              .map((material) =>
+                getHybridLedBrandingTextureKey(material.name || ""),
+              )
+              .find(Boolean) || null
+          : null;
+      const hybridLedTextureKey =
+        hybridLedTextureObjectKey || hybridLedTextureMaterialKey;
+      const hybridLedBrandingMaterial = hybridLedTextureKey
+        ? hybridLedBrandingMaterials.get(hybridLedTextureKey)
+        : null;
+
       const vehicleLogoObjectNameMatch = isGlobalLogoTargetName(
         child.name || "",
       );
@@ -1296,7 +1456,17 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
       const isVehicleLogoTarget =
         vehicleLogoObjectNameMatch || vehicleLogoMaterialNameMatch;
 
-      if (isVehicleLogoTarget && sharedVehicleLogoMaterial) {
+      if (hybridLedBrandingMaterial) {
+        const uvSpread = getUvSpread(child);
+
+        if (!uvSpread.isUsable) {
+          applyMultiPanelUvToMesh(child);
+        }
+
+        child.material = hybridLedBrandingMaterial;
+        child.castShadow = false;
+        child.receiveShadow = false;
+      } else if (isVehicleLogoTarget && sharedVehicleLogoMaterial) {
         child.material = sharedVehicleLogoMaterial;
         child.castShadow = false;
         child.receiveShadow = false;
@@ -1375,7 +1545,14 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     clone.updateMatrixWorld(true);
 
     return clone;
-  }, [scene, vehicle, ledVideoTexture, isVideoReady, vehicleLogoTexture]);
+  }, [
+    scene,
+    vehicle,
+    ledVideoTexture,
+    isVideoReady,
+    vehicleLogoTexture,
+    hybridLedBrandingTextures,
+  ]);
 
   return <primitive object={clonedScene} dispose={null} />;
 }
@@ -1778,7 +1955,7 @@ function CameraDemoControls({
 
   const afterSwitchCameraConfig = getAfterSwitchCameraConfig(vehicleId);
   const shouldUseVehicleCameraConfig =
-    hasVehicleSwitched || vehicleId === "7x5";
+    hasVehicleSwitched || vehicleId === VEHICLES[0].id;
 
   const switchZoomOutRef = useRef({
     version: vehicleSwitchVersion,
@@ -2109,7 +2286,7 @@ function VehicleCanvas({
           fit
           clip
           margin={
-            hasVehicleSwitched || vehicle.id === "7x5"
+            hasVehicleSwitched || vehicle.id === VEHICLES[0].id
               ? getAfterSwitchCameraConfig(vehicle.id).boundsMargin
               : 1.36
           }

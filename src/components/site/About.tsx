@@ -38,18 +38,18 @@ const features = [
 
 const stats = [
   {
-    value: "25+",
-    label: "Years of expertise in planning and executing impactful roadshows.",
-    icon: Award,
-  },
-  {
     value: "5000+",
     label: "Successful Campaigns delivered across South India.",
     icon: Megaphone,
   },
   {
-    value: "8",
-    label: "Cities of active route coverage.",
+    value: "25+",
+    label: "Years of expertise in planning and executing impactful roadshows.",
+    icon: Award,
+  },
+  {
+    value: "6",
+    label: "States of active route coverage.",
     icon: RouteIcon,
   },
 ];

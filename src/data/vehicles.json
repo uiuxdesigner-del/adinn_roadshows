@@ -469,7 +469,7 @@
     "category": "Premium LED",
     "type": "Premium LED Canter",
     "name": "Tata Ultra 19 Ft - 3 Sided LED",
-    "shortDescription": "Three-sided premium LED vehicle designed for maximum campaign exposure across high-footfall routes.",
+    "shortDescription": "Three-sided premium LED vehicle for maximum campaign exposure across high-footfall routes.",
     "pricePerDay": 27500,
     "leastSellingPricingPerDay": 25000,
     "packageTotal": "Rs. 1,00,000 for 4 days",
@@ -588,8 +588,70 @@
       }
     ]
   },
-   {
+  
+  {
     "id": 7,
+    "category": "Premium LED",
+    "type": "Premium LED Canter",
+    "name": "Tata Ace 9 Ft 2 Sides LED",
+    "shortDescription": "Compact 2-side LED vehicle ideal for local market routes, retail promotions, and targeted city campaigns.",
+    "pricePerDay": 12500,
+    "leastSellingPricingPerDay": 10000,
+    "packageTotal": "Rs. 1,00,000 for 10 days",
+    "highlight": "LED size: Left & Right 13.6 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
+    "images": [
+      "/assets/LED4_9ft2Sided.png"
+    ],
+    "quickSpecs": [
+      {
+        "label": "KM",
+        "value": "40 km/day"
+      },
+      {
+        "label": "Extra KM",
+        "value": "₹12 / km"
+      },
+      {
+        "label": "Minimum",
+        "value": "5 days"
+      },
+      {
+        "label": "Extra Hour",
+        "value": "₹1,250 / Hour"
+      }
+    ],
+    "included": [
+      "Tata Ace 9 ft vehicle",
+      "Right-side and back-side LED display",
+      "40 km/day movement",
+      "Compact LED visibility"
+    ],
+    "addOns": [
+      "Extra km: ₹12 / km",
+      "Up & down charges applicable below order value of 1 lakh",
+      "Promoter if required"
+    ],
+    "brandingStatus": "No branding cost applicable",
+    "locationCharges": [
+      {
+        "label": "RTO Permission",
+        "chennai": "-",
+        "rotn": "-",
+        "kerala": "₹25,000",
+        "andhara": "₹15,000",
+        "telungana": "₹15,000",
+        "karnataka": "-"
+      },
+      {
+        "label": "Promoter",
+        "Tamilnadu": "₹1,300",
+        "Kerala": "₹1,850",
+        "otherStates": "₹1,700"
+      }
+    ]
+  },
+   {
+    "id": 8,
     "category": "Premium LED",
     "type": "Premium LED Canter",
     "name": "Tata Ultra 19 Ft Single Side LED",
@@ -646,67 +708,6 @@
         "telungana": "₹25,000",
         "karnataka": "-",
         "otherStates": "-"
-      },
-      {
-        "label": "Promoter",
-        "Tamilnadu": "₹1,300",
-        "Kerala": "₹1,850",
-        "otherStates": "₹1,700"
-      }
-    ]
-  },
-  {
-    "id": 8,
-    "category": "Premium LED",
-    "type": "Premium LED Canter",
-    "name": "Tata Ace 9 Ft 2 Sides LED",
-    "shortDescription": "Compact 2-side LED vehicle ideal for local market routes, retail promotions, and targeted city campaigns.",
-    "pricePerDay": 12500,
-    "leastSellingPricingPerDay": 10000,
-    "packageTotal": "Rs. 1,00,000 for 10 days",
-    "highlight": "LED size: Left & Right 13.6 ft x 6.8 ft | Back 6.4 ft x 6.8 ft",
-    "images": [
-      "/assets/LED4_9ft2Sided.png"
-    ],
-    "quickSpecs": [
-      {
-        "label": "KM",
-        "value": "40 km/day"
-      },
-      {
-        "label": "Extra KM",
-        "value": "₹12 / km"
-      },
-      {
-        "label": "Minimum",
-        "value": "5 days"
-      },
-      {
-        "label": "Extra Hour",
-        "value": "₹1,250 / Hour"
-      }
-    ],
-    "included": [
-      "Tata Ace 9 ft vehicle",
-      "Right-side and back-side LED display",
-      "40 km/day movement",
-      "Compact LED visibility"
-    ],
-    "addOns": [
-      "Extra km: ₹12 / km",
-      "Up & down charges applicable below order value of 1 lakh",
-      "Promoter if required"
-    ],
-    "brandingStatus": "No branding cost applicable",
-    "locationCharges": [
-      {
-        "label": "RTO Permission",
-        "chennai": "-",
-        "rotn": "-",
-        "kerala": "₹25,000",
-        "andhara": "₹15,000",
-        "telungana": "₹15,000",
-        "karnataka": "-"
       },
       {
         "label": "Promoter",

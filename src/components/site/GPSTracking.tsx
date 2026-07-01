@@ -1402,9 +1402,9 @@ function SouthIndiaLiveMap() {
 
         <div ref={mapRef} className="absolute inset-0 h-full w-full" />
 
-        <div className="absolute right-5 top-5 z-[500] rounded-full bg-white/95 px-4 py-2 text-[12px] font-semibold text-[#111827] shadow-[0_12px_34px_rgba(15,23,42,0.14)] backdrop-blur-md">
+        {/* <div className="absolute right-5 top-5 z-[500] rounded-full bg-white/95 px-4 py-2 text-[12px] font-semibold text-[#111827] shadow-[0_12px_34px_rgba(15,23,42,0.14)] backdrop-blur-md">
           Live Fleet • {VEHICLE_COUNT}
-        </div>
+        </div> */}
 
         {routeStatus === "loading" && (
           <div className="absolute bottom-5 left-5 z-[500] rounded-full bg-white/95 px-4 py-2 text-[12px] font-semibold text-[#475467] shadow-[0_12px_34px_rgba(15,23,42,0.12)] backdrop-blur-md">
@@ -1423,7 +1423,7 @@ function SouthIndiaLiveMap() {
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.08] bg-white px-6 py-5">
         <div className="flex items-center gap-2 text-sm">
           <span className="size-2 rounded-full bg-[#111827]" />
-          <span className="text-[#667085]">Live</span>
+          {/* <span className="text-[#667085]">Live</span> */}
           <span className="font-semibold text-[#111827]">
             City Fleet Tracking
           </span>

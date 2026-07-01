@@ -394,13 +394,13 @@ export default function Footer() {
       id: 3,
       city: "Bangalore",
       address:
-        "No.24, 2nd floor, 9th A Cross road, Park area, Wilson Garden, Bangalore - 560027",
+        "No. 24, 2nd floor, 9th A Cross road, Park area, Wilson Garden, Bangalore - 560027.",
     },
     {
       id: 4,
       city: "Coimbatore",
       address:
-        "No. 13, Sivasakthi Colony, (Near coimbatore roller flour mill), Ganapathy, Coimbatore - 641006",
+        "No. 13, Sivasakthi Colony, (Near coimbatore roller flour mill), Ganapathy, Coimbatore - 641006.",
     },
   ];
 
@@ -626,13 +626,13 @@ export default function Footer() {
           </div>
         <div className="footer-bottom footer-reveal" style={{ "--delay": "420ms" } as React.CSSProperties}>
          
-          <p>© 2025 Adinn Advertising Services</p>
+        <p>© {new Date().getFullYear()} Adinn Advertising Services. All rights reserved</p>
 
-          <div>
+          {/* <div>
             <Link href="#">Cookies</Link>
             <Link href="#">Privacy</Link>
             <Link href="#">Terms</Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

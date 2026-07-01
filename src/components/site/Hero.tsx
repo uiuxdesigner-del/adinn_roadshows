@@ -147,6 +147,11 @@ const ENABLE_LED_RED_FALLBACK = false;
 // UI flag: set false to hide both Live Demo and Night View buttons.
 const SHOW_DEMO_AND_NIGHT_VIEW_BUTTONS = false;
 
+// System performance flag:
+// true  -> vehicle GLB will load/render
+// false -> vehicle GLB will not load/render, useful when system/browser hangs
+const ENABLE_VEHICLE_GLB_LOADING = false;
+
 /*
 
   Fix for reversed video text:
@@ -303,7 +308,10 @@ const ROTATION_SMOOTHNESS = 26;
 
 // Preload only the first/default vehicle on initial page load.
 // Other GLBs load only when their vehicle tab is selected.
-useGLTF.preload(VEHICLES[0].path);
+// If ENABLE_VEHICLE_GLB_LOADING is false, no vehicle GLB is preloaded.
+if (ENABLE_VEHICLE_GLB_LOADING) {
+  useGLTF.preload(VEHICLES[0].path);
+}
 
 function normalizeName(name: string) {
   return name
@@ -2281,34 +2289,58 @@ function VehicleCanvas({
       <Suspense fallback={null}>
         <Environment files="/assets/studio.hdr" background={false} />
 
-        <Bounds
-          key={vehicle.id}
-          fit
-          clip
-          margin={
-            hasVehicleSwitched || vehicle.id === VEHICLES[0].id
-              ? getAfterSwitchCameraConfig(vehicle.id).boundsMargin
-              : 1.36
-          }
-        >
-          <Center position={[0, vehicle.id === "7x5" ? -0.04 : 0.18, 0]}>
-            <VehicleTurntable
-              key={vehicle.id}
+        {ENABLE_VEHICLE_GLB_LOADING ? (
+          <Bounds
+            key={vehicle.id}
+            fit
+            clip
+            margin={
+              hasVehicleSwitched || vehicle.id === VEHICLES[0].id
+                ? getAfterSwitchCameraConfig(vehicle.id).boundsMargin
+                : 1.36
+            }
+          >
+            <Center position={[0, vehicle.id === "7x5" ? -0.04 : 0.18, 0]}>
+              <VehicleTurntable
+                key={vehicle.id}
 
-              vehicle={vehicle}
+                vehicle={vehicle}
 
-              isDemoMode={isDemoMode}
+                isDemoMode={isDemoMode}
 
-              onUserInteract={onUserInteract}
-            />
+                onUserInteract={onUserInteract}
+              />
 
-            <VehicleHotspots
-              isDemoMode={isDemoMode}
+              <VehicleHotspots
+                isDemoMode={isDemoMode}
 
-              isNightMode={isNightMode}
-            />
-          </Center>
-        </Bounds>
+                isNightMode={isNightMode}
+              />
+            </Center>
+          </Bounds>
+        ) : (
+          <Html center zIndexRange={[60, 0]}>
+            <div
+              className={`
+                rounded-2xl
+                border
+                px-5
+                py-3
+                text-sm
+                font-semibold
+                shadow-[0_18px_50px_rgba(15,23,42,0.08)]
+                backdrop-blur-2xl
+                ${
+                  isNightMode
+                    ? "border-white/12 bg-black/48 text-white/80"
+                    : "border-white/90 bg-white/76 text-slate-600"
+                }
+              `}
+            >
+              Vehicle preview disabled
+            </div>
+          </Html>
+        )}
 
         <ContactShadows
           position={[0, -1.02, 0]}

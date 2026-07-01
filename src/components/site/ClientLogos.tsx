@@ -186,7 +186,7 @@ const logos: ClientLogo[] = [
 const proofItems: ProofItem[] = [
   {
     icon: MapPin,
-    title: "Pan Tamil Nadu",
+    title: "Pan South Indian",
     text: "Coverage",
   },
   {

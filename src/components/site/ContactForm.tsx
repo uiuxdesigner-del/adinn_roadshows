@@ -107,7 +107,7 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "South Indian Coverage",
-    value: "200+ Cities Served",
+    value: "250+ Cities Served",
     sub: "Execute campaigns anywhere in India"
   },
 

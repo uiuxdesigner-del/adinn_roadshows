@@ -64,22 +64,10 @@ type VehicleItem = {
 type AxisKey = "x" | "y" | "z";
 
 const VEHICLES: VehicleItem[] = [
-  {
-    id: "ultra",
-
-    label: "3 Side LED",
-
-    path: "/assets/ultra.glb",
-
-    scale: 1,
-
-    rotationY: -0.25,
-  },
-
-    {
+      {
     id: "single_side",
 
-    label: "3 Side LED Ultra",
+    label: "3 Sided LED Ultra",
 
     path: "/assets/19_single_side.glb",
 
@@ -89,9 +77,21 @@ const VEHICLES: VehicleItem[] = [
   },
 
   {
+    id: "ultra",
+
+    label: "3 Sided LED",
+
+    path: "/assets/ultra.glb",
+
+    scale: 1,
+
+    rotationY: -0.25,
+  },
+
+  {
     id: "l_type_led",
 
-    label: "2 Side LED",
+    label: "2 Sided LED",
 
     path: "/assets/l_type_led.glb",
 

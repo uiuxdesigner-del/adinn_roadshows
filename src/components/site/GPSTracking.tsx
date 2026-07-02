@@ -49,6 +49,17 @@ type VehicleMotion = {
 const VEHICLE_IMAGE_PATH = "/assets/map-vehicle.png";
 const VEHICLE_IMAGE_ROTATION_OFFSET = 0;
 
+// Map marker mode:
+// true  -> use location pin icon style. Pin stays upright and bottom tip points GPS location.
+// false -> use vehicle icon style. Icon rotates based on road direction.
+const USE_LOCATION_PIN_MARKER = true;
+
+// Pin PNG is square, so width and height should stay equal.
+// Reduce this value if the pin still feels large.
+const LOCATION_PIN_SIZE_MULTIPLIER = 0.72;
+const LOCATION_PIN_MIN_SIZE = 18;
+const LOCATION_PIN_ANCHOR_Y_RATIO = 0.86;
+
 /*
   Vehicle zoom size control:
   - Zoom in  => vehicle becomes bigger
@@ -1064,8 +1075,18 @@ function createVehicles(routes: Record<string, LatLng[]>): Vehicle[] {
 }
 
 function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
-  const scaledWidth = Math.max(8, Math.round(vehicle.size * scale));
-  const scaledHeight = Math.max(14, Math.round(vehicle.size * 1.65 * scale));
+  const pinSize = Math.max(
+    LOCATION_PIN_MIN_SIZE,
+    Math.round(vehicle.size * scale * LOCATION_PIN_SIZE_MULTIPLIER)
+  );
+
+  const scaledWidth = USE_LOCATION_PIN_MARKER
+    ? pinSize
+    : Math.max(8, Math.round(vehicle.size * scale));
+
+  const scaledHeight = USE_LOCATION_PIN_MARKER
+    ? pinSize
+    : Math.max(14, Math.round(vehicle.size * 1.65 * scale));
 
   return L.divIcon({
     className: "south-vehicle-leaflet-icon",
@@ -1086,7 +1107,9 @@ function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
       </div>
     `,
     iconSize: [scaledWidth, scaledHeight],
-    iconAnchor: [scaledWidth / 2, scaledHeight / 2],
+    iconAnchor: USE_LOCATION_PIN_MARKER
+      ? [scaledWidth / 2, scaledHeight * LOCATION_PIN_ANCHOR_Y_RATIO]
+      : [scaledWidth / 2, scaledHeight / 2],
   });
 }
 
@@ -1097,8 +1120,10 @@ function applyVehicleElementStyle(
 ) {
   if (!markerElement) return;
 
+  const displayAngle = USE_LOCATION_PIN_MARKER ? 0 : angle;
+
   markerElement.style.setProperty("--vehicle-live-scale", `${liveScale}`);
-  markerElement.style.setProperty("--vehicle-angle", `${angle}deg`);
+  markerElement.style.setProperty("--vehicle-angle", `${displayAngle}deg`);
 }
 
 function SouthIndiaLiveMap() {
@@ -1363,7 +1388,7 @@ function SouthIndiaLiveMap() {
             if (markerElement) {
               markerElement.style.setProperty(
                 "--vehicle-angle",
-                `${item.angle}deg`
+                `${USE_LOCATION_PIN_MARKER ? 0 : item.angle}deg`
               );
             }
           });
@@ -1484,8 +1509,9 @@ function SouthIndiaLiveMap() {
           height: var(--vehicle-height);
           place-items: center;
           pointer-events: auto;
+          background: transparent !important;
           transform: translateZ(0) scale(var(--vehicle-live-scale, 1));
-          transform-origin: center center;
+          transform-origin: center 86%;
           transition: transform 0.08s linear;
           will-change: transform;
         }
@@ -1493,14 +1519,22 @@ function SouthIndiaLiveMap() {
         .south-live-vehicle img {
           position: relative;
           z-index: 3;
+          display: block;
           width: var(--vehicle-width) !important;
           height: var(--vehicle-height) !important;
+          background: transparent !important;
           object-fit: contain;
           transform: rotate(var(--vehicle-angle, 0deg)) !important;
-          transform-origin: center center;
-          filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.22));
+          transform-origin: center 86%;
+          filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.2));
           transition: transform 0.16s linear;
           will-change: transform;
+        }
+
+        .south-vehicle-leaflet-icon {
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
         }
 
         .south-vehicle-leaflet-icon,

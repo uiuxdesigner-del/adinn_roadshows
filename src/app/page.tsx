@@ -24,17 +24,17 @@ export default function Home() {
 
   useEffect(() => {
     const loaderTimer = window.setTimeout(() => {
-      setShowLoader(true);
-    }, 5000);
+      setShowLoader(false);
+    }, 3000);
 
     return () => {
-      // window.clearTimeout(loaderTimer);
+      window.clearTimeout(loaderTimer);
     };
   }, []);
 
   if (showLoader) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030303]">
         <video
           src="/assets/loader.webm"
           autoPlay

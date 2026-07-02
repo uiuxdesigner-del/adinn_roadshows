@@ -36,7 +36,7 @@ export default function Home() {
     return (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030303]">
         <video
-          src="/assets/loader.webm"
+          src="/assets/loader.mp4"
           autoPlay
           muted
           playsInline

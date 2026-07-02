@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
@@ -15,9 +17,37 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 // import { CTABanner } from "@/components/site/CTABanner";
 import { ContactForm } from "@/components/site/ContactForm";
-import  Footer  from "@/components/site/Footer";
+import Footer from "@/components/site/Footer";
 
 export default function Home() {
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const loaderTimer = window.setTimeout(() => {
+      setShowLoader(true);
+    }, 5000);
+
+    return () => {
+      // window.clearTimeout(loaderTimer);
+    };
+  }, []);
+
+  if (showLoader) {
+    return (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
+        <video
+          src="/assets/loader.webm"
+          autoPlay
+          muted
+          playsInline
+          loop
+          preload="auto"
+          className="h-auto max-h-[150vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+        />
+      </div>
+    );
+  }
+
   return (
     <SmoothScroll>
       <main className="min-h-screen bg-background text-foreground">

@@ -19,14 +19,17 @@ import { FAQ } from "@/components/site/FAQ";
 import { ContactForm } from "@/components/site/ContactForm";
 import Footer from "@/components/site/Footer";
 
+const LOADER_DURATION_MS = 3000;
+
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showLoader, setShowLoader] = useState(true);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   useEffect(() => {
     const loaderTimer = window.setTimeout(() => {
       setShowLoader(false);
-    }, 3000);
+    }, LOADER_DURATION_MS);
 
     return () => {
       window.clearTimeout(loaderTimer);
@@ -42,30 +45,52 @@ export default function Home() {
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
+    video.autoplay = true;
+    video.loop = true;
 
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
+    video.setAttribute("muted", "true");
+    video.setAttribute("playsinline", "true");
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("autoplay", "true");
 
-    const playLoader = async () => {
+    const tryPlay = async () => {
       try {
+        video.load();
         video.currentTime = 0;
-        await video.play();
+
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+          await playPromise;
+        }
+
+        setIsVideoPlaying(true);
       } catch {
-        // iOS Low Power Mode / browser policy may still block autoplay.
-        // Loader will still close after 3 seconds.
+        setIsVideoPlaying(false);
       }
     };
 
-    playLoader();
+    const playDelay = window.setTimeout(tryPlay, 80);
+
+    return () => {
+      window.clearTimeout(playDelay);
+    };
   }, [showLoader]);
 
   if (showLoader) {
     return (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#030303]">
+        {!isVideoPlaying && (
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+            <div className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">
+              Loading
+            </div>
+          </div>
+        )}
+
         <video
           ref={videoRef}
-          src="/assets/loader.mp4"
           autoPlay
           muted
           playsInline
@@ -73,8 +98,16 @@ export default function Home() {
           preload="auto"
           disablePictureInPicture
           controls={false}
-          className="h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
-        />
+          onPlaying={() => setIsVideoPlaying(true)}
+          onCanPlay={() => {
+            videoRef.current?.play().catch(() => {});
+          }}
+          className={`h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain transition-opacity duration-300 md:w-[85vw] ${
+            isVideoPlaying ? "opacity-100" : "pointer-events-none absolute opacity-0"
+          }`}
+        >
+          <source src="/assets/loader.mp4" type="video/mp4" />
+        </video>
       </div>
     );
   }

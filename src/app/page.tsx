@@ -15,26 +15,38 @@ import { UseCases } from "@/components/site/UseCases";
 import { ClientLogos } from "@/components/site/ClientLogos";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
-// import { CTABanner } from "@/components/site/CTABanner";
 import { ContactForm } from "@/components/site/ContactForm";
 import Footer from "@/components/site/Footer";
-
-const LOADER_DURATION_MS = 3000;
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showLoader, setShowLoader] = useState(true);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [videoBlocked, setVideoBlocked] = useState(false);
 
   useEffect(() => {
     const loaderTimer = window.setTimeout(() => {
       setShowLoader(false);
-    }, LOADER_DURATION_MS);
+    }, 3000);
 
     return () => {
       window.clearTimeout(loaderTimer);
     };
   }, []);
+
+  const setLoaderVideoRef = (node: HTMLVideoElement | null) => {
+    videoRef.current = node;
+
+    if (!node) return;
+
+    node.muted = true;
+    node.defaultMuted = true;
+    node.playsInline = true;
+    node.controls = false;
+
+    node.setAttribute("muted", "");
+    node.setAttribute("playsinline", "");
+    node.setAttribute("webkit-playsinline", "");
+  };
 
   useEffect(() => {
     if (!showLoader) return;
@@ -42,72 +54,64 @@ export default function Home() {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
-    video.autoplay = true;
-    video.loop = true;
+    let cancelled = false;
 
-    video.setAttribute("muted", "true");
-    video.setAttribute("playsinline", "true");
-    video.setAttribute("webkit-playsinline", "true");
-    video.setAttribute("autoplay", "true");
-
-    const tryPlay = async () => {
+    const playVideo = async () => {
       try {
-        video.load();
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+
         video.currentTime = 0;
-
-        const playPromise = video.play();
-
-        if (playPromise !== undefined) {
-          await playPromise;
-        }
-
-        setIsVideoPlaying(true);
+        await video.play();
       } catch {
-        setIsVideoPlaying(false);
+        if (!cancelled) {
+          setVideoBlocked(true);
+        }
       }
     };
 
-    const playDelay = window.setTimeout(tryPlay, 80);
+    if (video.readyState >= 2) {
+      playVideo();
+    } else {
+      video.addEventListener("loadeddata", playVideo, { once: true });
+    }
 
     return () => {
-      window.clearTimeout(playDelay);
+      cancelled = true;
+      video.removeEventListener("loadeddata", playVideo);
     };
   }, [showLoader]);
 
   if (showLoader) {
     return (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#030303]">
-        {!isVideoPlaying && (
-          <div className="flex flex-col items-center gap-4">
-            <div className="h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-            <div className="text-xs font-semibold uppercase tracking-[0.28em] text-white/60">
-              Loading
-            </div>
-          </div>
+        {!videoBlocked ? (
+          <video
+            ref={setLoaderVideoRef}
+            src="/assets/loader-ios.mp4"
+            poster="/assets/loader-poster.png"
+            autoPlay
+            muted
+            playsInline
+            loop
+            preload="auto"
+            disablePictureInPicture
+            controls={false}
+            onError={() => setVideoBlocked(true)}
+            className="loader-video pointer-events-none h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+          />
+        ) : (
+          <img
+            src="/assets/loader-poster.png"
+            alt="Loading"
+            className="h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+          />
         )}
-
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          playsInline
-          loop
-          preload="auto"
-          disablePictureInPicture
-          controls={false}
-          onPlaying={() => setIsVideoPlaying(true)}
-          onCanPlay={() => {
-            videoRef.current?.play().catch(() => {});
-          }}
-          className={`h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain transition-opacity duration-300 md:w-[85vw] ${
-            isVideoPlaying ? "opacity-100" : "pointer-events-none absolute opacity-0"
-          }`}
-        >
-          <source src="/assets/loader.mp4" type="video/mp4" />
-        </video>
       </div>
     );
   }
@@ -127,7 +131,6 @@ export default function Home() {
         <ClientLogos />
         <Testimonials />
         <FAQ />
-        {/* <CTABanner /> */}
         <ContactForm />
         <Footer />
       </main>

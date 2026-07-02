@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { Header } from "@/components/site/Header";
@@ -20,6 +20,7 @@ import { ContactForm } from "@/components/site/ContactForm";
 import Footer from "@/components/site/Footer";
 
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
@@ -32,17 +33,47 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!showLoader) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
+
+    const playLoader = async () => {
+      try {
+        video.currentTime = 0;
+        await video.play();
+      } catch {
+        // iOS Low Power Mode / browser policy may still block autoplay.
+        // Loader will still close after 3 seconds.
+      }
+    };
+
+    playLoader();
+  }, [showLoader]);
+
   if (showLoader) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030303]">
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#030303]">
         <video
+          ref={videoRef}
           src="/assets/loader.mp4"
           autoPlay
           muted
           playsInline
           loop
           preload="auto"
-          className="h-auto max-h-[150vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+          disablePictureInPicture
+          controls={false}
+          className="h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
         />
       </div>
     );

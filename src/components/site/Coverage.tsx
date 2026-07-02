@@ -118,9 +118,7 @@ export function Coverage() {
       <div className="container-x relative z-10">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6">
-            <Reveal>
-              {/*    */}
-            </Reveal>
+    
 
             <Reveal delay={1}>
               <h2 className="mt-7 max-w-3xl font-display text-[42px] font-semibold leading-[1.08] tracking-[-0.055em] text-[#06162B] text-balance-tight md:text-[56px] lg:text-[62px]">

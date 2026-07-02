@@ -48,20 +48,14 @@ const VEHICLE_IMAGE_PATH = "/assets/map-vehicle.png";
 const VEHICLE_IMAGE_ROTATION_OFFSET = 0;
 
 /*
-  SIZE CONTROL:
-  MIN_VEHICLE_SCALE = vehicle size when zoomed out
-  MAX_VEHICLE_SCALE = vehicle size when zoomed in
-  Base vehicle size is inside createVehicles(): size: zone.major ? 13 : 11
+  Vehicle zoom size control:
+  - Zoom in  => vehicle becomes bigger
+  - Zoom out => vehicle becomes smaller
 */
-const MIN_VEHICLE_SCALE = 0.18;
-const MAX_VEHICLE_SCALE = 4.2;
-const MIN_MARKER_GAP_PX = 24;
+const MIN_VEHICLE_SCALE = 0.45;
+const MAX_VEHICLE_SCALE = 5.2;
+const VEHICLE_ZOOM_SCALE_POWER = 1.34;
 
-/*
-  MOVEMENT CONTROL:
-  Vehicles simulate 4–12 km/h roadshow speed.
-  SIMULATION_ROUTE_SPEED_MULTIPLIER makes the website demo visually move faster.
-*/
 const MIN_SPEED_KMH = 4;
 const MAX_SPEED_KMH = 12;
 const GPS_UPDATE_MIN_MS = 5000;
@@ -80,26 +74,25 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function getVehicleScaleByZoom(map: any, baseZoom: number) {
-  const zoomDifference = map.getZoom() - baseZoom;
+function getVehicleScaleByZoomValue(zoom: number, baseZoom: number) {
+  const zoomDifference = zoom - baseZoom;
 
   return clamp(
-    Math.pow(1.38, zoomDifference),
+    Math.pow(VEHICLE_ZOOM_SCALE_POWER, zoomDifference),
     MIN_VEHICLE_SCALE,
     MAX_VEHICLE_SCALE
   );
+}
+
+function getVehicleScaleByZoom(map: any, baseZoom: number) {
+  return getVehicleScaleByZoomValue(map.getZoom(), baseZoom);
 }
 
 function makeLoopStops(points: LatLng[]): LatLng[] {
   return [...points, points[0]];
 }
 
-/*
-  Each vehicle gets its own separate zone route.
-  This prevents convoy movement and keeps vehicles away from each other.
-*/
 const vehicleZones: VehicleZone[] = [
-  // Madurai - 8 vehicles
   {
     district: "Madurai",
     code: "MDU-01",
@@ -213,7 +206,6 @@ const vehicleZones: VehicleZone[] = [
     ]),
   },
 
-  // Chennai - 5 vehicles
   {
     district: "Chennai",
     code: "CHN-01",
@@ -285,7 +277,6 @@ const vehicleZones: VehicleZone[] = [
     ]),
   },
 
-  // Coimbatore - 6 vehicles
   {
     district: "Coimbatore",
     code: "CBE-01",
@@ -371,7 +362,6 @@ const vehicleZones: VehicleZone[] = [
     ]),
   },
 
-  // Vellore - 3 vehicles
   {
     district: "Vellore",
     code: "VEL-01",
@@ -412,7 +402,6 @@ const vehicleZones: VehicleZone[] = [
     ]),
   },
 
-  // 10 other districts - 2 vehicles each
   {
     district: "Trichy",
     code: "TRY-01",
@@ -1073,11 +1062,11 @@ function createVehicles(routes: Record<string, LatLng[]>): Vehicle[] {
 }
 
 function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
-  const scaledWidth = Math.max(7, Math.round(vehicle.size * scale));
-  const scaledHeight = Math.max(13, Math.round(vehicle.size * 1.65 * scale));
+  const scaledWidth = Math.max(8, Math.round(vehicle.size * scale));
+  const scaledHeight = Math.max(14, Math.round(vehicle.size * 1.65 * scale));
 
   return L.divIcon({
-    className: "",
+    className: "south-vehicle-leaflet-icon",
     html: `
       <div
         class="south-live-vehicle"
@@ -1099,6 +1088,17 @@ function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
   });
 }
 
+function applyVehicleElementStyle(
+  markerElement: HTMLElement | null,
+  angle: number,
+  liveScale: number
+) {
+  if (!markerElement) return;
+
+  markerElement.style.setProperty("--vehicle-live-scale", `${liveScale}`);
+  markerElement.style.setProperty("--vehicle-angle", `${angle}deg`);
+}
+
 function SouthIndiaLiveMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [routeStatus, setRouteStatus] = useState<RouteStatus>("loading");
@@ -1107,6 +1107,7 @@ function SouthIndiaLiveMap() {
     preloadVehicleImage();
 
     let map: any = null;
+    let LeafletModule: any = null;
     let frameId = 0;
     let resizeObserver: ResizeObserver | null = null;
     let destroyed = false;
@@ -1118,6 +1119,7 @@ function SouthIndiaLiveMap() {
       motion: VehicleMotion;
       angle: number;
       iconScale: number;
+      committedScale: number;
     }[] = [];
 
     function applyNoOverlapLayout() {
@@ -1175,18 +1177,25 @@ function SouthIndiaLiveMap() {
       });
     }
 
-    function applyVehicleScale() {
+    function applyVehicleScale(zoomValue?: number, commitIcon = false) {
       if (!map) return;
 
-      const scale = getVehicleScaleByZoom(map, baseZoom);
+      const scale = getVehicleScaleByZoomValue(
+        zoomValue ?? map.getZoom(),
+        baseZoom
+      );
 
       markerItems.forEach((item) => {
         item.iconScale = scale;
 
-        const markerElement = item.marker.getElement();
+        const liveScale = scale / Math.max(item.committedScale, 0.001);
 
-        if (markerElement) {
-          markerElement.style.setProperty("--vehicle-live-scale", `${scale}`);
+        applyVehicleElementStyle(item.marker.getElement(), item.angle, liveScale);
+
+        if (commitIcon && LeafletModule) {
+          item.marker.setIcon(createVehicleIcon(LeafletModule, item.vehicle, scale));
+          item.committedScale = scale;
+          applyVehicleElementStyle(item.marker.getElement(), item.angle, 1);
         }
       });
 
@@ -1195,6 +1204,7 @@ function SouthIndiaLiveMap() {
 
     async function initMap() {
       const L = await import("leaflet");
+      LeafletModule = L;
 
       if (destroyed || !mapRef.current) return;
 
@@ -1249,8 +1259,12 @@ function SouthIndiaLiveMap() {
         applyVehicleScale();
       };
 
-      map.on("zoom", applyVehicleScale);
-      map.on("zoomend", applyVehicleScale);
+      map.on("zoomanim", (event: any) => {
+        applyVehicleScale(event.zoom, false);
+      });
+
+      map.on("zoom", () => applyVehicleScale(undefined, false));
+      map.on("zoomend", () => applyVehicleScale(undefined, true));
       map.on("move", applyNoOverlapLayout);
       map.on("moveend", applyNoOverlapLayout);
 
@@ -1271,7 +1285,7 @@ function SouthIndiaLiveMap() {
 
         vehicles.forEach((vehicle, index) => {
           const currentScale = getVehicleScaleByZoom(map, baseZoom);
-          const icon = createVehicleIcon(L, vehicle, 1);
+          const icon = createVehicleIcon(L, vehicle, currentScale);
           const metrics = createRouteMetrics(vehicle.route);
           const motion = createVehicleMotion(
             vehicle,
@@ -1303,18 +1317,7 @@ function SouthIndiaLiveMap() {
             opacity: 0.95,
           });
 
-          const markerElement = marker.getElement();
-
-          if (markerElement) {
-            markerElement.style.setProperty(
-              "--vehicle-live-scale",
-              `${currentScale}`
-            );
-            markerElement.style.setProperty(
-              "--vehicle-angle",
-              `${initialAngle}deg`
-            );
-          }
+          applyVehicleElementStyle(marker.getElement(), initialAngle, 1);
 
           markerItems.push({
             marker,
@@ -1322,10 +1325,11 @@ function SouthIndiaLiveMap() {
             motion,
             angle: initialAngle,
             iconScale: currentScale,
+            committedScale: currentScale,
           });
         });
 
-        applyVehicleScale();
+        applyVehicleScale(undefined, true);
         setRouteStatus("ready");
 
         const animate = () => {
@@ -1420,10 +1424,10 @@ function SouthIndiaLiveMap() {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.08] bg-white px-6 py-5">
+      {/* <div className="flex flex-wrap items-center justify-between gap-4 border-t border-black/[0.08] bg-white px-6 py-5">
         <div className="flex items-center gap-2 text-sm">
           <span className="size-2 rounded-full bg-[#111827]" />
-          {/* <span className="text-[#667085]">Live</span> */}
+          <span className="text-[#667085]">Live</span>
           <span className="font-semibold text-[#111827]">
             City Fleet Tracking
           </span>
@@ -1432,7 +1436,7 @@ function SouthIndiaLiveMap() {
         <div className="text-sm font-medium text-[#667085]">
           Madurai 8 • Chennai 5 • Coimbatore 6 • Vellore 3 • Other districts 20
         </div>
-      </div>
+      </div> */}
 
       <style jsx global>{`
         .leaflet-container {
@@ -1478,9 +1482,9 @@ function SouthIndiaLiveMap() {
           height: var(--vehicle-height);
           place-items: center;
           pointer-events: auto;
-          transform: scale(var(--vehicle-live-scale, 1));
+          transform: translateZ(0) scale(var(--vehicle-live-scale, 1));
           transform-origin: center center;
-          transition: transform 0.2s ease-out;
+          transition: transform 0.08s linear;
           will-change: transform;
         }
 
@@ -1497,6 +1501,7 @@ function SouthIndiaLiveMap() {
           will-change: transform;
         }
 
+        .south-vehicle-leaflet-icon,
         .leaflet-marker-icon {
           overflow: visible !important;
           transition:
@@ -1536,7 +1541,8 @@ export function GPSTracking() {
 
           <Reveal delay={2}>
             <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-              GPS-supported tracking for route movement, live updates and execution proof.
+              GPS-supported visibility for routes, movement, and live execution
+              updates across city roads and district campaign zones.
             </p>
           </Reveal>
 
@@ -1545,19 +1551,18 @@ export function GPSTracking() {
               {[
                 {
                   i: Activity,
-                  // t: `${VEHICLE_COUNT} moving vehicles`,
-                  t: `Live GPS Monitoring`,
-                  d: "Track every vehicle in real time.",
+                  t: `${VEHICLE_COUNT} live vehicles`,
+                  d: "District-wise vehicle movement with realistic spacing.",
                 },
                 {
                   i: Navigation2,
-                  t: "Execution Photo Reports",
-                  d: "Verified photos from every campaign location.",
+                  t: "Street-level movement",
+                  d: "Vehicles run on road-snapped streets and main roads without route lines.",
                 },
                 {
                   i: MapPin,
-                  t: "WhatsApp Live Updates",
-                  d: "Instant progress updates delivered to your team.",
+                  t: "Smooth live tracking",
+                  d: "Vehicles update naturally with traffic pauses, speed changes, and smooth direction transitions.",
                 },
               ].map((f) => (
                 <li key={f.t} className="flex gap-4">
@@ -1591,7 +1596,7 @@ export function GPSTracking() {
                 window.history.replaceState(null, "", window.location.pathname);
               }}
             >
-              Consult with Our Campaign Team
+              Talk to Our Campaign Team
             </button>
           </Reveal>
         </div>

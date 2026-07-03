@@ -15,13 +15,13 @@ import { UseCases } from "@/components/site/UseCases";
 import { ClientLogos } from "@/components/site/ClientLogos";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
-// import { CTABanner } from "@/components/site/CTABanner";
 import { ContactForm } from "@/components/site/ContactForm";
 import Footer from "@/components/site/Footer";
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showLoader, setShowLoader] = useState(true);
+  const [videoBlocked, setVideoBlocked] = useState(false);
 
   useEffect(() => {
     const loaderTimer = window.setTimeout(() => {
@@ -33,48 +33,85 @@ export default function Home() {
     };
   }, []);
 
+  const setLoaderVideoRef = (node: HTMLVideoElement | null) => {
+    videoRef.current = node;
+
+    if (!node) return;
+
+    node.muted = true;
+    node.defaultMuted = true;
+    node.playsInline = true;
+    node.controls = false;
+
+    node.setAttribute("muted", "");
+    node.setAttribute("playsinline", "");
+    node.setAttribute("webkit-playsinline", "");
+  };
+
   useEffect(() => {
     if (!showLoader) return;
 
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
+    let cancelled = false;
 
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
-
-    const playLoader = async () => {
+    const playVideo = async () => {
       try {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+
         video.currentTime = 0;
         await video.play();
       } catch {
-        // iOS Low Power Mode / browser policy may still block autoplay.
-        // Loader will still close after 3 seconds.
+        if (!cancelled) {
+          setVideoBlocked(true);
+        }
       }
     };
 
-    playLoader();
+    if (video.readyState >= 2) {
+      playVideo();
+    } else {
+      video.addEventListener("loadeddata", playVideo, { once: true });
+    }
+
+    return () => {
+      cancelled = true;
+      video.removeEventListener("loadeddata", playVideo);
+    };
   }, [showLoader]);
 
   if (showLoader) {
     return (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#030303]">
-        <video
-          ref={videoRef}
-          src="/assets/loader.mp4"
-          autoPlay
-          muted
-          playsInline
-          loop
-          preload="auto"
-          disablePictureInPicture
-          controls={false}
-          className="h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
-        />
+        {!videoBlocked ? (
+          <video
+            ref={setLoaderVideoRef}
+            src="/assets/loader-ios.mp4"
+            poster="/assets/loader-poster.png"
+            autoPlay
+            muted
+            playsInline
+            loop
+            preload="auto"
+            disablePictureInPicture
+            controls={false}
+            onError={() => setVideoBlocked(true)}
+            className="loader-video pointer-events-none h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+          />
+        ) : (
+          <img
+            src="/assets/loader-poster.png"
+            alt="Loading"
+            className="h-auto max-h-[72vh] w-[78vw] max-w-[920px] object-contain md:w-[85vw]"
+          />
+        )}
       </div>
     );
   }
@@ -94,7 +131,6 @@ export default function Home() {
         <ClientLogos />
         <Testimonials />
         <FAQ />
-        {/* <CTABanner /> */}
         <ContactForm />
         <Footer />
       </main>

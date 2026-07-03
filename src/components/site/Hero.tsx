@@ -1,54 +1,13 @@
 "use client";
 
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import {
-  Canvas,
-  useFrame,
-  useThree,
-  type ThreeEvent,
-} from "@react-three/fiber";
+import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 
-import {
-  Bounds,
-  Center,
-  ContactShadows,
-  Environment,
-  Html,
-  OrbitControls,
-  useGLTF,
-  useTexture,
-} from "@react-three/drei";
+import { Bounds, Center, ContactShadows, Environment, Html, OrbitControls, useGLTF, useTexture } from "@react-three/drei";
 
-import {
-  ACESFilmicToneMapping,
-  Box3,
-  BufferAttribute,
-  ClampToEdgeWrapping,
-  DoubleSide,
-  Group,
-  LinearFilter,
-  LinearMipmapLinearFilter,
-  MathUtils,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-  PerspectiveCamera,
-  SRGBColorSpace,
-  Texture,
-  TextureLoader,
-  Vector3,
-  VideoTexture,
-} from "three";
-
+import { ACESFilmicToneMapping, Box3, BufferAttribute, ClampToEdgeWrapping, DoubleSide, Group, LinearFilter, LinearMipmapLinearFilter, MathUtils, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, SRGBColorSpace, Texture, TextureLoader, Vector3, VideoTexture } from "three";
+import "./Hero.css";
 type VehicleItem = {
   id: string;
 
@@ -1617,45 +1576,7 @@ function VehicleHotspots({
           zIndexRange={[55, 0]}
         >
           <div
-            className={`
-
-              pointer-events-none
-
-              flex
-
-              items-center
-
-              gap-2
-
-              whitespace-nowrap
-
-              rounded-full
-
-              border
-
-              px-3
-
-              py-2
-
-              text-[11px]
-
-              font-semibold
-
-              shadow-[0_18px_44px_rgba(15,23,42,0.16)]
-
-              backdrop-blur-2xl
-
-              transition-all
-
-              duration-700
-
-              ${
-                isNightMode
-                  ? "border-white/14 bg-black/62 text-white"
-                  : "border-white/90 bg-white/84 text-slate-700"
-              }
-
-            `}
+            className={`pointer-events-none flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-semibold shadow-[0_18px_44px_rgba(15,23,42,0.16)] backdrop-blur-2xl transition-all duration-700 ${ isNightMode ? "border-white/14 bg-black/62 text-white" : "border-white/90 bg-white/84 text-slate-700" }`}
 
             style={{
               animation: `hotspotFloat 2.6s ease-in-out ${
@@ -1664,23 +1585,7 @@ function VehicleHotspots({
             }}
           >
             <span
-              className={`
-
-                relative
-
-                h-2.5
-
-                w-2.5
-
-                rounded-full
-
-                ${
-                  isNightMode
-                    ? "bg-white shadow-[0_0_18px_rgba(255,255,255,0.8)]"
-                    : "bg-slate-950 shadow-[0_0_18px_rgba(15,23,42,0.22)]"
-                }
-
-              `}
+              className={`relative h-2.5 w-2.5 rounded-full ${ isNightMode ? "bg-white shadow-[0_0_18px_rgba(255,255,255,0.8)]" : "bg-slate-950 shadow-[0_0_18px_rgba(15,23,42,0.22)]" }`}
             />
 
             {hotspot.label}
@@ -2321,21 +2226,7 @@ function VehicleCanvas({
         ) : (
           <Html center zIndexRange={[60, 0]}>
             <div
-              className={`
-                rounded-2xl
-                border
-                px-5
-                py-3
-                text-sm
-                font-semibold
-                shadow-[0_18px_50px_rgba(15,23,42,0.08)]
-                backdrop-blur-2xl
-                ${
-                  isNightMode
-                    ? "border-white/12 bg-black/48 text-white/80"
-                    : "border-white/90 bg-white/76 text-slate-600"
-                }
-              `}
+              className={`rounded-2xl border px-5 py-3 text-sm font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-2xl ${ isNightMode ? "border-white/12 bg-black/48 text-white/80" : "border-white/90 bg-white/76 text-slate-600" }`}
             >
               Vehicle preview disabled
             </div>
@@ -2404,84 +2295,20 @@ function RouteProofCards({
 
   return (
     <div
-      className={`
-
-        pointer-events-none
-
-        absolute
-
-        right-4
-
-        top-[18%]
-
-        z-[52]
-
-        hidden
-
-        w-[250px]
-
-        flex-col
-
-        gap-3
-
-        transition-all
-
-        duration-700
-
-        lg:flex
-
-        ${isDemoMode ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}
-
-      `}
+      className={`pointer-events-none absolute right-4 top-[18%] z-[52] hidden w-[250px] flex-col gap-3 transition-all duration-700 lg:flex ${isDemoMode ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
     >
       {cards.map((card, index) => (
         <div
           key={card.label}
 
-          className={`
-
-            rounded-2xl
-
-            border
-
-            px-4
-
-            py-3.5
-
-            shadow-[0_18px_50px_rgba(15,23,42,0.1)]
-
-            backdrop-blur-2xl
-
-            transition-all
-
-            duration-700
-
-            ${
-              isNightMode
-                ? "border-white/12 bg-black/48 text-white"
-                : "border-white/90 bg-white/76 text-slate-950"
-            }
-
-          `}
+          className={`rounded-2xl border px-4 py-3.5 shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 ${ isNightMode ? "border-white/12 bg-black/48 text-white" : "border-white/90 bg-white/76 text-slate-950" }`}
 
           style={{
             transitionDelay: `${index * 90}ms`,
           }}
         >
           <div
-            className={`
-
-              text-[10px]
-
-              font-semibold
-
-              uppercase
-
-              tracking-[0.22em]
-
-              ${isNightMode ? "text-white/50" : "text-slate-400"}
-
-            `}
+            className={`text-[10px] font-semibold uppercase tracking-[0.22em] ${isNightMode ? "text-white/50" : "text-slate-400"}`}
           >
             {card.label}
           </div>
@@ -2506,57 +2333,7 @@ function DemoStatusBar({
 }) {
   return (
     <div
-      className={`
-
-        pointer-events-none
-
-        absolute
-
-        left-1/2
-
-        top-[14%]
-
-        z-[54]
-
-        hidden
-
-        -translate-x-1/2
-
-        items-center
-
-        gap-3
-
-        rounded-full
-
-        border
-
-        px-4
-
-        py-2
-
-        text-xs
-
-        font-semibold
-
-        shadow-[0_18px_50px_rgba(15,23,42,0.1)]
-
-        backdrop-blur-2xl
-
-        transition-all
-
-        duration-700
-
-        md:flex
-
-        ${isDemoMode ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}
-
-        ${
-          isNightMode
-            ? "border-white/12 bg-black/44 text-white"
-            : "border-white/90 bg-white/78 text-slate-700"
-        }
-
-      `}
+      className={`pointer-events-none absolute left-1/2 top-[14%] z-[54] hidden -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 text-xs font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 md:flex ${isDemoMode ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} ${ isNightMode ? "border-white/12 bg-black/44 text-white" : "border-white/90 bg-white/78 text-slate-700" }`}
     >
       <span className="relative flex h-2.5 w-2.5">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
@@ -2605,98 +2382,12 @@ function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
 
       onClick={onDismiss}
 
-      className={`
-
-        absolute
-
-        left-1/2
-
-        top-0
-
-        z-[70]
-
-        flex
-
-        -translate-x-1/2
-
-        items-center
-
-        gap-2.5
-
-        whitespace-nowrap
-
-        rounded-full
-
-        border
-
-        border-white/90
-
-        bg-white/82
-
-        px-4
-
-        py-2.5
-
-        text-sm
-
-        font-medium
-
-        text-slate-600
-
-        shadow-[0_16px_48px_rgba(15,23,42,0.095)]
-
-        outline-none
-
-        ring-1
-
-        ring-slate-950/[0.04]
-
-        backdrop-blur-2xl
-
-        transition-all
-
-        duration-500
-
-        ease-out
-
-        hover:bg-white
-
-        hover:text-slate-950
-
-        focus-visible:ring-2
-
-        focus-visible:ring-[#5683A0]/40
-
-        ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}
-
-      `}
+      className={`absolute left-1/2 top-0 z-[70] flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/90 bg-white/82 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-[0_16px_48px_rgba(15,23,42,0.095)] outline-none ring-1 ring-slate-950/[0.04] backdrop-blur-2xl transition-all duration-500 ease-out hover:bg-white hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-[#5683A0]/40 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
     >
       <span
         aria-hidden="true"
 
-        className="
-
-          flex
-
-          h-7
-
-          w-7
-
-          items-center
-
-          justify-center
-
-          rounded-full
-
-          bg-slate-950
-
-          text-xs
-
-          text-white
-
-          shadow-[0_10px_24px_rgba(15,23,42,0.16)]
-
-        "
+        className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-xs text-white shadow-[0_10px_24px_rgba(15,23,42,0.16)]"
       >
         🖱
       </span>
@@ -2826,45 +2517,7 @@ function VehicleSelector({
     <div
       ref={selectorRef}
 
-      className={`
-
-        relative
-
-        z-[60]
-
-        mt-6
-
-        flex
-
-        max-w-full
-
-        flex-wrap
-
-        justify-center
-
-        gap-1.5
-
-        overflow-visible
-
-        rounded-[999px]
-
-        border
-
-        p-1.5
-
-        shadow-[0_18px_56px_rgba(15,23,42,0.07)]
-
-        backdrop-blur-2xl
-
-        pointer-events-auto
-
-        ${
-          isNightMode
-            ? "border-white/12 bg-white/[0.06] ring-1 ring-white/[0.05]"
-            : "border-white/90 bg-white/68 ring-1 ring-slate-950/[0.04]"
-        }
-
-      `}
+      className={`relative z-[60] mt-6 flex max-w-full flex-wrap justify-center gap-1.5 overflow-visible rounded-[999px] border p-1.5 shadow-[0_18px_56px_rgba(15,23,42,0.07)] backdrop-blur-2xl pointer-events-auto RdswNew_VehicleSelector ${ isNightMode ? "border-white/12 bg-white/[0.06] ring-1 ring-white/[0.05]" : "border-white/90 bg-white/68 ring-1 ring-slate-950/[0.04]" }`}
 
       role="tablist"
 
@@ -2873,7 +2526,7 @@ function VehicleSelector({
       <span
         aria-hidden="true"
 
-        className="pointer-events-none absolute z-[1] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        className="pointer-events-none absolute z-[1] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] rdswVehicleTabVehicle"
 
         style={{
           left: activeIndicator.left - 8,
@@ -2890,11 +2543,7 @@ function VehicleSelector({
         <svg
           viewBox="0 0 210 60"
           preserveAspectRatio="none"
-          className={`absolute inset-0 h-full w-full overflow-visible ${
-            isTruckMoving
-              ? "animate-[selectorTruckDrive_0.76s_ease-in-out_1]"
-              : "animate-[selectorTruckFloat_2.2s_ease-in-out_infinite]"
-          }`}
+          className={`absolute inset-0 h-full w-full overflow-visible ${ isTruckMoving ? "animate-[selectorTruckDrive_0.76s_ease-in-out_1]" : "animate-[selectorTruckFloat_2.2s_ease-in-out_infinite]" }`}
         >
           <defs>
             <filter
@@ -3102,53 +2751,7 @@ function VehicleSelector({
 
             onClick={() => handleVehicleSelect(vehicle)}
 
-            className={`
-
-              relative
-
-              z-[2]
-
-              rounded-full
-
-              border
-
-              border-transparent
-
-              bg-transparent
-
-              px-4
-
-              py-2.5
-
-              text-sm
-
-              font-semibold
-
-              tracking-[-0.01em]
-
-              outline-none
-
-              transition-colors
-
-              duration-300
-
-              ease-out
-
-              focus-visible:ring-2
-
-              focus-visible:ring-[#5683A0]/35
-
-              sm:px-5
-
-              ${
-                isActive
-                  ? "text-transparent"
-                  : isNightMode
-                    ? "text-white/58 hover:text-white"
-                    : "text-slate-500 hover:text-slate-950"
-              }
-
-            `}
+            className={`relative z-[2] rounded-full border border-transparent bg-transparent px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] outline-none transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-[#5683A0]/35 sm:px-5 ${ isActive ? "text-transparent" : isNightMode ? "text-white/58 hover:text-white" : "text-slate-500 hover:text-slate-950" }`}
           >
             {vehicle.label}
           </button>
@@ -3184,47 +2787,7 @@ function DemoControls({
 
         onClick={onToggleDemo}
 
-        className={`
-
-          inline-flex
-
-          items-center
-
-          gap-2
-
-          rounded-full
-
-          border
-
-          px-5
-
-          py-2.5
-
-          text-sm
-
-          font-semibold
-
-          tracking-[-0.01em]
-
-          shadow-[0_18px_44px_rgba(15,23,42,0.09)]
-
-          backdrop-blur-2xl
-
-          transition-all
-
-          duration-300
-
-          hover:-translate-y-0.5
-
-          ${
-            isDemoMode
-              ? "border-emerald-400/60 bg-emerald-500 text-white shadow-[0_18px_48px_rgba(16,185,129,0.24)]"
-              : isNightMode
-                ? "border-white/14 bg-white/10 text-white hover:bg-white/16"
-                : "border-slate-950 bg-slate-950 text-white"
-          }
-
-        `}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] shadow-[0_18px_44px_rgba(15,23,42,0.09)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${ isDemoMode ? "border-emerald-400/60 bg-emerald-500 text-white shadow-[0_18px_48px_rgba(16,185,129,0.24)]" : isNightMode ? "border-white/14 bg-white/10 text-white hover:bg-white/16" : "border-slate-950 bg-slate-950 text-white" }`}
       >
         <span className="h-2 w-2 rounded-full bg-current" />
 
@@ -3236,43 +2799,7 @@ function DemoControls({
 
         onClick={onToggleNight}
 
-        className={`
-
-          inline-flex
-
-          items-center
-
-          gap-2
-
-          rounded-full
-
-          border
-
-          px-5
-
-          py-2.5
-
-          text-sm
-
-          font-semibold
-
-          tracking-[-0.01em]
-
-          backdrop-blur-2xl
-
-          transition-all
-
-          duration-300
-
-          hover:-translate-y-0.5
-
-          ${
-            isNightMode
-              ? "border-white bg-white text-slate-950"
-              : "border-white/90 bg-white/74 text-slate-600 hover:bg-white hover:text-slate-950"
-          }
-
-        `}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${ isNightMode ? "border-white bg-white text-slate-950" : "border-white/90 bg-white/74 text-slate-600 hover:bg-white hover:text-slate-950" }`}
       >
         {isNightMode ? "Day View" : "Night View"}
       </button>
@@ -3442,33 +2969,7 @@ export function Hero() {
     activeVehicle.id === "7x5" && !isNightMode;
 
   return (
-    <section
-      id="home"
-
-      ref={heroRef}
-
-      className={`
-
-        relative
-
-        isolate
-
-        min-h-screen
-
-        w-full
-
-        overflow-hidden
-
-        text-slate-950
-
-        transition-colors
-
-        duration-700
-
-        ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}
-
-      `}
-    >
+    <section id="home" ref={heroRef} className={`relative isolate min-h-screen w-full overflow-hidden text-slate-950 transition-colors duration-700 ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}`} style={{height:'max-content' }}>
       <style>{`
 
         @keyframes hotspotFloat {
@@ -3518,21 +3019,7 @@ export function Hero() {
       <div
         ref={bgRef}
 
-        className="
-
-          pointer-events-none
-
-          absolute
-
-          -inset-10
-
-          will-change-transform
-
-          transition-all
-
-          duration-700
-
-        "
+        className="pointer-events-none absolute -inset-10 will-change-transform transition-all duration-700"
 
         style={{
           background: isNightMode
@@ -3546,31 +3033,7 @@ export function Hero() {
       <div
         ref={ambientRef}
 
-        className="
-
-          pointer-events-none
-
-          absolute
-
-          left-1/2
-
-          top-[66%]
-
-          h-[520px]
-
-          w-[1080px]
-
-          rounded-full
-
-          blur-3xl
-
-          will-change-transform
-
-          transition-all
-
-          duration-700
-
-        "
+        className="pointer-events-none absolute left-1/2 top-[66%] h-[520px] w-[1080px] rounded-full blur-3xl will-change-transform transition-all duration-700"
 
         style={{
           background: isNightMode
@@ -3582,23 +3045,7 @@ export function Hero() {
       />
 
       <div
-        className={`
-
-          pointer-events-none
-
-          absolute
-
-          inset-0
-
-          z-[11]
-
-          transition-opacity
-
-          duration-700
-
-          ${isLightVehicleContrastBackground ? "opacity-100" : "opacity-0"}
-
-        `}
+        className={`pointer-events-none absolute inset-0 z-[11] transition-opacity duration-700 ${isLightVehicleContrastBackground ? "opacity-100" : "opacity-0"}`}
         style={{
           background:
             "radial-gradient(ellipse at 50% 43%, rgba(86,131,160,0.18) 0%, rgba(86,131,160,0.12) 28%, rgba(15,23,42,0.055) 46%, transparent 68%), radial-gradient(ellipse at 50% 60%, rgba(86,131,160,0.18) 0%, rgba(86,131,160,0.11) 32%, rgba(15,23,42,0.055) 52%, transparent 74%), radial-gradient(ellipse at 50% 76%, rgba(15,23,42,0.07) 0%, transparent 44%)",
@@ -3606,29 +3053,7 @@ export function Hero() {
       />
 
       <div
-        className={`
-
-          pointer-events-none
-
-          absolute
-
-          inset-0
-
-          z-[12]
-
-          transition-opacity
-
-          duration-700
-
-          ${
-            isDemoMode
-              ? isNightMode
-                ? "opacity-60"
-                : "opacity-34"
-              : "opacity-0"
-          }
-
-        `}
+        className={`pointer-events-none absolute inset-0 z-[12] transition-opacity duration-700 ${ isDemoMode ? isNightMode ? "opacity-60" : "opacity-34" : "opacity-0" }`}
 
         style={{
           background:
@@ -3647,101 +3072,15 @@ export function Hero() {
         }}
       />
 
-      <div
-        className="
-
-          relative
-
-          z-20
-
-          mx-auto
-
-          flex
-
-          min-h-screen
-
-          max-w-7xl
-
-          flex-col
-
-          items-center
-
-          px-4
-
-          pt-[112px]
-
-          text-center
-
-          md:px-8
-
-          lg:pt-[104px]
-
-        "
-      >
+      <div className="relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-4 pt-[96px] text-center md:px-8 md:pt-[104px] lg:pt-[104px] xl:pt-[112px] RdswNew_HomeBannerMain" >
         <h1
-          className={`
-
-            relative
-
-            z-40
-
-            max-w-4xl
-
-            bg-clip-text
-
-            text-[36px]
-
-            font-semibold
-
-            leading-[1.03]
-
-            tracking-[-0.055em]
-
-            text-transparent
-
-            transition-all
-
-            duration-700
-
-            md:text-[52px]
-
-            lg:text-[50px]
-
-            ${
-              isNightMode
-                ? "bg-gradient-to-b from-white via-slate-200 to-slate-500"
-                : "bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500"
-            }
-
-          `}
+          className={`relative z-40 max-w-4xl bg-clip-text text-[36px] font-semibold leading-[1.03] tracking-[-0.055em] text-transparent transition-all duration-700 md:text-[52px] lg:text-[50px] RdswNew_HeroTitle ${ isNightMode ? "bg-gradient-to-b from-white via-slate-200 to-slate-500" : "bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500" }`}
         >
           Take Your Brand Where Your Customers Are
         </h1>
 
         <p
-          className={`
-
-            relative
-
-            z-40
-
-            mt-4
-
-            max-w-2xl
-
-            text-sm
-
-            leading-6
-
-            transition-colors
-
-            duration-500
-
-            md:text-base
-
-            ${isNightMode ? "text-white/54" : "text-slate-500"}
-
-          `}
+          className={`relative z-40 mt-4 max-w-2xl text-sm leading-6 transition-colors duration-500 md:text-base RdswNew_HeroSubTitle ${isNightMode ? "text-white/54" : "text-slate-500"}`}
         >
           Built to be seen. Designed to be remembered
         </p>
@@ -3767,72 +3106,14 @@ export function Hero() {
         />
 
         <div
-          className="
-
-            relative
-
-            z-[65]
-
-            mt-4
-
-            h-11
-
-            w-full
-
-            pointer-events-auto
-
-          "
+          className="relative z-[65] mt-4 h-11 w-full pointer-events-auto"
         >
           {showRotateHint && !hasSeenRotateHint && !isDemoMode && (
             <RotateHintCard onDismiss={dismissRotateHint} />
           )}
         </div>
 
-        <div
-          ref={canvasWrapRef}
-
-          className="
-
-            absolute
-
-            inset-x-0
-
-            top-[252px]
-
-            z-10
-
-            mx-auto
-
-            h-[calc(100vh-272px)]
-
-            min-h-[330px]
-
-            max-h-[500px]
-
-            w-full
-
-            max-w-[1160px]
-
-            touch-none
-
-            overflow-visible
-
-            will-change-transform
-
-            transition-transform
-
-            duration-700
-
-            md:top-[244px]
-
-            md:h-[calc(100vh-264px)]
-
-            lg:top-[236px]
-
-            lg:h-[calc(100vh-256px)]
-
-          "
-        >
+        <div ref={canvasWrapRef} className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100vh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100vh-264px)] lg:top-[236px] lg:h-[calc(100vh-256px)]"  >
           <VehicleCanvas
             vehicle={activeVehicle}
 
@@ -3861,35 +3142,9 @@ export function Hero() {
         </div>
       </div>
 
-      <div
-        className={`
-
-          pointer-events-none
-
-          absolute
-
-          inset-x-0
-
-          bottom-0
-
-          z-30
-
-          h-[76px]
-
-          transition-all
-
-          duration-700
-
-          ${
-            isNightMode
-              ? "bg-gradient-to-t from-[#05070B] via-[#05070B]/62 to-transparent"
-              : isLightVehicleContrastBackground
-                ? "bg-gradient-to-t from-[#F3F8FF]/88 via-[#F3F8FF]/48 to-transparent"
-                : "bg-gradient-to-t from-white/84 via-white/46 to-transparent"
-          }
-
-        `}
-      />
+      {/* <div
+        className={`pointer-events-none absolute inset-x-0 bottom-0 z-30 h-[76px] transition-all duration-700 ${ isNightMode ? "bg-gradient-to-t from-[#05070B] via-[#05070B]/62 to-transparent" : isLightVehicleContrastBackground ? "bg-gradient-to-t from-[#F3F8FF]/88 via-[#F3F8FF]/48 to-transparent" : "bg-gradient-to-t from-white/84 via-white/46 to-transparent" }`}
+      /> */}
     </section>
   );
 }

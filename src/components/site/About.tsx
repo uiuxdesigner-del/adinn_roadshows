@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   UsersRound,
 } from "lucide-react";
-
+import './About.css'
 const aboutBg = "/assets/abou-img.png";
 
 const features = [
@@ -114,26 +114,9 @@ export function About() {
   }, []);
 
   return (
-    <section
-      id="about"
-      style={{
-        backgroundImage: `url(${aboutBg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-      className="
-  relative
-  -mt-32
-  overflow-hidden
-  pt-56
-  pb-24
-  md:pt-60
-  md:pb-28
-"
-    >
+   <section id="about" style={{ backgroundImage: `url(${aboutBg})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} className="relative overflow-hidden RdswNew_AboutSection" >
       {/* FULL WIDTH LEFT + RIGHT CONTENT BG MERGE */}
-      <div
+      <div 
         className="
           pointer-events-none
           absolute
@@ -146,30 +129,10 @@ export function About() {
         "
       />
 {/* HERO TO ABOUT CENTER MERGE */}
-<div
-  className="
-    pointer-events-none
-    absolute
-    inset-x-0
-    top-0
-    z-[2]
-    h-[520px]
-    bg-[linear-gradient(180deg,#000000_0%,rgba(0,0,0,0.98)_18%,rgba(0,0,0,0.88)_36%,rgba(0,0,0,0.62)_58%,rgba(0,0,0,0.30)_80%,rgba(0,0,0,0)_100%)]
-  "
-/>
+<div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-[520px] bg-[linear-gradient(180deg,#000000_0%,rgba(0,0,0,0.98)_18%,rgba(0,0,0,0.88)_36%,rgba(0,0,0,0.62)_58%,rgba(0,0,0,0.30)_80%,rgba(0,0,0,0)_100%)] RdswNew_AboutTopMerge" />
 
 {/* SOFT CENTER BLEND */}
-<div
-  className="
-    pointer-events-none
-    absolute
-    inset-x-0
-    top-0
-    z-[3]
-    h-[620px]
-    bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.52)_30%,rgba(0,0,0,0.24)_58%,rgba(0,0,0,0)_82%)]
-  "
-/>
+<div className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-[620px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.52)_30%,rgba(0,0,0,0.24)_58%,rgba(0,0,0,0)_82%)] RdswNew_AboutSoftBlend" />
       <div
         className="
           container-x

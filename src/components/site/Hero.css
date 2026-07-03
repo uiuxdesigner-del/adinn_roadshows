@@ -148,21 +148,25 @@
 /* Small desktop / laptop: this fixes your second screenshot */
 @media (min-width: 1024px) and (max-width: 1280px) {
   .RdswNew_HomeBannerMain {
-     min-height: 116svh;
-    padding-top: 112px;
+    min-height: 130svh;
+    padding-top: 110px;
     padding-bottom: 0px;
   }
 
   .RdswNew_HeroTitle {
-    font-size: clamp(42px, 4vw, 50px) !important;
+    font-size: clamp(42px, 4vw, 45px) !important;
     max-width: 1120px !important;
   }
 
-  /* .RdswNew_VehicleSelector {
-    margin-top: 22px !important;
-    transform: scale(0.92);
-    transform-origin: top center;
-  } */
+  .RdswNew_HeroSubTitle {
+    margin-top: 10px;
+  }
+
+  .RdswNew_VehicleSelector {
+    margin-top: 15px !important;
+    /* transform: scale(0.92);
+    transform-origin: top center; */
+  }
 
   .RdswNew_VehicleCanvasWrap {
     top: 250px !important;
@@ -170,13 +174,13 @@
     min-height: 400px !important;
     max-height: 510px !important;
     max-width: 980px !important;
-      margin: 5% auto;
-    margin-bottom: 2%;
+    margin: 3% auto;
+    margin-bottom: 6%;
   }
 
   .RdswNew_AboutSection {
     /* margin-top: -48px;*/
-    padding-top: 132px; 
+    padding-top: 122px;
     padding-bottom: 96px;
     /* border: 4px solid white; */
   }
@@ -188,6 +192,7 @@
   .RdswNew_AboutSoftBlend {
     height: 460px !important;
   }
+
   /* .rdswVehicleTabVehicle{
   
     left: 295.362px !important;
@@ -239,7 +244,7 @@
   }
 
   .RdswNew_VehicleCanvasWrap {
-    
+
     top: 252px !important;
     height: calc(100svh - 272px) !important;
     min-height: 330px !important;

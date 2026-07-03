@@ -407,7 +407,7 @@ export function ClientLogos() {
 
     const timer = window.setInterval(() => {
       next();
-    }, 2400);
+    }, 1400);
 
     return () => window.clearInterval(timer);
   }, [isPaused, next]);

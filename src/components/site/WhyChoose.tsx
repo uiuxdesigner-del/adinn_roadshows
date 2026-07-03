@@ -1,12 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
-import { motion } from "framer-motion";
-import { BleedButton } from "./BleedButton";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  ChevronLeft,
-  ChevronRight,
   Headphones,
   MapPin,
   Route,
@@ -54,127 +51,107 @@ const items = [
   },
 ];
 
-function CardVisual({
-  image,
-  title,
-}: {
-  image: string;
-  title: string;
-}) {
+function CardVisual({ image, title }: { image: string; title: string }) {
   return (
     <div className="absolute inset-x-2 bottom-2 h-[220px] overflow-hidden">
       <img
         src={image}
         alt={title}
         draggable={false}
-        className="
-          h-full
-          w-full
-          scale-[1.18]
-          select-none
-          object-contain
-          object-bottom
-        "
+        className="h-full w-full scale-[1.18] select-none object-contain object-bottom"
       />
     </div>
   );
 }
 
 export function WhyChoose() {
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  const scrollCards = (direction: "left" | "right") => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+  const [scrollDistance, setScrollDistance] = useState(0);
 
-    slider.scrollBy({
-      left: direction === "left" ? -430 : 430,
-      behavior: "smooth",
-    });
-  };
+  /**
+   * Increase this value if you want to reduce more bottom gap.
+   * Good range: 120 to 220
+   */
+  const bottomSpaceReduction = 170;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollDistance]);
+
+  useEffect(() => {
+    const updateScrollDistance = () => {
+      const viewport = viewportRef.current;
+      const track = trackRef.current;
+
+      if (!viewport || !track) return;
+
+      const viewportWidth = viewport.offsetWidth;
+      const trackWidth = track.scrollWidth;
+
+      setScrollDistance(Math.max(0, trackWidth - viewportWidth));
+    };
+
+    updateScrollDistance();
+
+    const resizeObserver = new ResizeObserver(updateScrollDistance);
+
+    if (viewportRef.current) resizeObserver.observe(viewportRef.current);
+    if (trackRef.current) resizeObserver.observe(trackRef.current);
+
+    window.addEventListener("resize", updateScrollDistance);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateScrollDistance);
+    };
+  }, []);
+
+  const sectionHeight =
+    scrollDistance > 0
+      ? `calc(100vh + ${Math.max(
+          0,
+          scrollDistance - bottomSpaceReduction
+        )}px)`
+      : "100vh";
 
   return (
     <section
+      ref={sectionRef}
       id="why"
-      className="
-        relative
-        overflow-hidden
-        bg-[#F4F7FB]
-        py-24
-        text-[#071426]
-        md:py-28
-      "
+      style={{
+        height: sectionHeight,
+      }}
+      className="relative bg-[#F4F7FB] text-[#071426]"
     >
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_50%_0%,rgba(47,107,255,0.08),transparent_42%)]
-        "
-      />
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#F4F7FB] pt-20 pb-8 md:pt-24 md:pb-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(47,107,255,0.08),transparent_42%)]" />
 
-      <div
-        className="
-          relative
-          z-10
-          w-full
-          px-6
-          md:px-10
-          lg:px-14
-          xl:px-16
-        "
-      >
-        <Reveal delay={1}>
-          <h2
-            className="
-              mt-5
-              max-w-5xl
-              font-display
-              text-[28px]
-              font-semibold
-              leading-[1.05]
-              tracking-[-0.055em]
-              text-[#071426]
-              md:text-[32px]
-              lg:text-[34px]
-            "
-          >
-            Why brands choose Adinn Roadshows
-          </h2>
-        </Reveal>
+        <div className="relative z-10 w-full px-6 md:px-10 lg:px-14 xl:px-16">
+          <Reveal delay={1}>
+            <h2 className="mt-5 max-w-5xl font-display text-[28px] font-semibold leading-[1.05] tracking-[-0.055em] text-[#071426] md:text-[32px] lg:text-[34px]">
+              Why brands choose Adinn Roadshows
+            </h2>
+          </Reveal>
 
-        <div
-          ref={sliderRef}
-          className="
-            mt-14
-            overflow-x-auto
-            scroll-smooth
-            pb-6
-            [scrollbar-width:none]
-            [&::-webkit-scrollbar]:hidden
-          "
-        >
-          <div className="flex gap-5">
-            {items.map((it, index) => {
-              const Icon = it.i;
+          <div ref={viewportRef} className="mt-12 overflow-hidden pb-4 md:mt-14">
+            <motion.div
+              ref={trackRef}
+              style={{ x }}
+              className="flex w-max gap-5"
+            >
+              {items.map((it, index) => {
+                const Icon = it.i;
 
-              return (
-                <Reveal key={it.t} delay={index}>
+                return (
                   <article
-                    className="
-                      relative
-                      h-[440px]
-                      w-[360px]
-                      shrink-0
-                      overflow-hidden
-                      rounded-[24px]
-                      bg-white
-                      px-6
-                      pt-7
-                      md:w-[390px]
-                      lg:w-[410px]
-                    "
+                    key={it.t}
+                    className="relative h-[440px] w-[360px] shrink-0 overflow-hidden rounded-[24px] bg-white px-6 pt-7 md:w-[390px] lg:w-[410px]"
                   >
                     <motion.div
                       animate={{ y: [0, -6, 0] }}
@@ -184,46 +161,16 @@ export function WhyChoose() {
                         ease: "easeInOut",
                         delay: index * 0.18,
                       }}
-                      className="
-  inline-flex
-  size-11
-  items-center
-  justify-center
-  rounded-full
-  bg-white
-  text-[#E3000F]
-"
+                      className="inline-flex size-11 items-center justify-center rounded-full bg-white text-[#E3000F]"
                     >
                       <Icon className="size-6" strokeWidth={2.2} />
                     </motion.div>
 
-                    <h3
-                      className="
-                        mt-7
-                        min-h-[52px]
-                        max-w-[300px]
-                        whitespace-pre-line
-                        font-display
-                        text-[20px]
-                        font-semibold
-                        leading-[1.15]
-                        tracking-[-0.035em]
-                        text-[#111111]
-                      "
-                    >
+                    <h3 className="mt-7 min-h-[52px] max-w-[300px] whitespace-pre-line font-display text-[20px] font-semibold leading-[1.15] tracking-[-0.035em] text-[#111111]">
                       {it.t}
                     </h3>
 
-                    <p
-                      className="
-                        mt-2
-                        min-h-[48px]
-                        max-w-[300px]
-                        text-[14px]
-                        leading-6
-                        text-[#3F4550]
-                      "
-                    >
+                    <p className="mt-2 min-h-[48px] max-w-[300px] text-[14px] leading-6 text-[#3F4550]">
                       {it.d}
                     </p>
 
@@ -232,28 +179,10 @@ export function WhyChoose() {
                       title={it.t.replace("\n", " ")}
                     />
                   </article>
-                </Reveal>
-              );
-            })}
+                );
+              })}
+            </motion.div>
           </div>
-        </div>
-
-        <div className="mt-3 flex items-center justify-end gap-4">
-          <BleedButton
-            type="button"
-            onClick={() => scrollCards("left")}
-            className="bleed-icon-button"
-          >
-            <ChevronLeft className="size-5" strokeWidth={1.8} />
-          </BleedButton>
-
-          <BleedButton
-            type="button"
-            onClick={() => scrollCards("right")}
-            className="bleed-icon-button"
-          >
-            <ChevronRight className="size-5" strokeWidth={1.8} />
-          </BleedButton>
         </div>
       </div>
     </section>

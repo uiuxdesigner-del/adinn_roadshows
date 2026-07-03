@@ -416,15 +416,15 @@ export function Services() {
       <div className="container-x">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <Reveal>
+            {/* <Reveal>
               <div className="eyebrow">
                 Roadshow <span className="text-[#e3000f]">Solutions</span>
               </div>
-            </Reveal>
+            </Reveal> */}
 
             <Reveal delay={1}>
               <h2 className="mt-3 text-[28px] md:text-[36px] lg:text-[40px] font-display font-semibold text-balance-tight leading-[1.08]">
-                Built for <br /> brand impact
+                Build to move brands
               </h2>
             </Reveal>
           </div>

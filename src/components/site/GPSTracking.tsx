@@ -5,6 +5,7 @@
 import { Reveal } from "./Reveal";
 import { Activity, MapPin, Navigation2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { BleedButton } from "./BleedButton";
 
 type LatLng = [number, number];
 
@@ -699,7 +700,7 @@ function preloadVehicleImage() {
   image.src = VEHICLE_IMAGE_PATH;
 
   if ("decode" in image) {
-    image.decode().catch(() => {});
+    image.decode().catch(() => { });
   }
 }
 
@@ -742,7 +743,7 @@ function setCachedRoadRoutes(routes: Record<string, LatLng[]>) {
         routes,
       }),
     );
-  } catch {}
+  } catch { }
 }
 
 async function fetchRoadSnappedRoute(zone: VehicleZone) {
@@ -1526,13 +1527,11 @@ export function GPSTracking() {
     <section className="section-pad">
       <div className="container-x grid items-center gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <Reveal>
-            <div className="eyebrow">GPS Tracking</div>
-          </Reveal>
+
 
           <Reveal delay={1}>
-            <h2 className="mt-3 font-display text-[34px] font-semibold leading-[1.05] text-balance-tight md:text-[44px]">
-              Track your campaign with confidence
+            <h2 className="mt-3 font-display text-[34px] font-semibold leading-[1.05] text-balance-tight md:text-[34px]">
+              GPS Tracking to monitor your campaign with confidence.
             </h2>
           </Reveal>
 
@@ -1577,9 +1576,20 @@ export function GPSTracking() {
             </ul>
           </Reveal>
           <Reveal delay={4}>
-            <button
+            <BleedButton
               type="button"
-              className="btn-primary mt-9"
+              className="         btn-primary
+                mt-9
+                !h-auto
+                !px-6
+                !py-2.5
+                !text-[14px]
+                !shadow-none
+                !drop-shadow-none
+                md:!px-8
+                md:!py-6
+                md:!text-[15px]
+              "
               onClick={() => {
                 const contactSection = document.getElementById("contact");
 
@@ -1594,7 +1604,7 @@ export function GPSTracking() {
               }}
             >
               Consult With Our Campaign Team
-            </button>
+            </BleedButton>
           </Reveal>
         </div>
 

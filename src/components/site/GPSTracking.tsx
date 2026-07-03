@@ -93,7 +93,7 @@ function getVehicleScaleByZoomValue(zoom: number, baseZoom: number) {
   return clamp(
     Math.pow(VEHICLE_ZOOM_SCALE_POWER, zoomDifference),
     MIN_VEHICLE_SCALE,
-    MAX_VEHICLE_SCALE
+    MAX_VEHICLE_SCALE,
   );
 }
 
@@ -682,9 +682,7 @@ const VEHICLE_COUNT = vehicleZones.length;
 function preloadVehicleImage() {
   if (typeof window === "undefined") return;
 
-  const existingPreload = document.querySelector(
-    `link[data-adinn-vehicle-preload="true"]`
-  );
+  const existingPreload = document.querySelector(`link[data-adinn-vehicle-preload="true"]`);
 
   if (!existingPreload) {
     const preloadLink = document.createElement("link");
@@ -742,7 +740,7 @@ function setCachedRoadRoutes(routes: Record<string, LatLng[]>) {
       JSON.stringify({
         savedAt: Date.now(),
         routes,
-      })
+      }),
     );
   } catch {}
 }
@@ -773,9 +771,7 @@ async function fetchRoadSnappedRoute(zone: VehicleZone) {
       throw new Error(`Invalid route for ${zone.code}`);
     }
 
-    return routeCoordinates.map(
-      ([lng, lat]: [number, number]) => [lat, lng] as LatLng
-    );
+    return routeCoordinates.map(([lng, lat]: [number, number]) => [lat, lng] as LatLng);
   } finally {
     window.clearTimeout(timeoutId);
   }
@@ -795,7 +791,7 @@ async function loadRoadRoutes() {
       batch.map(async (zone) => {
         const route = await fetchRoadSnappedRoute(zone);
         return [zone.code, route] as const;
-      })
+      }),
     );
 
     results.forEach((result) => {
@@ -834,8 +830,7 @@ function distanceKm(a: LatLng, b: LatLng) {
   const sinLat = Math.sin(dLat / 2);
   const sinLng = Math.sin(dLng / 2);
 
-  const value =
-    sinLat * sinLat + Math.cos(lat1) * Math.cos(lat2) * sinLng * sinLng;
+  const value = sinLat * sinLat + Math.cos(lat1) * Math.cos(lat2) * sinLng * sinLng;
 
   return earthRadiusKm * 2 * Math.atan2(Math.sqrt(value), Math.sqrt(1 - value));
 }
@@ -846,9 +841,7 @@ function getBearing(from: LatLng, to: LatLng) {
   const lngDiff = ((to[1] - from[1]) * Math.PI) / 180;
 
   const y = Math.sin(lngDiff) * Math.cos(lat2);
-  const x =
-    Math.cos(lat1) * Math.sin(lat2) -
-    Math.sin(lat1) * Math.cos(lat2) * Math.cos(lngDiff);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lngDiff);
 
   return (Math.atan2(y, x) * 180) / Math.PI;
 }
@@ -876,9 +869,7 @@ function createRouteMetrics(route: LatLng[]): RouteMetrics {
   const cumulativeKm: number[] = [0];
 
   for (let index = 1; index < route.length; index += 1) {
-    cumulativeKm.push(
-      cumulativeKm[index - 1] + distanceKm(route[index - 1], route[index])
-    );
+    cumulativeKm.push(cumulativeKm[index - 1] + distanceKm(route[index - 1], route[index]));
   }
 
   return {
@@ -906,13 +897,9 @@ function findRouteSegment(metrics: RouteMetrics, distanceValueKm: number) {
 }
 
 function getPositionAtDistance(metrics: RouteMetrics, distanceValueKm: number) {
-  const routeDistance =
-    ((distanceValueKm % metrics.totalKm) + metrics.totalKm) % metrics.totalKm;
+  const routeDistance = ((distanceValueKm % metrics.totalKm) + metrics.totalKm) % metrics.totalKm;
 
-  const index = Math.min(
-    findRouteSegment(metrics, routeDistance),
-    metrics.route.length - 2
-  );
+  const index = Math.min(findRouteSegment(metrics, routeDistance), metrics.route.length - 2);
 
   const start = metrics.route[index];
   const end = metrics.route[index + 1];
@@ -921,11 +908,7 @@ function getPositionAtDistance(metrics: RouteMetrics, distanceValueKm: number) {
   const endDistance = metrics.cumulativeKm[index + 1];
   const segmentLength = Math.max(endDistance - startDistance, 0.000001);
 
-  const localProgress = clamp(
-    (routeDistance - startDistance) / segmentLength,
-    0,
-    1
-  );
+  const localProgress = clamp((routeDistance - startDistance) / segmentLength, 0, 1);
 
   return [
     start[0] + (end[0] - start[0]) * localProgress,
@@ -951,22 +934,17 @@ function nextMotionRandom(motion: VehicleMotion, min: number, max: number) {
 
 function scheduleNextVehicleMotion(motion: VehicleMotion, now: number) {
   motion.fromDistanceKm =
-    ((motion.currentDistanceKm % motion.metrics.totalKm) +
-      motion.metrics.totalKm) %
+    ((motion.currentDistanceKm % motion.metrics.totalKm) + motion.metrics.totalKm) %
     motion.metrics.totalKm;
 
-  const intervalMs = nextMotionRandom(
-    motion,
-    GPS_UPDATE_MIN_MS,
-    GPS_UPDATE_MAX_MS
-  );
+  const intervalMs = nextMotionRandom(motion, GPS_UPDATE_MIN_MS, GPS_UPDATE_MAX_MS);
 
   const trafficRoll = nextMotionRandom(motion, 0, 1);
 
   let nextSpeed = clamp(
     motion.speedKmh + nextMotionRandom(motion, -2.2, 2.2),
     MIN_SPEED_KMH,
-    MAX_SPEED_KMH
+    MAX_SPEED_KMH,
   );
 
   let pauseMs = 0;
@@ -984,10 +962,7 @@ function scheduleNextVehicleMotion(motion: VehicleMotion, now: number) {
   const trafficVariation = nextMotionRandom(motion, 0.78, 1.22);
 
   const travelDistanceKm =
-    nextSpeed *
-    intervalHours *
-    SIMULATION_ROUTE_SPEED_MULTIPLIER *
-    trafficVariation;
+    nextSpeed * intervalHours * SIMULATION_ROUTE_SPEED_MULTIPLIER * trafficVariation;
 
   motion.toDistanceKm = motion.fromDistanceKm + travelDistanceKm;
   motion.segmentStartMs = now;
@@ -1000,7 +975,7 @@ function createVehicleMotion(
   vehicle: Vehicle,
   metrics: RouteMetrics,
   seed: number,
-  now: number
+  now: number,
 ): VehicleMotion {
   const initialDistanceKm = vehicle.phase * metrics.totalKm;
 
@@ -1044,8 +1019,7 @@ function updateVehicleMotion(motion: VehicleMotion, now: number) {
     const easedProgress = easeInOut(progress);
 
     motion.currentDistanceKm =
-      motion.fromDistanceKm +
-      (motion.toDistanceKm - motion.fromDistanceKm) * easedProgress;
+      motion.fromDistanceKm + (motion.toDistanceKm - motion.fromDistanceKm) * easedProgress;
   }
 
   return {
@@ -1077,7 +1051,7 @@ function createVehicles(routes: Record<string, LatLng[]>): Vehicle[] {
 function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
   const pinSize = Math.max(
     LOCATION_PIN_MIN_SIZE,
-    Math.round(vehicle.size * scale * LOCATION_PIN_SIZE_MULTIPLIER)
+    Math.round(vehicle.size * scale * LOCATION_PIN_SIZE_MULTIPLIER),
   );
 
   const scaledWidth = USE_LOCATION_PIN_MARKER
@@ -1116,7 +1090,7 @@ function createVehicleIcon(L: any, vehicle: Vehicle, scale = 1) {
 function applyVehicleElementStyle(
   markerElement: HTMLElement | null,
   angle: number,
-  liveScale: number
+  liveScale: number,
 ) {
   if (!markerElement) return;
 
@@ -1175,7 +1149,7 @@ function SouthIndiaLiveMap() {
 
         const markerRadius = Math.max(
           zoomBasedGap / 2,
-          (item.vehicle.size * item.iconScale) / 2 + 8
+          (item.vehicle.size * item.iconScale) / 2 + 8,
         );
 
         const isOverlapping = placed.some((placedItem) => {
@@ -1207,10 +1181,7 @@ function SouthIndiaLiveMap() {
     function applyVehicleScale(zoomValue?: number, commitIcon = false) {
       if (!map) return;
 
-      const scale = getVehicleScaleByZoomValue(
-        zoomValue ?? map.getZoom(),
-        baseZoom
-      );
+      const scale = getVehicleScaleByZoomValue(zoomValue ?? map.getZoom(), baseZoom);
 
       markerItems.forEach((item) => {
         item.iconScale = scale;
@@ -1314,17 +1285,9 @@ function SouthIndiaLiveMap() {
           const currentScale = getVehicleScaleByZoom(map, baseZoom);
           const icon = createVehicleIcon(L, vehicle, currentScale);
           const metrics = createRouteMetrics(vehicle.route);
-          const motion = createVehicleMotion(
-            vehicle,
-            metrics,
-            index * 91.7 + 18,
-            now
-          );
+          const motion = createVehicleMotion(vehicle, metrics, index * 91.7 + 18, now);
 
-          const current = getPositionAtDistance(
-            metrics,
-            motion.currentDistanceKm
-          );
+          const current = getPositionAtDistance(metrics, motion.currentDistanceKm);
 
           const initialBearing =
             getBearingAtDistance(metrics, motion.currentDistanceKm) ??
@@ -1372,12 +1335,11 @@ function SouthIndiaLiveMap() {
             if (!movement.paused) {
               const targetBearing = getBearingAtDistance(
                 item.motion.metrics,
-                item.motion.currentDistanceKm
+                item.motion.currentDistanceKm,
               );
 
               if (targetBearing !== null) {
-                const targetAngle =
-                  targetBearing + VEHICLE_IMAGE_ROTATION_OFFSET;
+                const targetAngle = targetBearing + VEHICLE_IMAGE_ROTATION_OFFSET;
 
                 item.angle = smoothAngle(item.angle, targetAngle);
               }
@@ -1388,7 +1350,7 @@ function SouthIndiaLiveMap() {
             if (markerElement) {
               markerElement.style.setProperty(
                 "--vehicle-angle",
-                `${USE_LOCATION_PIN_MARKER ? 0 : item.angle}deg`
+                `${USE_LOCATION_PIN_MARKER ? 0 : item.angle}deg`,
               );
             }
           });
@@ -1445,8 +1407,7 @@ function SouthIndiaLiveMap() {
 
         {routeStatus === "error" && (
           <div className="absolute bottom-5 left-5 z-[500] max-w-[280px] rounded-2xl bg-white/95 px-4 py-3 text-[12px] font-medium text-[#475467] shadow-[0_12px_34px_rgba(15,23,42,0.12)] backdrop-blur-md">
-            Road route service is not available now. Vehicles are hidden to
-            avoid fake movement.
+            Road route service is not available now. Vehicles are hidden to avoid fake movement.
           </div>
         )}
       </div>
@@ -1577,8 +1538,8 @@ export function GPSTracking() {
 
           <Reveal delay={2}>
             <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-              GPS-supported visibility for routes, movement, and live execution
-              updates across city roads and district campaign zones.
+              GPS-supported visibility for routes, movement, and live execution updates across city
+              roads and district campaign zones.
             </p>
           </Reveal>
 
@@ -1587,18 +1548,19 @@ export function GPSTracking() {
               {[
                 {
                   i: Activity,
-                  t: `${VEHICLE_COUNT} live vehicles`,
-                  d: "District-wise vehicle movement with realistic spacing.",
+                  // t: ${VEHICLE_COUNT} moving vehicles,
+                  t: "Live GPS Monitoring",
+                  d: "Track every vehicle in real time.",
                 },
                 {
                   i: Navigation2,
-                  t: "Street-level movement",
-                  d: "Vehicles run on road-snapped streets and main roads without route lines.",
+                  t: "Execution Photo Reports",
+                  d: "Verified photos from every campaign location.",
                 },
                 {
                   i: MapPin,
-                  t: "Smooth live tracking",
-                  d: "Vehicles update naturally with traffic pauses, speed changes, and smooth direction transitions.",
+                  t: "WhatsApp Live Updates",
+                  d: "Instant progress updates delivered to your team.",
                 },
               ].map((f) => (
                 <li key={f.t} className="flex gap-4">
@@ -1614,7 +1576,6 @@ export function GPSTracking() {
               ))}
             </ul>
           </Reveal>
-
           <Reveal delay={4}>
             <button
               type="button"
@@ -1632,7 +1593,7 @@ export function GPSTracking() {
                 window.history.replaceState(null, "", window.location.pathname);
               }}
             >
-              Talk to Our Campaign Team
+              Consult With Our Campaign Team
             </button>
           </Reveal>
         </div>

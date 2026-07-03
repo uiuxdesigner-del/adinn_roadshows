@@ -204,7 +204,7 @@ const proofItems: ProofItem[] = [
 const stats: StatItem[] = [
   {
     icon: Megaphone,
-    value: "5000+",
+    value: "10000+",
     label: "Successful Campaigns",
   },
   {

@@ -38,7 +38,7 @@ const features = [
 
 const stats = [
   {
-    value: "5000+",
+    value: "10000+",
     label: "Successful Campaigns delivered across South India.",
     icon: Megaphone,
   },

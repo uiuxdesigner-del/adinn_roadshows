@@ -6,18 +6,7 @@ import { Reveal } from "./Reveal";
 import "./Services.css";
 import { BleedButton } from "./BleedButton";
 import {
-  ArrowRight,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  MapPin,
-  Monitor,
-  Power,
-  RefreshCw,
-  Truck,
-  Volume2,
-  X,
+  ArrowRight, Check, ChevronLeft, ChevronRight, Download, MapPin, Monitor, Power, RefreshCw, Truck, Volume2, X,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -416,19 +405,12 @@ export function Services() {
       <div className="container-x">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            {/* <Reveal>
-              <div className="eyebrow">
-                Roadshow <span className="text-[#e3000f]">Solutions</span>
-              </div>
-            </Reveal> */}
-
             <Reveal delay={1}>
               <h2 className="mt-3 text-[28px] md:text-[36px] lg:text-[40px] font-display font-semibold text-balance-tight leading-[1.08]">
                 Build to move brands
               </h2>
             </Reveal>
           </div>
-
           <Reveal delay={2}>
             <div className="relative flex w-fit rounded-full bg-white p-1.5 shadow-[0_18px_60px_rgba(0,0,0,0.06)]">
               <span
@@ -438,12 +420,11 @@ export function Services() {
                   shadow-[0_14px_34px_rgba(0,0,0,0.20)]
                   transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)]
                   sm:w-[145px]
-                  ${
-                    activeCategory === "led"
-                      ? "translate-x-0"
-                      : activeCategory === "flex"
-                        ? "translate-x-[125px] sm:translate-x-[145px]"
-                        : "translate-x-[250px] sm:translate-x-[290px]"
+                  ${activeCategory === "led"
+                    ? "translate-x-0"
+                    : activeCategory === "flex"
+                      ? "translate-x-[125px] sm:translate-x-[145px]"
+                      : "translate-x-[250px] sm:translate-x-[290px]"
                   }
                 `}
               />
@@ -528,9 +509,9 @@ export function Services() {
                   </div>
 
                   <div className="flex flex-col px-6 pt-5 pb-4">
-                    <h3 className="font-display text-xl font-semibold">{s.name}</h3>
+                    <h3 className="font-display text-xl font-semibold vehicleListHeading">{s.name}</h3>
 
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground vehicleListDesc">
                       {s.shortDescription}
                     </p>
 
@@ -592,7 +573,9 @@ function VehicleModal({
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const dragStartRef = useRef({ x: 0, index: 0 });
+  // const dragStartRef = useRef({ x: 0, index: 0 });
+  const scrollYRef = useRef(0);
+  const detailsScrollRef = useRef<HTMLElement | null>(null);
 
   const images: string[] =
     Array.isArray(vehicle.images) && vehicle.images.length > 0
@@ -630,8 +613,60 @@ function VehicleModal({
     window.setTimeout(onClose, 260);
   }, [onClose]);
 
+  // useEffect(() => {
+  //   setShow(true);
+
+  //   const onKey = (e: KeyboardEvent) => {
+  //     if (e.key === "Escape") handleClose();
+  //     if (e.key === "ArrowRight") nextImage();
+  //     if (e.key === "ArrowLeft") prevImage();
+  //   };
+
+  //   const prevOverflow = document.body.style.overflow;
+
+  //   document.body.style.overflow = "hidden";
+  //   document.addEventListener("keydown", onKey);
+
+  //   return () => {
+  //     document.body.style.overflow = prevOverflow;
+  //     document.removeEventListener("keydown", onKey);
+  //   };
+  // }, [handleClose, nextImage, prevImage]);
+
   useEffect(() => {
     setShow(true);
+
+    const body = document.body;
+    const html = document.documentElement;
+
+    scrollYRef.current = window.scrollY || window.pageYOffset;
+
+    const previousHtmlOverflow = html.style.overflow;
+    const previousHtmlScrollBehavior = html.style.scrollBehavior;
+
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyPosition = body.style.position;
+    const previousBodyTop = body.style.top;
+    const previousBodyLeft = body.style.left;
+    const previousBodyRight = body.style.right;
+    const previousBodyWidth = body.style.width;
+    const previousBodyPaddingRight = body.style.paddingRight;
+
+    const scrollbarGap = window.innerWidth - html.clientWidth;
+
+    html.style.scrollBehavior = "auto";
+    html.style.overflow = "hidden";
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollYRef.current}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+
+    if (scrollbarGap > 0) {
+      body.style.paddingRight = `${scrollbarGap}px`;
+    }
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleClose();
@@ -639,14 +674,28 @@ function VehicleModal({
       if (e.key === "ArrowLeft") prevImage();
     };
 
-    const prevOverflow = document.body.style.overflow;
-
-    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", onKey);
 
     return () => {
-      document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
+
+      html.style.scrollBehavior = "auto";
+
+      body.style.overflow = previousBodyOverflow;
+      body.style.position = previousBodyPosition;
+      body.style.top = previousBodyTop;
+      body.style.left = previousBodyLeft;
+      body.style.right = previousBodyRight;
+      body.style.width = previousBodyWidth;
+      body.style.paddingRight = previousBodyPaddingRight;
+
+      html.style.overflow = previousHtmlOverflow;
+
+      window.scrollTo(0, scrollYRef.current);
+
+      requestAnimationFrame(() => {
+        html.style.scrollBehavior = previousHtmlScrollBehavior;
+      });
     };
   }, [handleClose, nextImage, prevImage]);
 
@@ -665,8 +714,24 @@ function VehicleModal({
     return () => window.clearInterval(timer);
   }, [autoRotate, images.length]);
 
+  // const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+  //   if (images.length <= 1) return;
+
+  //   setIsDragging(true);
+  //   setAutoRotate(false);
+
+  //   dragStartRef.current = {
+  //     x: e.clientX,
+  //     index: activeImage,
+  //   };
+
+  //   e.currentTarget.setPointerCapture(e.pointerId);
+  // };
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (images.length <= 1) return;
+
+    if (e.pointerType === "touch") return;
 
     setIsDragging(true);
     setAutoRotate(false);
@@ -678,6 +743,7 @@ function VehicleModal({
 
     e.currentTarget.setPointerCapture(e.pointerId);
   };
+
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging || images.length <= 1) return;
@@ -705,7 +771,18 @@ function VehicleModal({
       setIsDownloading(false);
     }
   };
+  const handleDetailsWheel = (e: React.WheelEvent<HTMLElement>) => {
+    const el = detailsScrollRef.current;
+    if (!el) return;
 
+    const canScroll = el.scrollHeight > el.clientHeight;
+    if (!canScroll) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    el.scrollTop += e.deltaY;
+  };
   return (
     <div
       className={`vehicle-modal-overlay ${show ? "is-visible" : ""}`}
@@ -714,7 +791,7 @@ function VehicleModal({
       <div
         className={`vehicle-modal-shell ${show ? "is-visible" : ""}`}
         onClick={(e) => e.stopPropagation()}
-      >
+        onWheel={(e) => e.stopPropagation()} >
         <button
           type="button"
           aria-label="Close"
@@ -806,7 +883,13 @@ function VehicleModal({
             </div>
           </aside>
 
-          <main className="vehicle-modal-details">
+          {/* <main className="vehicle-modal-details"> */}
+          <main
+            ref={detailsScrollRef}
+            className="vehicle-modal-details"
+            onWheel={handleDetailsWheel}
+            onWheelCapture={handleDetailsWheel}
+          >
             <div className="vehicle-category-pill">{vehicle.category}</div>
 
             <h3>{vehicle.name}</h3>
@@ -896,9 +979,26 @@ function VehicleModal({
                 </div>
               </section>
             )}
-
+            {/* 
             {vehicle.brandingStatus && (
-              <div className="vehicle-branding-note">{vehicle.brandingStatus}</div>
+              <div className="vehicle-branding-note">
+                <div className='vehicle-branding-noteBtn'>{vehicle.brandingStatus}</div>
+                <div className='vehicle-branding-noteBtn'>RTO Charges Applicable</div>
+              </div>
+            )} */}
+            {vehicle.brandingStatus && (
+              <div className="vehicle-branding-note">
+                {vehicle.brandingStatus.trim().toLowerCase() !==
+                  "no branding cost applicable" && (
+                    <div className="vehicle-branding-noteBtn">
+                      {vehicle.brandingStatus}
+                    </div>
+                  )}
+
+                <div className="vehicle-branding-noteBtn">
+                  RTO Charges Applicable
+                </div>
+              </div>
             )}
           </main>
         </div>
@@ -912,7 +1012,7 @@ function VehicleModal({
               {pricePerDay && <small> / day</small>}
             </strong>
 
-            {vehicle.packageTotal && <p>{vehicle.packageTotal}</p>}
+            {/* {vehicle.packageTotal && <p>{vehicle.packageTotal}</p>} */}
           </div>
 
           <div className="vehicle-modal-actions">

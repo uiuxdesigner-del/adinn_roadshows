@@ -1,6 +1,13 @@
 /* -------------------------------------------------------------------------- */
 /* VEHICLE DETAIL POPUP - BLACK / WHITE / GREY PREMIUM UI                     */
 /* -------------------------------------------------------------------------- */
+.vehicleListHeading{
+  font-size: 25px;
+}
+.vehicleListDesc{
+  font-size: 14px;
+
+}
 .ServicesCardImages{
 height: 380px;
 }
@@ -336,7 +343,7 @@ height: 380px;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.13);
   cursor: pointer;
   font-size: 13px;
-  font-weight: 950;
+  font-weight: 700;
   transition:
     transform 220ms ease,
     color 220ms ease,
@@ -395,8 +402,8 @@ height: 380px;
   border-radius: 999px;
   color: #111111;
   background: #f1f1f1;
-  font-size: 11px;
-  font-weight: 950;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -407,7 +414,7 @@ height: 380px;
   font-size: clamp(24px, 2.15vw, 36px);
   line-height: 1.05;
   letter-spacing: -0.045em;
-  font-weight: 950;
+  font-weight: 600;
 }
 
 .vehicle-modal-description {
@@ -425,8 +432,8 @@ height: 380px;
   border-radius: 16px;
   color: #111111;
   background: #f4f4f4;
-  font-size: 13px;
-  font-weight: 760;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .vehicle-variant-block {
@@ -517,9 +524,9 @@ height: 380px;
 .vehicle-spec-card small {
   display: block;
   color: #777777;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.2;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .vehicle-spec-card strong {
@@ -528,7 +535,7 @@ height: 380px;
   color: #111111;
   font-size: 12px;
   line-height: 1.25;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .vehicle-details-grid {
@@ -544,7 +551,7 @@ height: 380px;
   margin: 0 0 12px;
   color: #111111;
   font-size: 15px;
-  font-weight: 950;
+  font-weight: 700;
 }
 
 .vehicle-feature-list {
@@ -561,7 +568,7 @@ height: 380px;
   gap: 9px;
   margin-bottom: 9px;
   color: #424242;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -616,19 +623,28 @@ height: 380px;
   border-radius: 999px;
   color: #5c5c5c;
   background: #f7f7f7;
-  font-size: 12px;
-  font-weight: 720;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .vehicle-branding-note {
+
+  display: flex;
+  justify-content: space-around;
+  gap: 5%;
+}
+.vehicle-branding-noteBtn{
+  width: 50%;
   margin-top: 18px;
   padding: 13px 15px;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 16px;
   color: #111111;
   background: #ffffff;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  
 }
 
 .vehicle-modal-footer {
@@ -650,21 +666,21 @@ height: 380px;
 
 .vehicle-price-box span {
   color: #555555;
-  font-size: 12px;
-  font-weight: 780;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .vehicle-price-box strong {
   color: #111111;
   font-size: clamp(22px, 1.7vw, 30px);
   line-height: 1;
-  font-weight: 950;
+  font-weight: 700;
 }
 
 .vehicle-price-box small {
-  font-size: 13px;
+  font-size: 14px;
   color: #555555;
-  font-weight: 760;
+  font-weight: 600;
 }
 
 .vehicle-price-box p {
@@ -694,8 +710,8 @@ height: 380px;
   color: #111111;
   background: #ffffff;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 900;
+  font-size: 15px;
+  font-weight: 750;
   transition:
     transform 220ms ease,
     background 220ms ease,
@@ -714,14 +730,25 @@ height: 380px;
   opacity: 0.65;
   cursor: wait;
 }
-
 @media (max-width: 1180px) {
+  .vehicle-modal-shell {
+    width: calc(100vw - 32px);
+    height: calc(100dvh - 32px);
+    max-height: calc(100dvh - 32px);
+  }
+
   .vehicle-modal-content {
     grid-template-columns: 1fr;
+    gap: 22px;
+    overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .vehicle-modal-details {
+    height: auto;
+    max-height: none;
     overflow: visible;
   }
 
@@ -732,78 +759,45 @@ height: 380px;
   .vehicle-main-image {
     max-height: 300px;
   }
-}
-
-@media (max-width: 760px) {
-  .vehicle-modal-overlay {
-    padding: 12px;
-  }
-
-  .vehicle-modal-shell {
-    width: calc(100vw - 24px);
-    max-height: calc(100dvh - 24px);
-    border-radius: 22px;
-  }
-
-  .vehicle-modal-content {
-    padding: 18px;
-    gap: 18px;
-  }
-
-  .vehicle-modal-media {
-    grid-template-columns: 1fr;
-  }
-
-  .vehicle-modal-thumbs {
-    order: 2;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  .vehicle-modal-thumbs button {
-    width: 64px;
-    height: 56px;
-  }
-
-  .vehicle-image-stage {
-    min-height: 280px;
-  }
-
-  .vehicle-main-image {
-    max-height: 220px;
-  }
-
-  .vehicle-image-nav {
-    width: 40px;
-    height: 40px;
-  }
 
   .vehicle-spec-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .vehicle-details-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .vehicle-feature-list {
-    columns: 1;
-  }
-
-  .vehicle-modal-footer {
-    align-items: stretch;
-    flex-direction: column;
-    padding: 16px 18px;
-  }
-
-  .vehicle-modal-actions {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .vehicle-download-btn,
-  .vehicle-modal-actions > * {
-    width: 100%;
-  }
 }
+@media (max-width: 760px) {.vehicle-modal-overlay {padding: 12px;}
+
+.vehicle-modal-shell {width: calc(100vw - 24px);max-height: calc(100dvh - 24px);border-radius: 22px;}
+
+.vehicle-modal-content {padding: 18px;gap: 18px;}
+
+.vehicle-modal-media {grid-template-columns: 1fr;}
+
+.vehicle-modal-thumbs {order: 2;flex-direction: row;overflow-x: auto;overflow-y: hidden;}
+
+.vehicle-modal-thumbs button {width: 64px;height: 56px;}
+
+.vehicle-image-stage {min-height: 280px;}
+
+.vehicle-main-image {max-height: 220px;}
+
+.vehicle-image-nav {width: 40px;height: 40px;}
+
+.vehicle-spec-grid {grid-template-columns: repeat(2, minmax(0, 1fr));}
+
+.vehicle-details-grid {grid-template-columns: 1fr;}
+
+.vehicle-feature-list {columns: 1;}
+
+.vehicle-modal-footer {align-items: stretch;flex-direction: column;padding: 16px 18px;}
+
+.vehicle-modal-actions {width: 100%;flex-direction: column;}
+
+.vehicle-download-btn,.vehicle-modal-actions > * {width: 100%;}}
+
+
+
+
+
+
+
+

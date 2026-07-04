@@ -23,7 +23,7 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: url(/assets/RS_Client_Roadshow_BG1.png);
+  background: url(/assets/RS_Client_Roadshow_BG1.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -493,6 +493,12 @@
 }
 
 @media (max-width: 760px) {
+  
+  .client-roadshow-grid-bg {
+    background-image: url("/assets/RS_Client_Roadshow_BG1_mobile.webp");
+    background-size: 100% auto;
+    background-position: center top;
+  }
   .client-roadshow-container {
     width: min(100% - 28px, 1520px);
   }

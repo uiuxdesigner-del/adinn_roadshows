@@ -274,7 +274,7 @@ export function About() {
           >
             <img
               ref={vehicleImgRef}
-              src="/assets/stright%20view.png"
+              src="/assets/straight_view.png"
               alt=""
               aria-hidden="true"
               className="

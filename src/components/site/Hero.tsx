@@ -2011,11 +2011,9 @@ function CameraDemoControls({
 
       enablePan={false}
 
-      enableZoom={!isDemoMode}
+      enableZoom={false}
 
-      zoomSpeed={
-        shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.zoomSpeed : 0.36
-      }
+      zoomSpeed={0}
 
       minDistance={
         shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.minDistance : 5.8
@@ -2871,6 +2869,51 @@ export function Hero() {
     setIsNightMode((current) => !current);
   }, []);
 
+  // iOS Safari / mobile browser pinch zoom disable only inside Hero section.
+  // This stops 2-finger zoom on the 3D vehicle area without affecting the full website.
+  useEffect(() => {
+    const hero = heroRef.current;
+
+    if (!hero) return;
+
+    const preventMultiTouchZoom = (event: TouchEvent) => {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    };
+
+    const preventGestureZoom = (event: Event) => {
+      event.preventDefault();
+    };
+
+    hero.addEventListener("touchstart", preventMultiTouchZoom, {
+      passive: false,
+    });
+    hero.addEventListener("touchmove", preventMultiTouchZoom, {
+      passive: false,
+    });
+
+    // iOS Safari specific gesture events.
+    hero.addEventListener("gesturestart", preventGestureZoom, {
+      passive: false,
+    });
+    hero.addEventListener("gesturechange", preventGestureZoom, {
+      passive: false,
+    });
+    hero.addEventListener("gestureend", preventGestureZoom, {
+      passive: false,
+    });
+
+    return () => {
+      hero.removeEventListener("touchstart", preventMultiTouchZoom);
+      hero.removeEventListener("touchmove", preventMultiTouchZoom);
+
+      hero.removeEventListener("gesturestart", preventGestureZoom);
+      hero.removeEventListener("gesturechange", preventGestureZoom);
+      hero.removeEventListener("gestureend", preventGestureZoom);
+    };
+  }, []);
+
   useEffect(() => {
     const hero = heroRef.current;
 
@@ -3113,7 +3156,16 @@ export function Hero() {
           )}
         </div>
 
-        <div ref={canvasWrapRef} className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100vh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100vh-264px)] lg:top-[236px] lg:h-[calc(100vh-256px)]"  >
+        <div
+          ref={canvasWrapRef}
+          className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100vh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100vh-264px)] lg:top-[236px] lg:h-[calc(100vh-256px)]"
+          style={{
+            touchAction: "none",
+            WebkitUserSelect: "none",
+            userSelect: "none",
+            overscrollBehavior: "none",
+          }}
+        >
           <VehicleCanvas
             vehicle={activeVehicle}
 

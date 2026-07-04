@@ -128,7 +128,7 @@ export function Testimonials() {
   const [isPaused, setIsPaused] = useState(false);
 
   const selectedItem = items[selectedIndex];
-
+//STOP TO AUTOPLAY
   useEffect(() => {
     if (shouldReduceMotion || isPaused) return;
 
@@ -164,7 +164,7 @@ export function Testimonials() {
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="adinn-testimonial-hero"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
@@ -266,7 +266,241 @@ export function Testimonials() {
                 </AnimatePresence>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
+
+{/* 
+          <motion.div
+  className="adinn-testimonial-hero"
+  onMouseEnter={() => setIsPaused(true)}
+  onMouseLeave={() => setIsPaused(false)}
+  initial={{ opacity: 0, y: 34 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={{
+    duration: 0.72,
+    ease: [0.22, 1, 0.36, 1],
+    delay: 0.1,
+  }}
+>
+  <video
+    className="adinn-testimonial-bg-video"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="/assets/Rdsw_Testimonials_BgVideo1.mp4" type="video/mp4" />
+    <source src="/assets/Rdsw_Testimonials_BgVideo.webm" type="video/webm" />
+  </video>
+
+  <div className="adinn-testimonial-video-shade" />
+
+  <div className="adinn-testimonial-truck-stage">
+    <div className="adinn-led-screen-overlay" aria-live="polite">
+      {!shouldReduceMotion && !isPaused && (
+        <motion.div
+          key={`progress-${selectedIndex}`}
+          className="adinn-led-progress"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{
+            duration: AUTO_CHANGE_TIME / 1000,
+            ease: "linear",
+          }}
+        />
+      )}
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={selectedItem.n}
+          className="adinn-led-screen-content"
+          variants={screenVariants}
+          initial={shouldReduceMotion ? false : "enter"}
+          animate="center"
+          exit="exit"
+        >
+          <div className="adinn-led-screen-inner">
+            <motion.div
+              className="adinn-led-screen-tag"
+              variants={childVariants}
+            >
+              {selectedItem.c}
+            </motion.div>
+
+            <motion.p
+              className="adinn-led-screen-quote"
+              variants={childVariants}
+            >
+              “{selectedItem.q}”
+            </motion.p>
+
+            <motion.div
+              className="adinn-led-screen-bottom"
+              variants={childVariants}
+            >
+              <div>
+                <div className="adinn-led-screen-stars">
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <motion.span
+                      key={starIndex}
+                      initial={
+                        shouldReduceMotion
+                          ? false
+                          : { opacity: 0, scale: 0.45, y: 6 }
+                      }
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{
+                        duration: 0.34,
+                        delay: 0.16 + starIndex * 0.045,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <Star size={18} fill="currentColor" />
+                    </motion.span>
+                  ))}
+                </div>
+
+                <strong>{selectedItem.n}</strong>
+                <span>{selectedItem.role}</span>
+              </div>
+
+              <motion.div
+                className="adinn-led-live-badge"
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : { opacity: 0, scale: 0.92 }
+                }
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.28, duration: 0.34 }}
+              >
+                LIVE LED DISPLAY
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  </div>
+</motion.div> */}
+
+
+
+<motion.div
+  className="adinn-testimonial-hero"
+  onMouseEnter={() => setIsPaused(true)}
+  onMouseLeave={() => setIsPaused(false)}
+  initial={{ opacity: 0, y: 34 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={{
+    duration: 0.72,
+    ease: [0.22, 1, 0.36, 1],
+    delay: 0.1,
+  }}
+>
+  <video
+    className="adinn-testimonial-bg-video"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="/assets/Rdsw_Testimonials_BgVideoCopy.mp4" type="video/webm" />
+  </video>
+
+  <div className="adinn-testimonial-truck-stage">
+    <div className="adinn-led-screen-overlay" aria-live="polite">
+       {!shouldReduceMotion && !isPaused && (
+        <motion.div
+          key={`progress-${selectedIndex}`}
+          className="adinn-led-progress"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{
+            duration: AUTO_CHANGE_TIME / 1000,
+            ease: "linear",
+          }}
+        />
+      )}
+
+       <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={selectedItem.n}
+          className="adinn-led-screen-content"
+          variants={screenVariants}
+          initial={shouldReduceMotion ? false : "enter"}
+          animate="center"
+          exit="exit"
+        >
+          <div className="adinn-led-screen-inner">
+            <motion.div
+              className="adinn-led-screen-tag"
+              variants={childVariants}
+            >
+              {selectedItem.c}
+            </motion.div>
+
+            <motion.p
+              className="adinn-led-screen-quote"
+              variants={childVariants}
+            >
+              “{selectedItem.q}”
+            </motion.p>
+
+            <motion.div
+              className="adinn-led-screen-bottom"
+              variants={childVariants}
+            >
+              <div>
+                <div className="adinn-led-screen-stars">
+                  {Array.from({ length: 5 }).map((_, starIndex) => (
+                    <motion.span
+                      key={starIndex}
+                      initial={
+                        shouldReduceMotion
+                          ? false
+                          : { opacity: 0, scale: 0.45, y: 6 }
+                      }
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{
+                        duration: 0.34,
+                        delay: 0.16 + starIndex * 0.045,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <Star size={18} fill="currentColor" />
+                    </motion.span>
+                  ))}
+                </div>
+
+                <strong>{selectedItem.n}</strong>
+                <span>{selectedItem.role}</span>
+              </div>
+
+              <motion.div
+                className="adinn-led-live-badge"
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : { opacity: 0, scale: 0.92 }
+                }
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.28, duration: 0.34 }}
+              >
+                LIVE LED DISPLAY
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  </div>
+</motion.div>
 
           <div className="adinn-testimonial-carousel" aria-hidden="true" />
 

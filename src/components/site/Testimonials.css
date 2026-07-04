@@ -108,17 +108,35 @@
 
 /* Hero truck section */
 .adinn-testimonial-hero {
-  position: relative;
+  /* position: relative;
   min-height: clamp(350px, 35vw, 560px);
-  margin-top: clamp(22px, 2.6vw, 42px);
+  margin-top: clamp(22px, 2.6vw, 42px); */
   display: grid;
   place-items: end center;
   overflow: hidden;
-      background: url(/assets/led-truck_testimonials1.png);
-    background-size: cover;
+  background: url(/assets/led-truck_testimonials1.png);
+  /* background-size: cover;
     background-position: 100% 62%;
-    background-repeat: no-repeat;
-    height: 600px;
+    background-repeat: no-repeat; */
+  /* height: 600px; */
+
+
+
+  isolation: isolate;
+  place-items: center;
+  height: clamp(420px, 38vw, 720px);
+  min-height: clamp(380px, 38vw, 100svh);
+  margin-top: clamp(22px, 2.6vw, 42px);
+  width: 125%;
+  margin: auto;
+  margin-left: -186px;
+  display: grid;
+  position: relative;
+  overflow: hidden;
+  background: #f2f3f5 !important;
+  background-position: initial !important;
+  background-repeat: no-repeat !important;
+
 }
 
 .adinn-testimonial-floor {
@@ -174,11 +192,11 @@
 
 /* LED screen content position based on uploaded truck image */
 .adinn-led-screen-overlay {
-     width: 82%;
-    height: 67%;
-    position: absolute;
-    top: -4.7%;
-    left: 17.1%;
+  width: 82%;
+  height: 67%;
+  position: absolute;
+  top: -4.7%;
+  left: 17.1%;
   overflow: hidden;
   border-radius: 2px;
   background:
@@ -736,6 +754,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .adinn-testimonial-card,
   .adinn-testimonial-arrow,
   .adinn-testimonial-dots button,
@@ -763,16 +782,14 @@
 
 /* Keep the current truck background, but hide the hard box edges */
 .adinn-testimonial-hero {
-  /* --testimonial-surface: #f2f3f5;
-  --testimonial-floor: #eceef1; */
-
+  /* 
   position: relative;
   isolation: isolate;
   background-color: var(--testimonial-surface);
   background-image: url("/assets/led-truck_testimonials1.png");
   background-size: cover;
   background-position: 100% 62%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 /* Left + right edge feather */
@@ -783,8 +800,7 @@
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       var(--testimonial-surface) 0%,
       rgba(242, 243, 245, 0.96) 4%,
       rgba(242, 243, 245, 0.58) 9%,
@@ -792,8 +808,7 @@
       rgba(242, 243, 245, 0) 82%,
       rgba(242, 243, 245, 0.52) 91%,
       rgba(242, 243, 245, 0.98) 97%,
-      var(--testimonial-surface) 100%
-    );
+      var(--testimonial-surface) 100%);
 }
 
 /* Bottom floor blending so the shadow will not look boxed */
@@ -807,22 +822,18 @@
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       var(--testimonial-surface) 0%,
       rgba(242, 243, 245, 0.72) 8%,
       rgba(242, 243, 245, 0) 21%,
       rgba(242, 243, 245, 0) 79%,
       rgba(242, 243, 245, 0.76) 92%,
-      var(--testimonial-surface) 100%
-    ),
-    linear-gradient(
-      180deg,
+      var(--testimonial-surface) 100%),
+    linear-gradient(180deg,
       rgba(242, 243, 245, 0) 0%,
       rgba(238, 240, 243, 0.18) 34%,
       rgba(236, 238, 241, 0.7) 76%,
-      var(--testimonial-floor) 100%
-    );
+      var(--testimonial-floor) 100%);
 }
 
 /* This softly extends the floor below the truck */
@@ -955,12 +966,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.18),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.18),
+      transparent);
   transform: translateX(-120%);
   animation: adinnBadgeSweep 2.8s ease-in-out infinite;
 }
@@ -1001,16 +1010,17 @@
 /* Responsive screen content adjustment */
 @media (min-width: 1024px) and (max-width: 1280px) {
 
-.adinn-led-screen-overlay {
-        z-index: 5;
-        width: 64%;
-        height: 54%;
-        position: absolute;
-        top: 8.3%;
-        left: 24.1%;
-        overflow: hidden;
-    }
+  .adinn-led-screen-overlay {
+    z-index: 5;
+    width: 64%;
+    height: 54%;
+    position: absolute;
+    top: 8.3%;
+    left: 24.1%;
+    overflow: hidden;
+  }
 }
+
 @media (max-width: 1180px) {
   .adinn-led-screen-content {
     padding: clamp(22px, 3vw, 42px) clamp(30px, 4vw, 64px);
@@ -1028,16 +1038,14 @@
 @media (max-width: 900px) {
   .adinn-testimonial-hero::before {
     background:
-      linear-gradient(
-        90deg,
+      linear-gradient(90deg,
         var(--testimonial-surface) 0%,
         rgba(242, 243, 245, 0.88) 3%,
         rgba(242, 243, 245, 0.22) 12%,
         rgba(242, 243, 245, 0) 22%,
         rgba(242, 243, 245, 0) 78%,
         rgba(242, 243, 245, 0.34) 90%,
-        var(--testimonial-surface) 100%
-      );
+        var(--testimonial-surface) 100%);
   }
 
   .adinn-led-screen-content {
@@ -1099,5 +1107,133 @@
 
   .adinn-led-progress {
     height: 2px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* WebM background video */
+.adinn-testimonial-hero {
+  /* position: relative;
+  isolation: isolate;
+  min-height: clamp(380px, 38vw, 620px);
+  height: clamp(420px, 38vw, 620px);
+  margin-top: clamp(22px, 2.6vw, 42px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #f2f3f5 !important; */
+}
+
+.adinn-testimonial-hero {
+  background-image: none !important;
+  background-size: auto !important;
+  background-position: initial !important;
+  background-repeat: no-repeat !important;
+}
+
+.adinn-testimonial-hero::before,
+.adinn-testimonial-hero::after {
+  display: none !important;
+}
+
+/* Actual WebM video */
+.adinn-testimonial-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* LED screen container over video */
+.adinn-testimonial-truck-stage {
+  position: absolute;
+  z-index: 4;
+  aspect-ratio: 16 / 7;
+  width: min(946px, 58vw);
+  height: 386px;
+  margin: 0;
+  position: absolute;
+  top: 32%;
+  left: 56.5%;
+  transform: translate(-50%, -50%);
+  filter: none;
+  background: transparent !important;
+  overflow: visible;
+}
+
+/* LED content should fill the screen area */
+.adinn-led-screen-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 5;
+  overflow: hidden;
+  border-radius: 4px;
+
+  background:
+    linear-gradient(135deg, rgba(36, 39, 43, 0.95), rgba(18, 20, 23, 0.96)),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.09), transparent 36%);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 0 36px rgba(0, 0, 0, 0.42),
+    0 14px 42px rgba(0, 0, 0, 0.2);
+}
+
+/* Keep testimonial content above LED texture */
+.adinn-led-screen-content {
+  position: relative;
+  z-index: 4;
+}
+
+/* Hide old PNG if used */
+.adinn-testimonial-truck-img {
+  display: none !important;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .adinn-testimonial-hero {
+    height: 340px;
+    min-height: 340px;
+    margin-top: 18px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: 82vw;
+    aspect-ratio: 16 / 8;
+    top: 50%;
+  }
+
+  .adinn-led-screen-content {
+    padding: 14px 18px;
+  }
+
+  .adinn-led-screen-quote {
+    font-size: 12px;
+    line-height: 1.33;
+  }
+
+  .adinn-led-screen-bottom span,
+  .adinn-led-live-badge {
+    display: none;
   }
 }

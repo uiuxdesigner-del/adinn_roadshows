@@ -179,7 +179,7 @@ const logos: ClientLogo[] = [
   {
     name: "DRA HOMES",
     sub: "Real Estate Campaign",
-    image: "/assets/Client-logos/DRA_Homes.png",
+    image: "/assets/Client-logos/DRA_Homes3.png",
   },
 ];
 

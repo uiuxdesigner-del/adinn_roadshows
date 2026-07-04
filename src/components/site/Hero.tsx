@@ -934,15 +934,6 @@ type LedMeshUvData = {
   triangleInfos: LedTriangleInfo[];
 };
 
-/*
-  Important fix:
-  The old UV generator projected every LED face separately, so the same
-  demo-campaign.mp4 repeated on the front panel and the L-side panel.
-
-  This generator unwraps all meshes named/inside texture_pannel together and
-  gives every vertical LED face only one horizontal slice of the video.
-  Result: the L-shaped display behaves like one merged LED screen.
-*/
 function applyContinuousLedWrapUvToMeshes(
   meshes: Mesh[],
   root: Object3D,
@@ -2349,6 +2340,54 @@ function DemoStatusBar({
   );
 }
 
+// function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
+//   const [isVisible, setIsVisible] = useState(false);
+
+//   useEffect(() => {
+//     const showFrame = requestAnimationFrame(() => {
+//       setIsVisible(true);
+//     });
+
+//     const fadeTimer = window.setTimeout(() => {
+//       setIsVisible(false);
+//     }, 3600);
+
+//     const dismissTimer = window.setTimeout(() => {
+//       onDismiss();
+//     }, 4100);
+
+//     return () => {
+//       cancelAnimationFrame(showFrame);
+
+//       window.clearTimeout(fadeTimer);
+
+//       window.clearTimeout(dismissTimer);
+//     };
+//   }, [onDismiss]);
+
+//   return (
+//     <button
+//       type="button"
+
+//       aria-label="Dismiss rotate hint"
+
+//       onClick={onDismiss}
+
+//       className={`absolute left-1/2 top-0 z-[70] flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/90 bg-white/82 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-[0_16px_48px_rgba(15,23,42,0.095)] outline-none ring-1 ring-slate-950/[0.04] backdrop-blur-2xl transition-all duration-500 ease-out hover:bg-white hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-[#5683A0]/40 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+//     >
+//       <span
+//         aria-hidden="true"
+
+//         className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-xs text-white shadow-[0_10px_24px_rgba(15,23,42,0.16)]"
+//       >
+//         🖱
+//       </span>
+
+//       <span>Drag to Rotate 360°</span>
+//     </button>
+//   );
+// }
+
 function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -2359,59 +2398,410 @@ function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
 
     const fadeTimer = window.setTimeout(() => {
       setIsVisible(false);
-    }, 3600);
+    }, 1200);
 
     const dismissTimer = window.setTimeout(() => {
       onDismiss();
-    }, 4100);
+    }, 2500);
 
     return () => {
       cancelAnimationFrame(showFrame);
-
       window.clearTimeout(fadeTimer);
-
       window.clearTimeout(dismissTimer);
     };
   }, [onDismiss]);
 
   return (
-    <button
-      type="button"
+    <button type="button" aria-label="Drag to rotate 360 degrees" onClick={onDismiss} className={`absolute left-1/2 top-6 z-[80] flex h-[74px] w-[74px] -translate-x-1/2 items-center justify-center rounded-full border border-white/35 bg-[rgba(54,46,49,0.58)] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] outline-none backdrop-blur-xl transition-all duration-700 ease-out hover:scale-105 hover:bg-[rgba(38,34,37,0.72)] focus-visible:ring-2 focus-visible:ring-white/50 RdswNew_Rotate360Hint ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+      <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.32),rgba(255,255,255,0.08)_34%,rgba(0,0,0,0.18)_100%)]" />
 
-      aria-label="Dismiss rotate hint"
+      <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 74 74" aria-hidden="true">
+        <circle cx="37" cy="37" r="34" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
+        <path className="RdswNew_Rotate360Arc" d="M 22 49 C 28 57, 46 57, 52 49" fill="none" stroke="rgba(255,255,255,0.88)" strokeWidth="1.8" strokeLinecap="round" />
+        <path className="RdswNew_Rotate360Arrow" d="M 50 49 L 55 48 L 52 52" fill="none" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
 
-      onClick={onDismiss}
-
-      className={`absolute left-1/2 top-0 z-[70] flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full border border-white/90 bg-white/82 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-[0_16px_48px_rgba(15,23,42,0.095)] outline-none ring-1 ring-slate-950/[0.04] backdrop-blur-2xl transition-all duration-500 ease-out hover:bg-white hover:text-slate-950 focus-visible:ring-2 focus-visible:ring-[#5683A0]/40 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
-    >
-      <span
-        aria-hidden="true"
-
-        className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-xs text-white shadow-[0_10px_24px_rgba(15,23,42,0.16)]"
-      >
-        🖱
+      <span className="relative z-[2] flex flex-col items-center justify-center leading-none">
+        <span className="text-[21px] font-medium tracking-[-0.04em] text-white/95">360</span>
       </span>
-
-      <span>Drag to Rotate 360°</span>
     </button>
   );
 }
 
+// function VehicleSelector({
+//   vehicles,
+
+//   activeVehicle,
+
+//   isNightMode,
+
+//   onSelect,
+// }: {
+//   vehicles: VehicleItem[];
+
+//   activeVehicle: VehicleItem;
+
+//   isNightMode: boolean;
+
+//   onSelect: (vehicle: VehicleItem) => void;
+// }) {
+//   const selectorRef = useRef<HTMLDivElement>(null);
+
+//   const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+//   const truckMoveTimerRef = useRef<number | null>(null);
+
+//   const [displayVehicle, setDisplayVehicle] = useState(activeVehicle);
+
+//   const [isTruckMoving, setIsTruckMoving] = useState(false);
+
+//   const [activeIndicator, setActiveIndicator] = useState({
+//     left: 0,
+
+//     top: 0,
+
+//     width: 0,
+
+//     height: 0,
+//   });
+
+//   const getIndicatorForVehicle = useCallback((vehicleId: string) => {
+//     const selector = selectorRef.current;
+
+//     const targetButton = buttonRefs.current[vehicleId];
+
+//     if (!selector || !targetButton) return null;
+
+//     const selectorRect = selector.getBoundingClientRect();
+
+//     const targetButtonRect = targetButton.getBoundingClientRect();
+
+//     return {
+//       left: targetButtonRect.left - selectorRect.left,
+
+//       top: targetButtonRect.top - selectorRect.top,
+
+//       width: targetButtonRect.width,
+
+//       height: targetButtonRect.height,
+//     };
+//   }, []);
+
+//   const updateActiveIndicator = useCallback(() => {
+//     const nextIndicator = getIndicatorForVehicle(activeVehicle.id);
+
+//     if (!nextIndicator) return;
+
+//     setActiveIndicator(nextIndicator);
+//   }, [activeVehicle.id, getIndicatorForVehicle]);
+
+//   const startTruckMove = useCallback(() => {
+//     setIsTruckMoving(true);
+
+//     if (truckMoveTimerRef.current) {
+//       window.clearTimeout(truckMoveTimerRef.current);
+//     }
+
+//     truckMoveTimerRef.current = window.setTimeout(() => {
+//       setIsTruckMoving(false);
+//     }, 760);
+//   }, []);
+
+//   const handleVehicleSelect = useCallback(
+//     (vehicle: VehicleItem) => {
+//       const nextIndicator = getIndicatorForVehicle(vehicle.id);
+
+//       if (nextIndicator) {
+//         setActiveIndicator(nextIndicator);
+//       }
+
+//       if (vehicle.id !== activeVehicle.id) {
+//         setDisplayVehicle(vehicle);
+
+//         startTruckMove();
+//       }
+
+//       onSelect(vehicle);
+//     },
+//     [activeVehicle.id, getIndicatorForVehicle, onSelect, startTruckMove],
+//   );
+
+//   useLayoutEffect(() => {
+//     updateActiveIndicator();
+
+//     setDisplayVehicle(activeVehicle);
+//   }, [activeVehicle, updateActiveIndicator, vehicles.length]);
+
+//   useEffect(() => {
+//     window.addEventListener("resize", updateActiveIndicator);
+
+//     return () => {
+//       window.removeEventListener("resize", updateActiveIndicator);
+
+//       if (truckMoveTimerRef.current) {
+//         window.clearTimeout(truckMoveTimerRef.current);
+//       }
+//     };
+//   }, [updateActiveIndicator]);
+
+//   return (
+//     <div
+//       ref={selectorRef}
+
+//       className={`relative z-[60] mt-6 flex max-w-full flex-wrap justify-center gap-1.5 overflow-visible rounded-[999px] border p-1.5 shadow-[0_18px_56px_rgba(15,23,42,0.07)] backdrop-blur-2xl pointer-events-auto RdswNew_VehicleSelector ${ isNightMode ? "border-white/12 bg-white/[0.06] ring-1 ring-white/[0.05]" : "border-white/90 bg-white/68 ring-1 ring-slate-950/[0.04]" }`}
+
+//       role="tablist"
+
+//       aria-label="Select roadshow vehicle type"
+//     >
+//       <span
+//         aria-hidden="true"
+
+//         className="pointer-events-none absolute z-[1] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] rdswVehicleTabVehicle"
+
+//         style={{
+//           left: activeIndicator.left - 8,
+
+//           top: activeIndicator.top - 7,
+
+//           width: activeIndicator.width + 16,
+
+//           height: activeIndicator.height + 14,
+
+//           opacity: activeIndicator.width > 0 ? 1 : 0,
+//         }}
+//       >
+//         <svg
+//           viewBox="0 0 210 60"
+//           preserveAspectRatio="none"
+//           className={`rdswVehicleTab absolute inset-0 h-full w-full overflow-visible ${ isTruckMoving ? "animate-[selectorTruckDrive_0.76s_ease-in-out_1]" : "animate-[selectorTruckFloat_2.2s_ease-in-out_infinite]" }`}
+//         >
+//           <defs>
+//             <filter
+//               id={`selectorTruckShadow-${displayVehicle.id}`}
+//               x="-20%"
+//               y="-40%"
+//               width="140%"
+//               height="210%"
+//             >
+//               <feDropShadow
+//                 dx="0"
+//                 dy="7"
+//                 stdDeviation="5"
+//                 floodColor={
+//                   isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.24)"
+//                 }
+//               />
+//             </filter>
+
+//             <clipPath id={`selectorRoadClip-${displayVehicle.id}`}>
+//               <rect x="16" y="47" width="178" height="7" rx="3.5" />
+//             </clipPath>
+//           </defs>
+
+//           <rect
+//             x="16"
+//             y="47"
+//             width="178"
+//             height="7"
+//             rx="3.5"
+//             fill={
+//               isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.12)"
+//             }
+//           />
+
+//           <g clipPath={`url(#selectorRoadClip-${displayVehicle.id})`}>
+//             <g className="animate-[selectorRoadLine_0.9s_linear_infinite]">
+//               <line
+//                 x1="-60"
+//                 y1="50.5"
+//                 x2="-26"
+//                 y2="50.5"
+//                 stroke={
+//                   isNightMode
+//                     ? "rgba(255,255,255,0.55)"
+//                     : "rgba(255,255,255,0.86)"
+//                 }
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//               />
+//               <line
+//                 x1="4"
+//                 y1="50.5"
+//                 x2="38"
+//                 y2="50.5"
+//                 stroke={
+//                   isNightMode
+//                     ? "rgba(255,255,255,0.55)"
+//                     : "rgba(255,255,255,0.86)"
+//                 }
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//               />
+//               <line
+//                 x1="68"
+//                 y1="50.5"
+//                 x2="102"
+//                 y2="50.5"
+//                 stroke={
+//                   isNightMode
+//                     ? "rgba(255,255,255,0.55)"
+//                     : "rgba(255,255,255,0.86)"
+//                 }
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//               />
+//               <line
+//                 x1="132"
+//                 y1="50.5"
+//                 x2="166"
+//                 y2="50.5"
+//                 stroke={
+//                   isNightMode
+//                     ? "rgba(255,255,255,0.55)"
+//                     : "rgba(255,255,255,0.86)"
+//                 }
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//               />
+//             </g>
+//           </g>
+
+//           <g filter={`url(#selectorTruckShadow-${displayVehicle.id})`}>
+//             <rect
+//               x="12"
+//               y="9"
+//               width="136"
+//               height="30"
+//               rx="7"
+//               fill={isNightMode ? "#ffffff" : "#020617"}
+//             />
+
+//             <rect
+//               x="24"
+//               y="14"
+//               width="102"
+//               height="20"
+//               rx="4"
+//               fill={isNightMode ? "#020617" : "#ffffff"}
+//             />
+
+//             <text
+//               x="75"
+//               y="24"
+//               textAnchor="middle"
+//               dominantBaseline="middle"
+//               fill={isNightMode ? "#ffffff" : "#020617"}
+//               fontSize="10.8"
+//               fontWeight="800"
+//               fontFamily="Inter, Outfit, Arial, sans-serif"
+//               letterSpacing="-0.45"
+//             >
+//               {displayVehicle.label}
+//             </text>
+
+//             <path
+//               d="M148 15H176C184 15 191 24 194 32V39H148Z"
+//               fill={isNightMode ? "#ffffff" : "#020617"}
+//             />
+
+//             <path
+//               d="M160 18H175C180 18 184 23 187 29H160Z"
+//               fill={
+//                 isNightMode ? "rgba(15,23,42,0.72)" : "rgba(255,255,255,0.74)"
+//               }
+//             />
+
+//             <rect
+//               x="143"
+//               y="21"
+//               width="9"
+//               height="15"
+//               rx="2"
+//               transform="skewX(-16)"
+//               fill={
+//                 isNightMode ? "rgba(255,255,255,0.88)" : "rgba(2,6,23,0.88)"
+//               }
+//             />
+
+//             <circle
+//               cx="42"
+//               cy="41"
+//               r="5.2"
+//               fill={isNightMode ? "#E5E7EB" : "#020617"}
+//               stroke={isNightMode ? "#020617" : "#ffffff"}
+//               strokeWidth="1.5"
+//             />
+
+//             <circle
+//               cx="42"
+//               cy="41"
+//               r="2"
+//               fill={isNightMode ? "#020617" : "#E5E7EB"}
+//             />
+
+//             <circle
+//               cx="171"
+//               cy="41"
+//               r="5.2"
+//               fill={isNightMode ? "#E5E7EB" : "#020617"}
+//               stroke={isNightMode ? "#020617" : "#ffffff"}
+//               strokeWidth="1.5"
+//             />
+
+//             <circle
+//               cx="171"
+//               cy="41"
+//               r="2"
+//               fill={isNightMode ? "#020617" : "#E5E7EB"}
+//             />
+
+//             <circle cx="196" cy="35" r="2" fill="#FACC15" />
+//           </g>
+//         </svg>
+//       </span>
+
+//       {vehicles.map((vehicle) => {
+//         const isActive = activeVehicle.id === vehicle.id;
+
+//         return (
+//           <button
+//             key={vehicle.id}
+
+//             ref={(node) => {
+//               buttonRefs.current[vehicle.id] = node;
+//             }}
+
+//             type="button"
+
+//             role="tab"
+
+//             aria-selected={isActive}
+
+//             aria-pressed={isActive}
+
+//             onClick={() => handleVehicleSelect(vehicle)}
+
+//             className={`relative z-[2] rounded-full border border-transparent bg-transparent px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] outline-none transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-[#5683A0]/35 sm:px-5 ${ isActive ? "text-transparent" : isNightMode ? "text-white/58 hover:text-white" : "text-slate-500 hover:text-slate-950" }`}
+//           >
+//             {vehicle.label}
+//           </button>
+//         );
+//       })}
+//     </div>
+//   );
+// }
+
+
 function VehicleSelector({
   vehicles,
-
   activeVehicle,
-
   isNightMode,
-
   onSelect,
 }: {
   vehicles: VehicleItem[];
-
   activeVehicle: VehicleItem;
-
   isNightMode: boolean;
-
   onSelect: (vehicle: VehicleItem) => void;
 }) {
   const selectorRef = useRef<HTMLDivElement>(null);
@@ -2426,32 +2816,24 @@ function VehicleSelector({
 
   const [activeIndicator, setActiveIndicator] = useState({
     left: 0,
-
     top: 0,
-
     width: 0,
-
     height: 0,
   });
 
   const getIndicatorForVehicle = useCallback((vehicleId: string) => {
     const selector = selectorRef.current;
-
     const targetButton = buttonRefs.current[vehicleId];
 
     if (!selector || !targetButton) return null;
 
     const selectorRect = selector.getBoundingClientRect();
-
     const targetButtonRect = targetButton.getBoundingClientRect();
 
     return {
       left: targetButtonRect.left - selectorRect.left,
-
       top: targetButtonRect.top - selectorRect.top,
-
       width: targetButtonRect.width,
-
       height: targetButtonRect.height,
     };
   }, []);
@@ -2486,7 +2868,6 @@ function VehicleSelector({
 
       if (vehicle.id !== activeVehicle.id) {
         setDisplayVehicle(vehicle);
-
         startTruckMove();
       }
 
@@ -2497,7 +2878,6 @@ function VehicleSelector({
 
   useLayoutEffect(() => {
     updateActiveIndicator();
-
     setDisplayVehicle(activeVehicle);
   }, [activeVehicle, updateActiveIndicator, vehicles.length]);
 
@@ -2516,34 +2896,34 @@ function VehicleSelector({
   return (
     <div
       ref={selectorRef}
-
-      className={`relative z-[60] mt-6 flex max-w-full flex-wrap justify-center gap-1.5 overflow-visible rounded-[999px] border p-1.5 shadow-[0_18px_56px_rgba(15,23,42,0.07)] backdrop-blur-2xl pointer-events-auto RdswNew_VehicleSelector ${ isNightMode ? "border-white/12 bg-white/[0.06] ring-1 ring-white/[0.05]" : "border-white/90 bg-white/68 ring-1 ring-slate-950/[0.04]" }`}
-
+      className={`relative z-[60] mt-6 flex max-w-full flex-wrap justify-center gap-1.5 overflow-visible rounded-[999px] border p-1.5 shadow-[0_18px_56px_rgba(15,23,42,0.07)] backdrop-blur-2xl pointer-events-auto RdswNew_VehicleSelector ${
+        isNightMode
+          ? "border-white/12 bg-white/[0.06] ring-1 ring-white/[0.05]"
+          : "border-white/90 bg-white/68 ring-1 ring-slate-950/[0.04]"
+      }`}
       role="tablist"
-
       aria-label="Select roadshow vehicle type"
     >
+      {/* Desktop / Laptop active SVG vehicle indicator */}
       <span
         aria-hidden="true"
-
         className="pointer-events-none absolute z-[1] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] rdswVehicleTabVehicle"
-
         style={{
           left: activeIndicator.left - 8,
-
           top: activeIndicator.top - 7,
-
           width: activeIndicator.width + 16,
-
           height: activeIndicator.height + 14,
-
           opacity: activeIndicator.width > 0 ? 1 : 0,
         }}
       >
         <svg
           viewBox="0 0 210 60"
           preserveAspectRatio="none"
-          className={`absolute inset-0 h-full w-full overflow-visible ${ isTruckMoving ? "animate-[selectorTruckDrive_0.76s_ease-in-out_1]" : "animate-[selectorTruckFloat_2.2s_ease-in-out_infinite]" }`}
+          className={`rdswVehicleTab absolute inset-0 h-full w-full overflow-visible ${
+            isTruckMoving
+              ? "animate-[selectorTruckDrive_0.76s_ease-in-out_1]"
+              : "animate-[selectorTruckFloat_2.2s_ease-in-out_infinite]"
+          }`}
         >
           <defs>
             <filter
@@ -2558,7 +2938,9 @@ function VehicleSelector({
                 dy="7"
                 stdDeviation="5"
                 floodColor={
-                  isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.24)"
+                  isNightMode
+                    ? "rgba(255,255,255,0.16)"
+                    : "rgba(15,23,42,0.24)"
                 }
               />
             </filter>
@@ -2594,6 +2976,7 @@ function VehicleSelector({
                 strokeWidth="2"
                 strokeLinecap="round"
               />
+
               <line
                 x1="4"
                 y1="50.5"
@@ -2607,6 +2990,7 @@ function VehicleSelector({
                 strokeWidth="2"
                 strokeLinecap="round"
               />
+
               <line
                 x1="68"
                 y1="50.5"
@@ -2620,6 +3004,7 @@ function VehicleSelector({
                 strokeWidth="2"
                 strokeLinecap="round"
               />
+
               <line
                 x1="132"
                 y1="50.5"
@@ -2677,7 +3062,9 @@ function VehicleSelector({
             <path
               d="M160 18H175C180 18 184 23 187 29H160Z"
               fill={
-                isNightMode ? "rgba(15,23,42,0.72)" : "rgba(255,255,255,0.74)"
+                isNightMode
+                  ? "rgba(15,23,42,0.72)"
+                  : "rgba(255,255,255,0.74)"
               }
             />
 
@@ -2689,7 +3076,9 @@ function VehicleSelector({
               rx="2"
               transform="skewX(-16)"
               fill={
-                isNightMode ? "rgba(255,255,255,0.88)" : "rgba(2,6,23,0.88)"
+                isNightMode
+                  ? "rgba(255,255,255,0.88)"
+                  : "rgba(2,6,23,0.88)"
               }
             />
 
@@ -2736,22 +3125,25 @@ function VehicleSelector({
         return (
           <button
             key={vehicle.id}
-
             ref={(node) => {
               buttonRefs.current[vehicle.id] = node;
             }}
-
             type="button"
-
             role="tab"
-
             aria-selected={isActive}
-
             aria-pressed={isActive}
-
             onClick={() => handleVehicleSelect(vehicle)}
-
-            className={`relative z-[2] rounded-full border border-transparent bg-transparent px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] outline-none transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-[#5683A0]/35 sm:px-5 ${ isActive ? "text-transparent" : isNightMode ? "text-white/58 hover:text-white" : "text-slate-500 hover:text-slate-950" }`}
+            className={`relative z-[2] rounded-full border border-transparent bg-transparent px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] outline-none transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-[#5683A0]/35 sm:px-5 RdswNew_VehicleTabButton ${
+              vehicle.id === "single_side"
+                ? "RdswNew_VehicleTabButtonLong"
+                : "RdswNew_VehicleTabButtonNormal"
+            } ${
+              isActive
+                ? "RdswNew_VehicleTabButtonActive text-transparent"
+                : isNightMode
+                  ? "text-white/58 hover:text-white"
+                  : "text-slate-500 hover:text-slate-950"
+            }`}
           >
             {vehicle.label}
           </button>
@@ -2760,6 +3152,7 @@ function VehicleSelector({
     </div>
   );
 }
+
 
 function DemoControls({
   isDemoMode,
@@ -2969,7 +3362,7 @@ export function Hero() {
     activeVehicle.id === "7x5" && !isNightMode;
 
   return (
-    <section id="home" ref={heroRef} className={`relative isolate min-h-screen w-full overflow-hidden text-slate-950 transition-colors duration-700 ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}`} style={{height:'max-content' }}>
+    <section id="home" ref={heroRef} className={`HomeBannerSectionID relative isolate min-h-screen w-full overflow-hidden text-slate-950 transition-colors duration-700 ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}`} style={{height:'max-content' }}>
       <style>{`
 
         @keyframes hotspotFloat {
@@ -3105,15 +3498,15 @@ export function Hero() {
           onToggleNight={handleToggleNight}
         />
 
-        <div
+        {/* <div
           className="relative z-[65] mt-4 h-11 w-full pointer-events-auto"
         >
           {showRotateHint && !hasSeenRotateHint && !isDemoMode && (
             <RotateHintCard onDismiss={dismissRotateHint} />
           )}
-        </div>
+        </div> */}
 
-        <div ref={canvasWrapRef} className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100vh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100vh-264px)] lg:top-[236px] lg:h-[calc(100vh-256px)]"  >
+        {/* <div ref={canvasWrapRef} className="cursor-grab absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100vh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100vh-264px)] lg:top-[236px] lg:h-[calc(100vh-256px)]"  >
           <VehicleCanvas
             vehicle={activeVehicle}
 
@@ -3139,7 +3532,20 @@ export function Hero() {
 
             isNightMode={isNightMode}
           />
-        </div>
+        </div> */}
+
+        
+        <div ref={canvasWrapRef} className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100svh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100svh-264px)] lg:top-[236px] lg:h-[calc(100svh-256px)]">
+  <VehicleCanvas vehicle={activeVehicle} isDemoMode={isDemoMode} isNightMode={isNightMode} hasVehicleSwitched={hasVehicleSwitched} vehicleSwitchVersion={vehicleSwitchVersion} onUserInteract={dismissRotateHint} />
+
+  {showRotateHint && !hasSeenRotateHint && !isDemoMode && (
+    <RotateHintCard onDismiss={dismissRotateHint} />
+  )}
+
+  <RouteProofCards isDemoMode={isDemoMode} isNightMode={isNightMode} />
+
+  <DemoStatusBar isDemoMode={isDemoMode} isNightMode={isNightMode} />
+</div>
       </div>
 
       {/* <div

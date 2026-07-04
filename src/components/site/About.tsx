@@ -10,8 +10,6 @@ import {
   ShieldCheck,
   UsersRound,
 } from "lucide-react";
-import "./About.css";
-
 const aboutBg = "/assets/abou-img.png";
 
 const features = [

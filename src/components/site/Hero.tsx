@@ -2002,11 +2002,9 @@ function CameraDemoControls({
 
       enablePan={false}
 
-      enableZoom={!isDemoMode}
+      enableZoom={false}
 
-      zoomSpeed={
-        shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.zoomSpeed : 0.36
-      }
+      zoomSpeed={0}
 
       minDistance={
         shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.minDistance : 5.8
@@ -3262,6 +3260,51 @@ export function Hero() {
 
   const handleToggleNight = useCallback(() => {
     setIsNightMode((current) => !current);
+  }, []);
+
+  // iOS Safari / mobile browser pinch zoom disable only inside Hero section.
+  // This stops 2-finger zoom on the 3D vehicle area without affecting the full website.
+  useEffect(() => {
+    const hero = heroRef.current;
+
+    if (!hero) return;
+
+    const preventMultiTouchZoom = (event: TouchEvent) => {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    };
+
+    const preventGestureZoom = (event: Event) => {
+      event.preventDefault();
+    };
+
+    hero.addEventListener("touchstart", preventMultiTouchZoom, {
+      passive: false,
+    });
+    hero.addEventListener("touchmove", preventMultiTouchZoom, {
+      passive: false,
+    });
+
+    // iOS Safari specific gesture events.
+    hero.addEventListener("gesturestart", preventGestureZoom, {
+      passive: false,
+    });
+    hero.addEventListener("gesturechange", preventGestureZoom, {
+      passive: false,
+    });
+    hero.addEventListener("gestureend", preventGestureZoom, {
+      passive: false,
+    });
+
+    return () => {
+      hero.removeEventListener("touchstart", preventMultiTouchZoom);
+      hero.removeEventListener("touchmove", preventMultiTouchZoom);
+
+      hero.removeEventListener("gesturestart", preventGestureZoom);
+      hero.removeEventListener("gesturechange", preventGestureZoom);
+      hero.removeEventListener("gestureend", preventGestureZoom);
+    };
   }, []);
 
   useEffect(() => {

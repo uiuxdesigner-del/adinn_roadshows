@@ -1237,3 +1237,21 @@
     display: none;
   }
 }
+
+
+/* RESPONSIVE FOR DESKTOP - MOBILE SCREENS  */
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .adinn-testimonial-hero {
+    width: 120%;
+    height: clamp(420px, 38vw, 720px);
+    min-height: clamp(380px, 46vw, 100svh);
+    margin: auto auto auto -125px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(796px, 55vw);
+    height: 290px;
+    top: 34%;
+    left: 56.4%;
+  }
+}

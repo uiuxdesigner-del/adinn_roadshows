@@ -406,15 +406,28 @@ export function Services() {
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <Reveal delay={1}>
-              <h2 className="mt-3 text-[28px] md:text-[36px] lg:text-[40px] font-display font-semibold text-balance-tight leading-[1.08]">
+              <h2 className="VehicleListTitle mt-3 text-[28px] md:text-[36px] lg:text-[40px] font-display font-semibold text-balance-tight leading-[1.08]">
                 Build to move brands
               </h2>
             </Reveal>
           </div>
           <Reveal delay={2}>
-            <div className="relative flex w-fit rounded-full bg-white p-1.5 shadow-[0_18px_60px_rgba(0,0,0,0.06)]">
-              <span
-                className={`
+            {/* <div className=" VehicleListHeadingBtn relative flex w-fit rounded-full bg-white p-1.5 shadow-[0_18px_60px_rgba(0,0,0,0.06)]"> */}
+            {/* <div
+              className="VehicleListHeadingBtn relative flex w-fit rounded-full bg-white p-1.5 shadow-[0_18px_60px_rgba(0,0,0,0.06)]"
+              style={
+                {
+                  "--active-tab":
+                    activeCategory === "led" ? 0 : activeCategory === "flex" ? 1 : 2,
+                } as React.CSSProperties
+              }
+            > */}
+
+            <div
+  className={`VehicleListHeadingBtn VehicleListHeadingBtn--${activeCategory} relative flex w-fit rounded-full bg-white p-1.5 shadow-[0_18px_60px_rgba(0,0,0,0.06)]`}
+>
+              {/* <span
+                className={` VehicleListinHeadingBtnSpan
                   pointer-events-none absolute left-1.5 top-1.5 z-0
                   h-[calc(100%-12px)] w-[125px] rounded-full bg-black
                   shadow-[0_14px_34px_rgba(0,0,0,0.20)]
@@ -427,13 +440,51 @@ export function Services() {
                       : "translate-x-[250px] sm:translate-x-[290px]"
                   }
                 `}
-              />
+              /> */}
+
+              {/* <span
+                className="
+    VehicleListinHeadingBtnSpan
+    pointer-events-none absolute left-1.5 top-1.5 z-0
+    h-[calc(100%-12px)] rounded-full bg-black
+    shadow-[0_14px_34px_rgba(0,0,0,0.20)]
+    transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)]
+  "
+              /> */}
+
+
+              {/* <span
+  className={`
+    VehicleListinHeadingBtnSpan
+    pointer-events-none absolute left-1.5 top-1.5 z-0
+    h-[calc(100%-12px)] w-[125px] rounded-full bg-black
+    shadow-[0_14px_34px_rgba(0,0,0,0.20)]
+    transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)]
+    sm:w-[145px]
+    ${
+      activeCategory === "led"
+        ? "translate-x-0"
+        : activeCategory === "flex"
+          ? "translate-x-[125px] sm:translate-x-[145px]"
+          : "translate-x-[250px] sm:translate-x-[290px]"
+    }
+  `}
+/> */}
+<span
+  className="
+    VehicleListinHeadingBtnSpan
+    pointer-events-none absolute left-1.5 top-1.5 z-0
+    h-[calc(100%-12px)] rounded-full bg-black
+    shadow-[0_14px_34px_rgba(0,0,0,0.20)]
+    transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)]
+  "
+/>
 
               <button
                 type="button"
                 aria-pressed={activeCategory === "led"}
                 onClick={() => handleCategoryChange("led")}
-                className={`
+                className={` 
                   relative z-10 h-14 min-w-[125px] rounded-full px-5 text-[14px]
                   font-semibold transition-colors duration-500 sm:min-w-[145px] sm:text-[15px]
                   ${activeCategory === "led" ? "text-white" : "text-black/50 hover:text-black"}

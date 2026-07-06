@@ -120,14 +120,14 @@ export default function Home() {
     <SmoothScroll>
       <main className="min-h-screen bg-background text-foreground">
         <Header />
-        <Hero />
+        {/* <Hero /> */}
         <About />
         <Services />
-        <Process />
+        {/* <Process />
         <WhyChoose />
         <GPSTracking />
         <Coverage />
-        <UseCases />
+        <UseCases /> */}
         <ClientLogos />
         <Testimonials />
         <FAQ />

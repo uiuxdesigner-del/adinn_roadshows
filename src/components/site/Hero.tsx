@@ -109,10 +109,9 @@ const SHOW_DEMO_AND_NIGHT_VIEW_BUTTONS = false;
 // System performance flag:
 // true  -> vehicle GLB will load/render
 // false -> vehicle GLB will not load/render, useful when system/browser hangs
-const ENABLE_VEHICLE_GLB_LOADING = false;
+const ENABLE_VEHICLE_GLB_LOADING = true;
 
 /*
-
   Fix for reversed video text:
 
   Previous output showed "contact" as "tcatnoc", so X mirror must be false.

@@ -41,7 +41,7 @@
       "Power backup: ₹650 / day",
       "Up & down if usage < 25 days"
     ],
-    "brandingStatus": "Branding cost applicable",
+    "brandingStatus": "Branding Cost Applicable",
     "locationCharges": [
       {
         "label": "Branding cost",
@@ -205,7 +205,7 @@
       "Power backup: Rs. 650/day",
       "Up & down if usage < 25 days"
     ],
-    "brandingStatus": "Branding cost applicable",
+    "brandingStatus": "Branding Cost Applicable",
     "locationCharges": [
       {
         "label": "Branding cost",
@@ -369,7 +369,7 @@
       "Innovation/custom fabrication as per design",
       "Permissions extra by location"
     ],
-    "brandingStatus": "Branding cost applicable",
+    "brandingStatus": "Branding Cost Applicable",
     "locationCharges": [
       {
         "label": "Branding cost",
@@ -438,7 +438,7 @@
       "Permissions extra by location",
       "Promoters and reporting extras as applicable"
     ],
-    "brandingStatus": "Branding cost applicable",
+    "brandingStatus": "Branding Cost Applicable",
     "locationCharges": [
       {
         "label": "Branding cost",
@@ -692,7 +692,7 @@
       "Up & down charges applicable below order value of 1 lakh",
       "Promoter if required"
     ],
-    "brandingStatus": "Branding cost applicable",
+    "brandingStatus": "Branding Cost Applicable",
     "locationCharges": [
       {
         "label": "Branding cost",

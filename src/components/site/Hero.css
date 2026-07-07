@@ -226,7 +226,7 @@
   }
 
   .RdswNew_HeroTitle {
-    font-size: clamp(25px, 4vw, 45px) !important;
+    font-size: clamp(30px, 4vw, 45px) !important;
     max-width: 1120px !important;
   }
 
@@ -501,6 +501,12 @@
 
   .RdswNew_Rotate360Hint {
     top: 15%;
+  }
+    .RdswNew_Rotate360Hint {
+    bottom: 18px;
+    left: 55%;
+    width: 62px;
+    height: 62px;
   }
 }
 

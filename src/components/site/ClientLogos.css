@@ -23,7 +23,7 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: url(/assets/RS_Client_Roadshow_BG1.png);
+  background: url(/assets/RS_Client_Roadshow_BG1.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -473,7 +473,161 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+/* Tablet responsive: 768px to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .client-roadshow-section {
+    padding: 54px 0 52px;
+    min-height: auto;
+  }
 
+  .client-roadshow-container {
+    width: min(100% - 48px, 720px);
+    margin: 0 auto;
+  }
+
+  /* .client-roadshow-grid-bg {
+    background-image: url("/assets/RS_Client_Roadshow_BG1_mobile.webp");
+    background-size: min(640px, 86vw) auto;
+    background-position: center 18px;
+    background-repeat: no-repeat;
+  } */
+
+    .client-roadshow-grid-bg {
+        background-image: url(/assets/RS_Client_Roadshow_BG1_mobile.webp);
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-size: 100% 150%;
+    }
+
+
+  .client-roadshow-grid-bg::before,
+  .client-roadshow-grid-bg::after {
+    display: none;
+  }
+
+  .client-roadshow-hero {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 0;
+    min-height: 520px;
+  }
+
+  .client-roadshow-copy {
+    max-width: 520px;
+    padding-top: 0;
+    z-index: 2;
+  }
+
+  .client-roadshow-eyebrow {
+    font-size: 11px;
+    gap: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .client-roadshow-copy h2 {
+    margin-top: 20px;
+    max-width: 480px;
+    font-size: 42px;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+
+  .client-roadshow-copy p {
+    max-width: 460px;
+    margin-top: 18px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .client-roadshow-proof {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .client-roadshow-proof-item {
+    gap: 12px;
+  }
+
+  .client-roadshow-proof-item:not(:last-child)::after {
+    display: none;
+  }
+
+  .client-roadshow-proof-item > span {
+    width: 55px;
+    height: 55px;
+  }
+
+  .client-roadshow-proof-item strong {
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .client-roadshow-proof-item small {
+    font-size: 15px;
+  }
+
+  .client-roadshow-visual {
+    min-height: 0;
+  }
+
+  .client-roadshow-logo-panel {
+    margin-top: 0;
+    padding: 22px 28px 26px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(10px);
+  }
+
+  .client-roadshow-logo-card {
+    width: 170px;
+    height: 90px;
+    padding: 16px;
+    border-radius: 17px;
+  }
+
+  .client-roadshow-logo-fade {
+    width: 64px;
+  }
+
+  .client-roadshow-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  .client-roadshow-arrow.left {
+    left: 12px;
+  }
+
+  .client-roadshow-arrow.right {
+    right: 12px;
+  }
+
+  .client-roadshow-logo-dots {
+    margin-top: 16px;
+  }
+
+  .client-roadshow-stats {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .client-roadshow-stat {
+    justify-content: flex-start;
+    padding: 16px;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .client-roadshow-stat:not(:last-child)::after {
+    display: none;
+  }
+}
 @media (max-width: 900px) {
   .client-roadshow-stats {
     grid-template-columns: 1fr;
@@ -493,6 +647,12 @@
 }
 
 @media (max-width: 760px) {
+  
+  .client-roadshow-grid-bg {
+    background-image: url("/assets/RS_Client_Roadshow_BG1_mobile.webp");
+            background-size: 100% 77%;
+    background-position: center top;
+  }
   .client-roadshow-container {
     width: min(100% - 28px, 1520px);
   }
@@ -545,4 +705,12 @@
   .client-roadshow-proof-item > span {
     transition: none;
   }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+ 
+    .client-roadshow-visual {
+        min-height: 0px;
+    }
+
 }

@@ -91,7 +91,7 @@
   font-size: clamp(34px, 4.2vw, 62px);
   line-height: 1;
   letter-spacing: -0.055em;
-  font-weight: 950;
+  font-weight: 700;
 }
 
 .adinn-testimonial-heading h2 span {
@@ -1067,7 +1067,7 @@
   }
 
   .adinn-led-screen-inner {
-    width: 88%;
+    width: 100%;
   }
 
   .adinn-led-screen-tag {
@@ -1120,18 +1120,6 @@
 
 
 /* WebM background video */
-.adinn-testimonial-hero {
-  /* position: relative;
-  isolation: isolate;
-  min-height: clamp(380px, 38vw, 620px);
-  height: clamp(420px, 38vw, 620px);
-  margin-top: clamp(22px, 2.6vw, 42px);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: #f2f3f5 !important; */
-}
-
 .adinn-testimonial-hero {
   background-image: none !important;
   background-size: auto !important;
@@ -1253,5 +1241,222 @@
     height: 290px;
     top: 34%;
     left: 56.4%;
+  }
+}
+
+/* Tablets (768px - 991px) ✅ Tablets (Portrait Mode) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .adinn-road-faq-section {
+    padding: clamp(40px, 7vw, 112px) 0;
+  }
+
+  .adinn-testimonial-hero {
+    width: 145%;
+    height: clamp(473px, 38vw, 720px);
+    min-height: clamp(407px, 75vw, 100svh);
+    margin: auto auto auto -150px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(796px, 66vw);
+    height: 207px;
+    top: 38%;
+    left: 56.5%;
+  }
+
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(40px, 4.2vw, 62px);
+
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(20px, 1.05vw, 17px);
+  }
+}
+
+/* Mobile Large Screens (480px - 767px) ✅ Small Tablets & Large Phones */
+@media (min-width: 320px) and (max-width: 425px) {
+  .adinn-road-faq-section {
+    padding: clamp(40px, 7vw, 112px) 0;
+  }
+
+  .adinn-testimonial-hero {
+    width: 153%;
+    height: clamp(378px, 19vw, 712px);
+    min-height: clamp(236px, 38vw, 90svh);
+    margin: auto auto auto -110px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 69vw);
+    height: 135px;
+    top: 38%;
+    left: 56.5%;
+  }
+
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(29px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(14px, 1.05vw, 17px);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .adinn-road-faq-section {
+    padding: clamp(40px, 7vw, 112px) 0;
+  }
+
+  .adinn-testimonial-hero {
+    width: 153%;
+    height: clamp(378px, 19vw, 712px);
+    min-height: clamp(236px, 38vw, 90svh);
+    margin: auto auto auto -110px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 69vw);
+    height: 135px;
+    top: 38%;
+    left: 56.5%;
+  }
+
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(29px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(14px, 1.05vw, 17px);
+  }
+}
+
+/* Mobile Medium Screens (425px - 479px) ✅ Medium Phones (iPhone XR, Galaxy S20) */
+@media (min-width: 425px) and (max-width: 479px) {
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(25px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(12px, 1.05vw, 17px);
+  }
+
+  .adinn-testimonial-hero {
+    width: 158%;
+    height: clamp(320px, 16vw, 709px);
+    min-height: clamp(228px, 31vw, 85svh);
+    margin: auto auto auto -107px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 70vw);
+    height: 129px;
+    top: 38%;
+    left: 56.5%;
+  }
+}
+
+/* Mobile Small Screens (375px - 424px) ✅ Small Phones (iPhone SE, Pixel 4) */
+@media (min-width: 375px) and (max-width: 424px) {
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(30px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(13px, 1.05vw, 17px);
+  }
+
+  .adinn-testimonial-hero {
+    width: 159%;
+    height: clamp(261px, 16vw, 709px);
+    min-height: clamp(218px, 28vw, 77svh);
+    margin: auto auto auto -95px;
+  }
+
+  .adinn-led-screen-content {
+    padding: 10px 10px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 70vw);
+    height: 119px;
+    top: 38%;
+    left: 56.5%;
+  }
+}
+
+/* Extra Small Screens (360px - 374px) ✅ Extra Small Phones */
+@media (min-width: 360px) and (max-width: 374px) {
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(30px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(13px, 1.05vw, 17px);
+  }
+
+  .adinn-testimonial-hero {
+    width: 160%;
+    height: clamp(261px, 16vw, 709px);
+    min-height: clamp(218px, 28vw, 77svh);
+    margin: auto auto auto -92.1px;
+  }
+
+  .adinn-led-screen-content {
+    padding: 8px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 71vw);
+    height: 106px;
+    top: 36.2%;
+    left: 56.5%;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 359px) {
+  .adinn-testimonial-heading h2 {
+    font-size: clamp(27px, 4.2vw, 62px);
+  }
+
+  .adinn-testimonial-heading p {
+    font-size: clamp(12px, 1.05vw, 17px);
+  }
+
+  .adinn-testimonial-hero {
+    width: 160%;
+    height: clamp(257px, 16vw, 709px);
+    min-height: clamp(218px, 28vw, 77svh);
+    margin: auto auto auto -82.1px;
+  }
+
+  .adinn-led-screen-quote {
+    font-size: 10px;
+    line-height: 1.33;
+  }
+
+  .adinn-led-screen-content {
+    padding: 5px;
+  }
+
+  .adinn-testimonial-truck-stage {
+    width: min(803px, 71vw);
+    height: 95px;
+    top: 38.2%;
+    left: 56.5%;
+  }
+
+  .adinn-led-screen-tag {
+    margin-bottom: 7px;
+    padding: 3px 6px;
+    font-size: 6px;
+  }
+
+  .adinn-led-screen-bottom {
+    margin-top: 2px;
+  }
+
+  .adinn-testimonial-section {
+    padding: 0px 0;
   }
 }

@@ -1135,10 +1135,10 @@
 
 
 
-
-
-
 @media (min-width: 320px) and (max-width: 480px) {
+  .vehicleListHeading{
+        font-size: 20px !important;
+  }
   .VehicleListHeadingBtn {
     width: 100% !important;
     max-width: calc(100vw - 32px);
@@ -1163,20 +1163,14 @@
     min-width: 0 !important;
     transform: translateX(calc(var(--active-tab) * 100%)) !important;
   }
+
+  .ServicesCardImages {
+    height: 270px;
+  }
 }
 
 
 
-
-
-
-
-
-
-
-
-
-/* Desktop/default active tab pill - same as old Tailwind values */
 .VehicleListHeadingBtn {
   --active-tab-index: 0;
   --active-tab-width: 125px;
@@ -1203,7 +1197,6 @@
   transform: translateX(var(--active-tab-x));
 }
 
-/* Same as your old sm:w-[145px] and sm translate values */
 @media (min-width: 640px) {
   .VehicleListHeadingBtn {
     --active-tab-width: 145px;
@@ -1218,7 +1211,6 @@
   }
 }
 
-/* Mobile only: active UI becomes responsive black pill */
 @media (min-width: 320px) and (max-width: 480px) {
   .VehicleListHeadingBtn {
     width: 100% !important;

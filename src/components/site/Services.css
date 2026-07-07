@@ -1,9 +1,16 @@
-/* -------------------------------------------------------------------------- */
-/* VEHICLE DETAIL POPUP - BLACK / WHITE / GREY PREMIUM UI                     */
-/* -------------------------------------------------------------------------- */
-.ServicesCardImages{
-height: 380px;
+.vehicleListHeading {
+  font-size: 25px;
 }
+
+.vehicleListDesc {
+  font-size: 14px;
+
+}
+
+.ServicesCardImages {
+  height: 380px;
+}
+
 .vehicle-modal-overlay {
   position: fixed;
   inset: 0;
@@ -221,13 +228,11 @@ height: 380px;
   border-radius: 999px;
   background:
     linear-gradient(90deg, transparent, rgba(17, 17, 17, 0.12), transparent),
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       rgba(255, 255, 255, 0.75) 0,
       rgba(255, 255, 255, 0.75) 34px,
       transparent 34px,
-      transparent 66px
-    );
+      transparent 66px);
   transform: perspective(420px) rotateX(62deg);
   opacity: 0.55;
 }
@@ -336,7 +341,7 @@ height: 380px;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.13);
   cursor: pointer;
   font-size: 13px;
-  font-weight: 950;
+  font-weight: 700;
   transition:
     transform 220ms ease,
     color 220ms ease,
@@ -395,8 +400,8 @@ height: 380px;
   border-radius: 999px;
   color: #111111;
   background: #f1f1f1;
-  font-size: 11px;
-  font-weight: 950;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -407,7 +412,7 @@ height: 380px;
   font-size: clamp(24px, 2.15vw, 36px);
   line-height: 1.05;
   letter-spacing: -0.045em;
-  font-weight: 950;
+  font-weight: 600;
 }
 
 .vehicle-modal-description {
@@ -425,8 +430,8 @@ height: 380px;
   border-radius: 16px;
   color: #111111;
   background: #f4f4f4;
-  font-size: 13px;
-  font-weight: 760;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .vehicle-variant-block {
@@ -503,7 +508,7 @@ height: 380px;
   box-shadow: 0 12px 28px rgba(17, 17, 17, 0.06);
 }
 
-.vehicle-spec-card > span {
+.vehicle-spec-card>span {
   width: 34px;
   height: 34px;
   flex: 0 0 auto;
@@ -517,9 +522,9 @@ height: 380px;
 .vehicle-spec-card small {
   display: block;
   color: #777777;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.2;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .vehicle-spec-card strong {
@@ -528,7 +533,7 @@ height: 380px;
   color: #111111;
   font-size: 12px;
   line-height: 1.25;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .vehicle-details-grid {
@@ -544,7 +549,7 @@ height: 380px;
   margin: 0 0 12px;
   color: #111111;
   font-size: 15px;
-  font-weight: 950;
+  font-weight: 700;
 }
 
 .vehicle-feature-list {
@@ -561,7 +566,7 @@ height: 380px;
   gap: 9px;
   margin-bottom: 9px;
   color: #424242;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -616,19 +621,29 @@ height: 380px;
   border-radius: 999px;
   color: #5c5c5c;
   background: #f7f7f7;
-  font-size: 12px;
-  font-weight: 720;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .vehicle-branding-note {
+
+  display: flex;
+  justify-content: space-around;
+  gap: 5%;
+}
+
+.vehicle-branding-noteBtn {
+  width: 50%;
   margin-top: 18px;
   padding: 13px 15px;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 16px;
   color: #111111;
   background: #ffffff;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+
 }
 
 .vehicle-modal-footer {
@@ -650,21 +665,21 @@ height: 380px;
 
 .vehicle-price-box span {
   color: #555555;
-  font-size: 12px;
-  font-weight: 780;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .vehicle-price-box strong {
   color: #111111;
   font-size: clamp(22px, 1.7vw, 30px);
   line-height: 1;
-  font-weight: 950;
+  font-weight: 700;
 }
 
 .vehicle-price-box small {
-  font-size: 13px;
+  font-size: 14px;
   color: #555555;
-  font-weight: 760;
+  font-weight: 600;
 }
 
 .vehicle-price-box p {
@@ -694,8 +709,8 @@ height: 380px;
   color: #111111;
   background: #ffffff;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 900;
+  font-size: 15px;
+  font-weight: 750;
   transition:
     transform 220ms ease,
     background 220ms ease,
@@ -716,12 +731,24 @@ height: 380px;
 }
 
 @media (max-width: 1180px) {
+  .vehicle-modal-shell {
+    width: calc(100vw - 32px);
+    height: calc(100dvh - 32px);
+    max-height: calc(100dvh - 32px);
+  }
+
   .vehicle-modal-content {
     grid-template-columns: 1fr;
+    gap: 22px;
+    overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .vehicle-modal-details {
+    height: auto;
+    max-height: none;
     overflow: visible;
   }
 
@@ -731,6 +758,10 @@ height: 380px;
 
   .vehicle-main-image {
     max-height: 300px;
+  }
+
+  .vehicle-spec-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -803,7 +834,436 @@ height: 380px;
   }
 
   .vehicle-download-btn,
-  .vehicle-modal-actions > * {
+  .vehicle-modal-actions>* {
     width: 100%;
+  }
+}
+
+
+
+
+/* RESPONSIVE FOR DESKTOP - MOBILE SCREENS  */
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .VehicleListTitle {
+    font-size: 42px;
+  }
+
+  .VehicleListHeadingBtn button {
+    font-size: 16px;
+  }
+
+  .vehicleListHeading {
+    font-size: 22px;
+  }
+
+  .vehicleListDesc {
+    font-size: 13px;
+  }
+
+  .vehicle-category-pill {
+    font-size: 12px;
+  }
+
+  .vehicle-modal-details h3 {
+    font-size: clamp(22px, 2.15vw, 22px);
+  }
+
+  .vehicle-modal-description {
+    font-size: 14px;
+  }
+
+  .vehicle-highlight-box {
+    font-size: 14px;
+  }
+
+  .vehicle-spec-grid {
+    gap: 5px;
+  }
+
+  .vehicle-spec-card small {
+    font-size: 12px;
+  }
+
+  .vehicle-spec-card strong {
+    font-size: 12px;
+  }
+
+  .vehicle-details-grid h4,
+  .vehicle-addon-section h4 {
+    font-size: 15px;
+  }
+
+  .vehicle-feature-list li {
+    font-size: 13px;
+  }
+
+  .vehicle-addon-list span {
+    font-size: 13px;
+  }
+
+  .vehicle-branding-noteBtn {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-variant-list button {
+    font-size: 13px;
+  }
+
+  .vehicle-small-label {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .VehicleListTitle {
+    font-size: 35px;
+  }
+
+  .VehicleListHeading {
+    font-size: 33px;
+  }
+
+  .VehicleListHeadingBtn button {
+    font-size: 14px;
+    height: 50px;
+    align-items: center;
+  }
+
+  .ServicesCardImages {
+    height: 350px;
+  }
+
+
+
+
+  .vehicleListHeading {
+    font-size: 22px;
+  }
+
+  .vehicleListDesc {
+    font-size: 13px;
+  }
+
+  .vehicle-category-pill {
+    font-size: 12px;
+  }
+
+  .vehicle-modal-details h3 {
+    font-size: clamp(22px, 2.15vw, 22px);
+  }
+
+  .vehicle-modal-description {
+    font-size: 14px;
+  }
+
+  .vehicle-highlight-box {
+    font-size: 14px;
+  }
+
+  .vehicle-spec-grid {
+    gap: 5px;
+  }
+
+  .vehicle-spec-card small {
+    font-size: 12px;
+  }
+
+  .vehicle-spec-card strong {
+    font-size: 12px;
+  }
+
+  .vehicle-details-grid h4,
+  .vehicle-addon-section h4 {
+    font-size: 15px;
+  }
+
+  .vehicle-feature-list li {
+    font-size: 13px;
+  }
+
+  .vehicle-addon-list span {
+    font-size: 13px;
+  }
+
+  .vehicle-branding-noteBtn {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-price-box span {
+    font-size: 14px;
+  }
+
+  .vehicle-price-box strong {
+    font-size: clamp(22px, 1.7vw, 30px);
+  }
+
+  .vehicle-price-box small {
+    font-size: 14px;
+  }
+
+  .vehicle-download-btn {
+    font-size: 15px;
+  }
+
+  .vehicle-variant-list button {
+    font-size: 13px;
+  }
+
+  .vehicle-small-label {
+    font-size: 12px;
+  }
+
+  .vehicle-branding-noteBtn {
+    margin-bottom: 3%;
+  }
+}
+
+@media (min-width: 425px) and (max-width: 480px) {
+  .ServicesCardImages {
+    height: 270px;
+  }
+
+  .VehicleListHeadingBtn {
+    /* margin: 0px -15px;
+    
+    */
+    /* border: 1px solid red; */
+  }
+
+  .VehicleListHeadingBtn button {
+    font-size: 15px;
+    padding: 0px 5px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+  .ServicesCardImages {
+    height: 270px;
+  }
+
+  .VehicleListHeadingBtn {
+    /* margin: 0px -15px;
+     */
+    /* border: 1px solid red; */
+  }
+
+  .VehicleListHeadingBtn button {
+    font-size: 15px;
+    padding: 0px 5px;
+  }
+}
+
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .vehicleListHeading{
+        font-size: 20px !important;
+  }
+  .VehicleListHeadingBtn {
+    width: 100% !important;
+    max-width: calc(100vw - 32px);
+    margin: 0 auto !important;
+    overflow: hidden;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 6px !important;
+  }
+
+  .VehicleListHeadingBtn button {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 8px !important;
+    font-size: 14px !important;
+    white-space: nowrap;
+  }
+
+  .VehicleListinHeadingBtnSpan {
+    width: calc((100% - 12px) / 3) !important;
+    min-width: 0 !important;
+    transform: translateX(calc(var(--active-tab) * 100%)) !important;
+  }
+
+  .ServicesCardImages {
+    height: 270px;
+  }
+}
+
+
+
+.VehicleListHeadingBtn {
+  --active-tab-index: 0;
+  --active-tab-width: 125px;
+  --active-tab-x: 0px;
+}
+
+.VehicleListHeadingBtn--led {
+  --active-tab-index: 0;
+  --active-tab-x: 0px;
+}
+
+.VehicleListHeadingBtn--flex {
+  --active-tab-index: 1;
+  --active-tab-x: 125px;
+}
+
+.VehicleListHeadingBtn--hybrid {
+  --active-tab-index: 2;
+  --active-tab-x: 250px;
+}
+
+.VehicleListinHeadingBtnSpan {
+  width: var(--active-tab-width);
+  transform: translateX(var(--active-tab-x));
+}
+
+@media (min-width: 640px) {
+  .VehicleListHeadingBtn {
+    --active-tab-width: 145px;
+  }
+
+  .VehicleListHeadingBtn--flex {
+    --active-tab-x: 145px;
+  }
+
+  .VehicleListHeadingBtn--hybrid {
+    --active-tab-x: 290px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .VehicleListHeadingBtn {
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+    padding: 6px !important;
+    border-radius: 999px !important;
+  }
+
+  .VehicleListHeadingBtn button {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 48px !important;
+
+    padding: 0 8px !important;
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    white-space: nowrap !important;
+    text-align: center !important;
+  }
+
+  .VehicleListinHeadingBtnSpan {
+    width: calc((100% - 12px) / 3) !important;
+    min-width: 0 !important;
+    transform: translateX(calc(var(--active-tab-index) * 100%)) !important;
+  }
+}
+
+/* Small mobile only: 320px to 374px */
+@media (min-width: 320px) and (max-width: 374px) {
+  .VehicleListHeadingBtn {
+    max-width: calc(100vw - 28px) !important;
+  }
+
+  .VehicleListHeadingBtn button {
+    height: 46px !important;
+    padding: 0 5px !important;
+    font-size: 13px !important;
+  }
+
+  .VehicleListTitle {
+    font-size: 31px !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.05em !important;
   }
 }

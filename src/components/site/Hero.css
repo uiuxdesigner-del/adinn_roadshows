@@ -574,3 +574,27 @@
     height: 620px !important;
   }
 }
+@media (min-width: 1500px) and (max-width: 1700px) {
+   .RdswNew_HomeBannerMain {
+    min-height: 110svh;
+    padding-top: 110px;
+    padding-bottom: 0px;
+  }
+   .RdswNew_VehicleCanvasWrap {
+    top: 250px !important;
+    height: calc(100svh - 500px) !important;
+    min-height: 400px !important;
+    max-height: 510px !important;
+    max-width: 980px !important;
+    margin: 5% auto;
+    margin-bottom: 3%;
+  }
+
+  .RdswNew_AboutSection {
+    /* margin-top: -48px;*/
+    padding-top: 122px;
+    padding-bottom: 96px;
+    /* border: 4px solid white; */
+  }
+
+}

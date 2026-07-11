@@ -1,12 +1,48 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 
-import { Bounds, Center, ContactShadows, Environment, Html, OrbitControls, useGLTF, useTexture } from "@react-three/drei";
+import {
+  Bounds,
+  Center,
+  ContactShadows,
+  Environment,
+  Html,
+  OrbitControls,
+  useGLTF,
+  useTexture,
+} from "@react-three/drei";
 
-import { ACESFilmicToneMapping, Box3, BufferAttribute, ClampToEdgeWrapping, DoubleSide, Group, LinearFilter, LinearMipmapLinearFilter, MathUtils, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, SRGBColorSpace, Texture, TextureLoader, Vector3, VideoTexture } from "three";
+import {
+  ACESFilmicToneMapping,
+  Box3,
+  BufferAttribute,
+  ClampToEdgeWrapping,
+  DoubleSide,
+  Group,
+  LinearFilter,
+  LinearMipmapLinearFilter,
+  MathUtils,
+  Mesh,
+  MeshBasicMaterial,
+  Object3D,
+  PerspectiveCamera,
+  SRGBColorSpace,
+  Texture,
+  TextureLoader,
+  Vector3,
+  VideoTexture,
+} from "three";
 import "./Hero.css";
 type VehicleItem = {
   id: string;
@@ -23,22 +59,10 @@ type VehicleItem = {
 type AxisKey = "x" | "y" | "z";
 
 const VEHICLES: VehicleItem[] = [
-      {
-    id: "single_side",
-
-    label: "3 Sided LED Ultra",
-
-    path: "/assets/19_single_side.glb",
-
-    scale: 1,
-
-    rotationY: -0.25,
-  },
-
   {
     id: "ultra",
 
-    label: "3 Sided LED",
+    label: "3 Sided LED ULTRA",
 
     path: "/assets/ultra.glb",
 
@@ -59,7 +83,17 @@ const VEHICLES: VehicleItem[] = [
     rotationY: -0.25,
   },
 
+  {
+    id: "single_side",
 
+    label: "Single Side Ultra",
+
+    path: "/assets/19_single_side.glb",
+
+    scale: 1,
+
+    rotationY: -0.25,
+  },
 
   {
     id: "7x5",
@@ -74,27 +108,60 @@ const VEHICLES: VehicleItem[] = [
   },
 ];
 
-const LED_PANEL_OBJECT_NAMES = [
-  "led_texture",
-  "l_type_led_screen",
-  "back",
-  "side",
-];
+const LED_PANEL_OBJECT_NAMES = ["led_texture", "l_type_led_screen", "back", "side"];
 
 const GLOBAL_LOGO_MESH_NAME = "blinn9";
 
 const GLOBAL_LOGO_TEXTURE_SRC = "/assets/adinn_logo_l_type.jpg";
+
+const SINGLE_SIDE_BRANDING_TEXTURES: Record<string, string> = {
+  Blinn_42: "/assets/17x7.jpg",
+};
+
+const SINGLE_SIDE_BRANDING_MESH_NAMES = Object.keys(SINGLE_SIDE_BRANDING_TEXTURES);
+
+// 19_single_side.glb texture mapping.
+// Applies /assets/17x7.jpg only to the direct mesh named Blinn_42 / Blinn_42_001.
+// It will not apply through parent/group matching, so other single-side meshes stay unchanged.
+const SINGLE_SIDE_BRANDING_VEHICLE_ID = "single_side";
+const SINGLE_SIDE_BLINN_42_TEXTURE_KEY = "Blinn_42";
+
+// Important:
+// Blinn_42 existing UV is coming reversed on 19_single_side.glb.
+// So we regenerate UV only for this mesh and mirror X to make 17x7.jpg readable.
+const SINGLE_SIDE_BLINN_42_FORCE_GENERATE_UV = true;
+const SINGLE_SIDE_BLINN_42_MIRROR_X = false;
+const SINGLE_SIDE_BLINN_42_MIRROR_Y = true;
 
 const HYBRID_LED_BRANDING_TEXTURES: Record<string, string> = {
   "5x1_back_bottom": "/assets/5x1_back_bottom.jpg",
   "8x1_side_bottom": "/assets/8x1_side_bottom.jpg",
   aircutter_lf: "/assets/aircutter_lf.jpg",
   aircutter_rg: "/assets/aircutter_rg.jpg",
-  cabin_poster: "/assets/cabin_poster.jpg",
+  cabin_front: "/assets/cabin_poster.jpg",
 };
 
-const HYBRID_LED_BRANDING_MESH_NAMES = Object.keys(
-  HYBRID_LED_BRANDING_TEXTURES,
+const HYBRID_LED_BRANDING_MESH_NAMES = Object.keys(HYBRID_LED_BRANDING_TEXTURES);
+
+// Cabin front texture is intentionally strict.
+// It will apply only to the real mesh named cabin_front / cabin_front001.
+// It will NOT apply through material name or parent/group name, because that
+// was the reason the logo appeared on the wrong side panels.
+const HYBRID_CABIN_FRONT_TEXTURE_KEY = "cabin_front";
+
+const HYBRID_CABIN_FRONT_TEXTURE_TARGET_MESH_NAMES = ["cabin_front"];
+
+// cabin_poster.jpg has a lot of white space around the logo.
+// repeat values below crop/zoom the center area so the logo becomes bigger
+// and readable on the cabin_front mesh.
+// Decrease these values to zoom in more. Increase them to show more of the poster.
+const HYBRID_CABIN_FRONT_TEXTURE_REPEAT: [number, number] = [0.36, 0.36];
+const HYBRID_CABIN_FRONT_TEXTURE_CENTER: [number, number] = [0.5, 0.5];
+const HYBRID_CABIN_FRONT_TEXTURE_OFFSET: [number, number] = [0, 0];
+const HYBRID_CABIN_FRONT_TEXTURE_ROTATION = 0;
+
+const HYBRID_NON_CABIN_BRANDING_MESH_NAMES = HYBRID_LED_BRANDING_MESH_NAMES.filter(
+  (meshName) => meshName !== HYBRID_CABIN_FRONT_TEXTURE_KEY,
 );
 
 const DEMO_VIDEO_SRC = "/assets/demo-campaign.mp4";
@@ -161,9 +228,7 @@ const CAMERA_DEMO_FOV = 23.8;
 // Camera switch transition only. Final zoom values are not changed.
 // This creates the same "unzoom first, then gently zoom into the selected vehicle" feel
 // for 7x5 LED and L Type LED too.
-const CAMERA_SWITCH_ZOOM_OUT_POSITION: [number, number, number] = [
-  6.85, 1.42, 7.75,
-];
+const CAMERA_SWITCH_ZOOM_OUT_POSITION: [number, number, number] = [6.85, 1.42, 7.75];
 
 const CAMERA_SWITCH_ZOOM_OUT_FOV = 30.4;
 
@@ -180,10 +245,7 @@ type VehicleCameraConfig = {
 
 // Used for vehicle-specific camera fit. The first/default vehicle uses this from initial page load;
 // other GLBs use their config once the user switches vehicles.
-const AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE: Record<
-  string,
-  VehicleCameraConfig
-> = {
+const AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE: Record<string, VehicleCameraConfig> = {
   "7x5": {
     position: [5.15, 1.2, 5.85],
     fov: 27.2,
@@ -232,8 +294,7 @@ const AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE: Record<
 
 function getAfterSwitchCameraConfig(vehicleId: string): VehicleCameraConfig {
   return (
-    AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE[vehicleId] ||
-    AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE["7x5"]
+    AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE[vehicleId] || AFTER_SWITCH_CAMERA_CONFIG_BY_VEHICLE["7x5"]
   );
 }
 
@@ -306,24 +367,123 @@ function isGlobalLogoTargetName(name: string) {
   return compact === target;
 }
 
-function getHybridLedBrandingTextureKey(name: string) {
+function isCabinBrandingTextureKey(key: string | null) {
+  return key === HYBRID_CABIN_FRONT_TEXTURE_KEY;
+}
+
+function isDirectCabinFrontTargetName(name: string) {
   const compact = compactName(name);
 
-  return (
-    HYBRID_LED_BRANDING_MESH_NAMES.find(
-      (meshName) => compact === compactName(meshName),
-    ) || null
+  if (!compact) return false;
+
+  return HYBRID_CABIN_FRONT_TEXTURE_TARGET_MESH_NAMES.some((targetName) => {
+    const target = compactName(targetName);
+
+    // Allows cabin_front, cabin_front_001, cabin_frontMesh after compacting.
+    // Does not allow object_cabin_front or parent cabin_front, to avoid wrong side matches.
+    return compact === target || compact.startsWith(target);
+  });
+}
+
+function forceObjectAndParentsVisible(object: Object3D) {
+  let current: Object3D | null = object;
+
+  while (current) {
+    current.visible = true;
+    current = current.parent;
+  }
+}
+
+function isDirectSingleSideBrandingTargetName(name: string) {
+  const compact = compactName(name);
+
+  if (!compact) return false;
+
+  return SINGLE_SIDE_BRANDING_MESH_NAMES.some((targetName) => {
+    const target = compactName(targetName);
+
+    return compact === target || compact.startsWith(target);
+  });
+}
+
+function getSingleSideBrandingTextureKeyForMesh(object: Object3D) {
+  // Strict direct mesh-name match only.
+  // This prevents /assets/17x7.jpg from applying to any parent/group/other mesh.
+  return isDirectSingleSideBrandingTargetName(object.name || "")
+    ? SINGLE_SIDE_BLINN_42_TEXTURE_KEY
+    : null;
+}
+
+function getHybridLedBrandingTextureKey(name: string, options: { allowCabinFront?: boolean } = {}) {
+  const compact = compactName(name);
+
+  if (!compact) return null;
+
+  if (options.allowCabinFront && isDirectCabinFrontTargetName(name)) {
+    return HYBRID_CABIN_FRONT_TEXTURE_KEY;
+  }
+
+  const exactMatch = HYBRID_NON_CABIN_BRANDING_MESH_NAMES.find(
+    (meshName) => compact === compactName(meshName),
   );
+
+  if (exactMatch) return exactMatch;
+
+  const softMatch = HYBRID_NON_CABIN_BRANDING_MESH_NAMES.find((meshName) => {
+    const target = compactName(meshName);
+
+    return compact.includes(target);
+  });
+
+  return softMatch || null;
+}
+
+function getHybridLedBrandingTextureKeyForMesh(
+  object: Object3D,
+  materials: Array<{ name?: string } | null | undefined> = [],
+) {
+  // Cabin front must be matched ONLY by the direct mesh name.
+  // Do not use material name or parent/group name for cabin_front.
+  const directObjectMatch = getHybridLedBrandingTextureKey(object.name || "", {
+    allowCabinFront: true,
+  });
+
+  if (directObjectMatch) return directObjectMatch;
+
+  // Other hybrid textures can still use material-name matching.
+  const materialMatch =
+    materials
+      .map((material) =>
+        getHybridLedBrandingTextureKey(material?.name || "", {
+          allowCabinFront: false,
+        }),
+      )
+      .find(Boolean) || null;
+
+  if (materialMatch) return materialMatch;
+
+  // Other hybrid textures can still use parent/group matching.
+  // Cabin front is intentionally excluded here.
+  let current = object.parent;
+
+  while (current) {
+    const ancestorMatch = getHybridLedBrandingTextureKey(current.name || "", {
+      allowCabinFront: false,
+    });
+
+    if (ancestorMatch) return ancestorMatch;
+
+    current = current.parent;
+  }
+
+  return null;
 }
 
 type AppliedLogoTextureWindow = Window & {
   __ADINN_LOGO_TEXTURE_APPLIED_VEHICLES__?: Record<string, string>;
 };
 
-function printAppliedLogoTextureVehicles(
-  vehicle: VehicleItem,
-  appliedMeshCount: number,
-) {
+function printAppliedLogoTextureVehicles(vehicle: VehicleItem, appliedMeshCount: number) {
   if (typeof window === "undefined" || appliedMeshCount <= 0) return;
 
   const browserWindow = window as AppliedLogoTextureWindow;
@@ -337,10 +497,7 @@ function printAppliedLogoTextureVehicles(
     (item) => browserWindow.__ADINN_LOGO_TEXTURE_APPLIED_VEHICLES__?.[item.id],
   ).map((item) => item.label);
 
-  console.info(
-    `[Adinn Logo Texture] ${GLOBAL_LOGO_TEXTURE_SRC} applied vehicles`,
-    appliedVehicles,
-  );
+  console.info(`[Adinn Logo Texture] ${GLOBAL_LOGO_TEXTURE_SRC} applied vehicles`, appliedVehicles);
 }
 
 function hasLedPanelAncestor(object: Object3D) {
@@ -460,9 +617,7 @@ function getUvSpread(mesh: Mesh) {
 }
 
 function applyMultiPanelUvToMesh(mesh: Mesh) {
-  const geometry = mesh.geometry.index
-    ? mesh.geometry.toNonIndexed()
-    : mesh.geometry.clone();
+  const geometry = mesh.geometry.index ? mesh.geometry.toNonIndexed() : mesh.geometry.clone();
 
   geometry.computeBoundingBox();
 
@@ -639,16 +794,463 @@ function applyMultiPanelUvToMesh(mesh: Mesh) {
   return {
     applied: true,
 
-    reason: `multi-panel UV generated | clusters: ${Array.from(
-      clusters.keys(),
-    ).join(", ")}`,
+    reason: `multi-panel UV generated | clusters: ${Array.from(clusters.keys()).join(", ")}`,
   };
 }
 
-function useHybridLedBrandingTextures(
-  enabled: boolean,
-  maxAnisotropy: number,
-) {
+
+function applySingleSideBlinn42UvToMesh(mesh: Mesh) {
+  const geometry = mesh.geometry.index ? mesh.geometry.toNonIndexed() : mesh.geometry.clone();
+
+  geometry.computeBoundingBox();
+  mesh.updateMatrixWorld(true);
+
+  const position = geometry.attributes.position as BufferAttribute | undefined;
+
+  if (!position) {
+    mesh.geometry = geometry;
+
+    return {
+      applied: false,
+      reason: "single side Blinn_42 UV skipped - missing position attribute",
+    };
+  }
+
+  type SingleSideFaceCluster = {
+    key: string;
+    axisU: AxisKey;
+    axisV: AxisKey;
+    minU: number;
+    maxU: number;
+    minV: number;
+    maxV: number;
+    area: number;
+  };
+
+  type SingleSideTriangleInfo = {
+    key: string;
+  };
+
+  const clusters = new Map<string, SingleSideFaceCluster>();
+  const triangleInfos: SingleSideTriangleInfo[] = [];
+
+  const localA = new Vector3();
+  const localB = new Vector3();
+  const localC = new Vector3();
+  const worldA = new Vector3();
+  const worldB = new Vector3();
+  const worldC = new Vector3();
+  const edge1 = new Vector3();
+  const edge2 = new Vector3();
+  const normal = new Vector3();
+
+  const expandCluster = (cluster: SingleSideFaceCluster, vertex: Vector3) => {
+    const u = getAxisValue(vertex, cluster.axisU);
+    const v = getAxisValue(vertex, cluster.axisV);
+
+    cluster.minU = Math.min(cluster.minU, u);
+    cluster.maxU = Math.max(cluster.maxU, u);
+    cluster.minV = Math.min(cluster.minV, v);
+    cluster.maxV = Math.max(cluster.maxV, v);
+  };
+
+  const triangleCount = Math.floor(position.count / 3);
+
+  for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
+    const baseIndex = triangleIndex * 3;
+
+    localA.fromBufferAttribute(position, baseIndex);
+    localB.fromBufferAttribute(position, baseIndex + 1);
+    localC.fromBufferAttribute(position, baseIndex + 2);
+
+    worldA.copy(localA).applyMatrix4(mesh.matrixWorld);
+    worldB.copy(localB).applyMatrix4(mesh.matrixWorld);
+    worldC.copy(localC).applyMatrix4(mesh.matrixWorld);
+
+    edge1.subVectors(worldB, worldA);
+    edge2.subVectors(worldC, worldA);
+
+    normal.crossVectors(edge1, edge2);
+    const triangleArea = normal.length() * 0.5;
+    normal.normalize();
+
+    const projection = getProjectionFromNormal(normal);
+
+    let cluster = clusters.get(projection.key);
+
+    if (!cluster) {
+      cluster = {
+        key: projection.key,
+        axisU: projection.axisU,
+        axisV: projection.axisV,
+        minU: Number.POSITIVE_INFINITY,
+        maxU: Number.NEGATIVE_INFINITY,
+        minV: Number.POSITIVE_INFINITY,
+        maxV: Number.NEGATIVE_INFINITY,
+        area: 0,
+      };
+
+      clusters.set(projection.key, cluster);
+    }
+
+    cluster.area += triangleArea;
+
+    expandCluster(cluster, worldA);
+    expandCluster(cluster, worldB);
+    expandCluster(cluster, worldC);
+
+    triangleInfos.push({
+      key: projection.key,
+    });
+  }
+
+  const uvArray = new Float32Array(position.count * 2);
+  const vertex = new Vector3();
+  const worldVertex = new Vector3();
+
+  for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
+    const triangleInfo = triangleInfos[triangleIndex];
+    const cluster = clusters.get(triangleInfo.key);
+    const baseIndex = triangleIndex * 3;
+
+    if (!cluster) continue;
+
+    const rangeU = Math.max(cluster.maxU - cluster.minU, 0.00001);
+    const rangeV = Math.max(cluster.maxV - cluster.minV, 0.00001);
+
+    for (let localIndex = 0; localIndex < 3; localIndex++) {
+      const vertexIndex = baseIndex + localIndex;
+
+      vertex.fromBufferAttribute(position, vertexIndex);
+      worldVertex.copy(vertex).applyMatrix4(mesh.matrixWorld);
+
+      let u = (getAxisValue(worldVertex, cluster.axisU) - cluster.minU) / rangeU;
+      let v = (getAxisValue(worldVertex, cluster.axisV) - cluster.minV) / rangeV;
+
+      // The visible side of Blinn_42 is rendered from the opposite side in the GLB,
+      // so X mirroring is required to make /assets/17x7.jpg read in the correct direction.
+      if (SINGLE_SIDE_BLINN_42_MIRROR_X) {
+        u = 1 - u;
+      }
+
+      if (SINGLE_SIDE_BLINN_42_MIRROR_Y) {
+        v = 1 - v;
+      }
+
+      uvArray[vertexIndex * 2] = MathUtils.clamp(u, 0, 1);
+      uvArray[vertexIndex * 2 + 1] = MathUtils.clamp(v, 0, 1);
+    }
+  }
+
+  geometry.setAttribute("uv", new BufferAttribute(uvArray, 2));
+  geometry.attributes.uv.needsUpdate = true;
+  geometry.computeVertexNormals();
+
+  mesh.geometry = geometry;
+
+  const clusterNames = Array.from(clusters.keys()).join(", ");
+
+  return {
+    applied: true,
+    reason: `single side Blinn_42 UV generated | mirrorX: ${SINGLE_SIDE_BLINN_42_MIRROR_X} | mirrorY: ${SINGLE_SIDE_BLINN_42_MIRROR_Y} | clusters: ${clusterNames}`,
+  };
+}
+
+
+function applySingleCabinFrontFaceUvToMesh(mesh: Mesh) {
+  const geometry = mesh.geometry.index ? mesh.geometry.toNonIndexed() : mesh.geometry.clone();
+
+  geometry.computeBoundingBox();
+  mesh.updateMatrixWorld(true);
+
+  const position = geometry.attributes.position as BufferAttribute | undefined;
+
+  if (!position) {
+    mesh.geometry = geometry;
+
+    return {
+      applied: false,
+      reason: "cabin front UV skipped - missing position attribute",
+    };
+  }
+
+  type CabinFaceCluster = {
+    key: string;
+    axisU: AxisKey;
+    axisV: AxisKey;
+    isVertical: boolean;
+    minU: number;
+    maxU: number;
+    minV: number;
+    maxV: number;
+    area: number;
+  };
+
+  type CabinTriangleInfo = {
+    key: string;
+  };
+
+  const clusters = new Map<string, CabinFaceCluster>();
+  const triangleInfos: CabinTriangleInfo[] = [];
+
+  const localA = new Vector3();
+  const localB = new Vector3();
+  const localC = new Vector3();
+  const worldA = new Vector3();
+  const worldB = new Vector3();
+  const worldC = new Vector3();
+  const edge1 = new Vector3();
+  const edge2 = new Vector3();
+  const normal = new Vector3();
+
+  const expandCluster = (cluster: CabinFaceCluster, vertex: Vector3) => {
+    const u = getAxisValue(vertex, cluster.axisU);
+    const v = getAxisValue(vertex, cluster.axisV);
+
+    cluster.minU = Math.min(cluster.minU, u);
+    cluster.maxU = Math.max(cluster.maxU, u);
+    cluster.minV = Math.min(cluster.minV, v);
+    cluster.maxV = Math.max(cluster.maxV, v);
+  };
+
+  const triangleCount = Math.floor(position.count / 3);
+
+  for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
+    const baseIndex = triangleIndex * 3;
+
+    localA.fromBufferAttribute(position, baseIndex);
+    localB.fromBufferAttribute(position, baseIndex + 1);
+    localC.fromBufferAttribute(position, baseIndex + 2);
+
+    worldA.copy(localA).applyMatrix4(mesh.matrixWorld);
+    worldB.copy(localB).applyMatrix4(mesh.matrixWorld);
+    worldC.copy(localC).applyMatrix4(mesh.matrixWorld);
+
+    edge1.subVectors(worldB, worldA);
+    edge2.subVectors(worldC, worldA);
+
+    normal.crossVectors(edge1, edge2);
+    const triangleArea = normal.length() * 0.5;
+    normal.normalize();
+
+    const projection = getProjectionFromNormal(normal);
+    const isVertical = projection.axisV === "y";
+
+    let cluster = clusters.get(projection.key);
+
+    if (!cluster) {
+      cluster = {
+        key: projection.key,
+        axisU: projection.axisU,
+        axisV: projection.axisV,
+        isVertical,
+        minU: Number.POSITIVE_INFINITY,
+        maxU: Number.NEGATIVE_INFINITY,
+        minV: Number.POSITIVE_INFINITY,
+        maxV: Number.NEGATIVE_INFINITY,
+        area: 0,
+      };
+
+      clusters.set(projection.key, cluster);
+    }
+
+    cluster.area += triangleArea;
+
+    expandCluster(cluster, worldA);
+    expandCluster(cluster, worldB);
+    expandCluster(cluster, worldC);
+
+    triangleInfos.push({
+      key: projection.key,
+    });
+  }
+
+  const validClusters = Array.from(clusters.values()).filter((cluster) => {
+    const width = cluster.maxU - cluster.minU;
+    const height = cluster.maxV - cluster.minV;
+
+    return width > 0.0001 && height > 0.0001;
+  });
+
+  const frontFacingVerticalClusters = validClusters.filter((cluster) => {
+    return cluster.isVertical && cluster.key.includes("front-panel");
+  });
+
+  const verticalClusters = validClusters.filter((cluster) => cluster.isVertical);
+
+  // cabin_front should show only on the actual front face.
+  // 1st preference: Z-facing "front-panel" cluster.
+  // 2nd preference: any vertical cluster.
+  // This prevents the logo from appearing on side walls, roof, or interior surfaces.
+  const selectedCluster =
+    (frontFacingVerticalClusters.length > 0 ? frontFacingVerticalClusters : verticalClusters).sort(
+      (a, b) => b.area - a.area,
+    )[0] || null;
+
+  if (!selectedCluster) {
+    mesh.geometry = geometry;
+
+    return {
+      applied: false,
+      reason: "cabin front UV skipped - no usable front face cluster",
+    };
+  }
+
+  const rangeU = Math.max(selectedCluster.maxU - selectedCluster.minU, 0.00001);
+  const rangeV = Math.max(selectedCluster.maxV - selectedCluster.minV, 0.00001);
+  const uvArray = new Float32Array(position.count * 2);
+  const vertex = new Vector3();
+  const worldVertex = new Vector3();
+
+  geometry.clearGroups();
+
+  for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
+    const triangleInfo = triangleInfos[triangleIndex];
+    const isSelectedFace = triangleInfo.key === selectedCluster.key;
+    const materialIndex = isSelectedFace ? 1 : 0;
+    const baseIndex = triangleIndex * 3;
+
+    geometry.addGroup(baseIndex, 3, materialIndex);
+
+    for (let localIndex = 0; localIndex < 3; localIndex++) {
+      const vertexIndex = baseIndex + localIndex;
+
+      vertex.fromBufferAttribute(position, vertexIndex);
+      worldVertex.copy(vertex).applyMatrix4(mesh.matrixWorld);
+
+      let u = 0;
+      let v = 0;
+
+      if (isSelectedFace) {
+        u = (getAxisValue(worldVertex, selectedCluster.axisU) - selectedCluster.minU) / rangeU;
+
+        v = (getAxisValue(worldVertex, selectedCluster.axisV) - selectedCluster.minV) / rangeV;
+      }
+
+      uvArray[vertexIndex * 2] = MathUtils.clamp(u, 0, 1);
+      uvArray[vertexIndex * 2 + 1] = MathUtils.clamp(v, 0, 1);
+    }
+  }
+
+  geometry.setAttribute("uv", new BufferAttribute(uvArray, 2));
+  geometry.attributes.uv.needsUpdate = true;
+  geometry.computeVertexNormals();
+
+  mesh.geometry = geometry;
+
+  return {
+    applied: true,
+    reason: `cabin front single-face UV generated | selected: ${selectedCluster.key}`,
+  };
+}
+
+function useHybridLedBrandingTextures(enabled: boolean, maxAnisotropy: number) {
+  const [textures, setTextures] = useState<Record<string, Texture>>({});
+
+  useEffect(() => {
+    if (!enabled) {
+      setTextures({});
+
+      return;
+    }
+
+    let isMounted = true;
+    const loadedTextures: Texture[] = [];
+    const loader = new TextureLoader();
+
+    const configureTexture = (texture: Texture, textureKey: string) => {
+      const isCabinFrontTexture = isCabinBrandingTextureKey(textureKey);
+
+      texture.colorSpace = SRGBColorSpace;
+      texture.flipY = false;
+      texture.wrapS = ClampToEdgeWrapping;
+      texture.wrapT = ClampToEdgeWrapping;
+      texture.anisotropy = Math.min(16, maxAnisotropy);
+
+      if (isCabinFrontTexture) {
+        // Important fix:
+        // The source poster has empty white padding, so the full image looked tiny
+        // on the cabin mesh. Cropping the center makes the logo visibly larger.
+        texture.center.set(
+          HYBRID_CABIN_FRONT_TEXTURE_CENTER[0],
+          HYBRID_CABIN_FRONT_TEXTURE_CENTER[1],
+        );
+        texture.repeat.set(
+          HYBRID_CABIN_FRONT_TEXTURE_REPEAT[0],
+          HYBRID_CABIN_FRONT_TEXTURE_REPEAT[1],
+        );
+        texture.offset.set(
+          HYBRID_CABIN_FRONT_TEXTURE_OFFSET[0],
+          HYBRID_CABIN_FRONT_TEXTURE_OFFSET[1],
+        );
+        texture.rotation = HYBRID_CABIN_FRONT_TEXTURE_ROTATION;
+
+        // Disable mipmaps only for this small cabin poster.
+        // Mipmaps make small logo/text look soft from the camera distance.
+        texture.minFilter = LinearFilter;
+        texture.magFilter = LinearFilter;
+        texture.generateMipmaps = false;
+      } else {
+        texture.minFilter = LinearMipmapLinearFilter;
+        texture.magFilter = LinearFilter;
+        texture.generateMipmaps = true;
+      }
+
+      texture.needsUpdate = true;
+    };
+
+    const loadTexture = ([meshName, textureSrc]: [string, string]) =>
+      new Promise<[string, Texture] | null>((resolve) => {
+        loader.load(
+          textureSrc,
+          (texture) => {
+            configureTexture(texture, meshName);
+            loadedTextures.push(texture);
+            resolve([meshName, texture]);
+          },
+          undefined,
+          () => resolve(null),
+        );
+      });
+
+    Promise.all(Object.entries(HYBRID_LED_BRANDING_TEXTURES).map(loadTexture))
+      .then((loadedEntries) => {
+        if (!isMounted) {
+          loadedTextures.forEach((texture) => texture.dispose());
+
+          return;
+        }
+
+        const nextTextures = loadedEntries.reduce<Record<string, Texture>>((accumulator, entry) => {
+          if (!entry) return accumulator;
+
+          const [meshName, texture] = entry;
+
+          accumulator[meshName] = texture;
+
+          return accumulator;
+        }, {});
+
+        setTextures(nextTextures);
+      })
+      .catch(() => {
+        if (isMounted) {
+          setTextures({});
+        }
+      });
+
+    return () => {
+      isMounted = false;
+
+      loadedTextures.forEach((texture) => texture.dispose());
+    };
+  }, [enabled, maxAnisotropy]);
+
+  return textures;
+}
+
+
+function useSingleSideBrandingTextures(enabled: boolean, maxAnisotropy: number) {
   const [textures, setTextures] = useState<Record<string, Texture>>({});
 
   useEffect(() => {
@@ -688,7 +1290,7 @@ function useHybridLedBrandingTextures(
         );
       });
 
-    Promise.all(Object.entries(HYBRID_LED_BRANDING_TEXTURES).map(loadTexture))
+    Promise.all(Object.entries(SINGLE_SIDE_BRANDING_TEXTURES).map(loadTexture))
       .then((loadedEntries) => {
         if (!isMounted) {
           loadedTextures.forEach((texture) => texture.dispose());
@@ -696,18 +1298,15 @@ function useHybridLedBrandingTextures(
           return;
         }
 
-        const nextTextures = loadedEntries.reduce<Record<string, Texture>>(
-          (accumulator, entry) => {
-            if (!entry) return accumulator;
+        const nextTextures = loadedEntries.reduce<Record<string, Texture>>((accumulator, entry) => {
+          if (!entry) return accumulator;
 
-            const [meshName, texture] = entry;
+          const [meshName, texture] = entry;
 
-            accumulator[meshName] = texture;
+          accumulator[meshName] = texture;
 
-            return accumulator;
-          },
-          {},
-        );
+          return accumulator;
+        }, {});
 
         setTextures(nextTextures);
       })
@@ -983,15 +1582,12 @@ function applyContinuousLedWrapUvToMeshes(
   };
 
   for (const mesh of meshes) {
-    const geometry = mesh.geometry.index
-      ? mesh.geometry.toNonIndexed()
-      : mesh.geometry.clone();
+    const geometry = mesh.geometry.index ? mesh.geometry.toNonIndexed() : mesh.geometry.clone();
 
     mesh.geometry = geometry;
     mesh.updateMatrixWorld(true);
 
-    const position = geometry.attributes.position as
-      BufferAttribute | undefined;
+    const position = geometry.attributes.position as BufferAttribute | undefined;
 
     if (!position) {
       results.set(mesh, {
@@ -1007,11 +1603,7 @@ function applyContinuousLedWrapUvToMeshes(
     const triangleCount = Math.floor(position.count / 3);
     const triangleInfos: LedTriangleInfo[] = [];
 
-    for (
-      let triangleIndex = 0;
-      triangleIndex < triangleCount;
-      triangleIndex++
-    ) {
+    for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
       const baseIndex = triangleIndex * 3;
 
       localA.fromBufferAttribute(position, baseIndex);
@@ -1081,14 +1673,8 @@ function applyContinuousLedWrapUvToMeshes(
       const bCenterX = b.centerX / Math.max(b.sampleCount, 1);
       const bCenterZ = b.centerZ / Math.max(b.sampleCount, 1);
 
-      const angleA = Math.atan2(
-        aCenterZ - rootCenter.z,
-        aCenterX - rootCenter.x,
-      );
-      const angleB = Math.atan2(
-        bCenterZ - rootCenter.z,
-        bCenterX - rootCenter.x,
-      );
+      const angleA = Math.atan2(aCenterZ - rootCenter.z, aCenterX - rootCenter.x);
+      const angleB = Math.atan2(bCenterZ - rootCenter.z, bCenterX - rootCenter.x);
 
       return angleA - angleB;
     });
@@ -1136,12 +1722,8 @@ function applyContinuousLedWrapUvToMeshes(
     cursor += width;
   }
 
-  const verticalMinY = Math.min(
-    ...orderedVerticalClusters.map((cluster) => cluster.minV),
-  );
-  const verticalMaxY = Math.max(
-    ...orderedVerticalClusters.map((cluster) => cluster.maxV),
-  );
+  const verticalMinY = Math.min(...orderedVerticalClusters.map((cluster) => cluster.minV));
+  const verticalMaxY = Math.max(...orderedVerticalClusters.map((cluster) => cluster.maxV));
   const verticalHeight = Math.max(verticalMaxY - verticalMinY, 0.00001);
 
   const vertex = new Vector3();
@@ -1152,11 +1734,7 @@ function applyContinuousLedWrapUvToMeshes(
     const uvArray = new Float32Array(position.count * 2);
     const triangleCount = Math.floor(position.count / 3);
 
-    for (
-      let triangleIndex = 0;
-      triangleIndex < triangleCount;
-      triangleIndex++
-    ) {
+    for (let triangleIndex = 0; triangleIndex < triangleCount; triangleIndex++) {
       const triangleInfo = triangleInfos[triangleIndex];
       const cluster = clusters.get(triangleInfo.key);
       const range = clusterRanges.get(triangleInfo.key);
@@ -1172,13 +1750,9 @@ function applyContinuousLedWrapUvToMeshes(
 
         if (cluster && range && triangleInfo.isVertical) {
           const localRangeU = Math.max(cluster.maxU - cluster.minU, 0.00001);
-          const localU =
-            (getAxisValue(worldVertex, cluster.axisU) - cluster.minU) /
-            localRangeU;
+          const localU = (getAxisValue(worldVertex, cluster.axisU) - cluster.minU) / localRangeU;
 
-          u =
-            range.start +
-            MathUtils.clamp(localU, 0, 1) * (range.end - range.start);
+          u = range.start + MathUtils.clamp(localU, 0, 1) * (range.end - range.start);
           v = (worldVertex.y - verticalMinY) / verticalHeight;
         } else {
           u = (worldVertex.x - rootMin.x) / rootRangeX;
@@ -1234,6 +1808,11 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     maxTextureAnisotropy,
   );
 
+  const singleSideBrandingTextures = useSingleSideBrandingTextures(
+    vehicle.id === SINGLE_SIDE_BRANDING_VEHICLE_ID,
+    maxTextureAnisotropy,
+  );
+
   useEffect(() => {
     const maxAnisotropy = maxTextureAnisotropy;
 
@@ -1254,9 +1833,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     scene.traverse((child: Object3D) => {
       if (found || !(child instanceof Mesh)) return;
 
-      const originalMaterials = Array.isArray(child.material)
-        ? child.material
-        : [child.material];
+      const originalMaterials = Array.isArray(child.material) ? child.material : [child.material];
 
       const objectNameMatch = isLedPanelName(child.name || "");
       const ancestorNameMatch = hasLedPanelAncestor(child);
@@ -1272,8 +1849,10 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
 
   const shouldLoadLedVideoTexture = hasMatchingLedMesh;
 
-  const { texture: ledVideoTexture, isReady: isVideoReady } =
-    useLedVideoTexture(DEMO_VIDEO_SRC, shouldLoadLedVideoTexture);
+  const { texture: ledVideoTexture, isReady: isVideoReady } = useLedVideoTexture(
+    DEMO_VIDEO_SRC,
+    shouldLoadLedVideoTexture,
+  );
 
   const clonedScene = useMemo(() => {
     const clone = scene.clone(true) as Group;
@@ -1286,17 +1865,12 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
 
       const objectNameMatch = isLedPanelName(child.name || "");
       const ancestorNameMatch = hasLedPanelAncestor(child);
-      const originalMaterials = Array.isArray(child.material)
-        ? child.material
-        : [child.material];
-      const clonedMaterials = originalMaterials.map((material) =>
-        material.clone(),
-      );
+      const originalMaterials = Array.isArray(child.material) ? child.material : [child.material];
+      const clonedMaterials = originalMaterials.map((material) => material.clone());
       const materialNameMatch = clonedMaterials.some((material) =>
         isLedPanelName(material.name || ""),
       );
-      const isLedPanel =
-        objectNameMatch || materialNameMatch || ancestorNameMatch;
+      const isLedPanel = objectNameMatch || materialNameMatch || ancestorNameMatch;
 
       clonedMaterialMap.set(child, clonedMaterials);
       materialWasArrayMap.set(child, Array.isArray(child.material));
@@ -1311,11 +1885,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
 
     clone.updateMatrixWorld(true);
 
-    const ledUvResults = applyContinuousLedWrapUvToMeshes(
-      ledMeshes,
-      clone,
-      vehicle.id,
-    );
+    const ledUvResults = applyContinuousLedWrapUvToMeshes(ledMeshes, clone, vehicle.id);
 
     const sharedLedVideoMaterial =
       ENABLE_LED_VIDEO_TEXTURE && ledVideoTexture && isVideoReady
@@ -1349,21 +1919,51 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     const hybridLedBrandingMaterials = new Map<string, MeshBasicMaterial>();
 
     if (vehicle.id === "7x5") {
-      Object.entries(hybridLedBrandingTextures).forEach(
-        ([meshName, texture]) => {
-          const material = new MeshBasicMaterial({
-            name: `hybrid_led_${meshName}_image_material`,
-            color: "#ffffff",
-            map: texture,
-            toneMapped: false,
-            side: DoubleSide,
-          });
+      Object.entries(hybridLedBrandingTextures).forEach(([meshName, texture]) => {
+        const isCabinFrontMaterial = isCabinBrandingTextureKey(meshName);
 
-          material.needsUpdate = true;
+        const material = new MeshBasicMaterial({
+          name: `hybrid_led_${meshName}_image_material`,
+          color: "#ffffff",
+          map: texture,
+          toneMapped: false,
+          side: DoubleSide,
+          transparent: false,
+        });
 
-          hybridLedBrandingMaterials.set(meshName, material);
-        },
-      );
+        if (isCabinFrontMaterial) {
+          // Keep cabin poster crisp and always drawn cleanly on the selected face.
+          material.depthTest = true;
+          material.depthWrite = true;
+          material.fog = false;
+        }
+
+        material.needsUpdate = true;
+
+        hybridLedBrandingMaterials.set(meshName, material);
+      });
+    }
+
+    const singleSideBrandingMaterials = new Map<string, MeshBasicMaterial>();
+
+    if (vehicle.id === SINGLE_SIDE_BRANDING_VEHICLE_ID) {
+      Object.entries(singleSideBrandingTextures).forEach(([meshName, texture]) => {
+        const material = new MeshBasicMaterial({
+          name: `single_side_${meshName}_17x7_image_material`,
+          color: "#ffffff",
+          map: texture,
+          toneMapped: false,
+          side: DoubleSide,
+          transparent: false,
+        });
+
+        material.depthTest = true;
+        material.depthWrite = true;
+        material.fog = false;
+        material.needsUpdate = true;
+
+        singleSideBrandingMaterials.set(meshName, material);
+      });
     }
 
     let appliedLogoMeshCount = 0;
@@ -1372,8 +1972,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
       if (!(child instanceof Mesh) || !child.material) return;
 
       const clonedMaterials = clonedMaterialMap.get(child) || [];
-      const materialWasArray =
-        materialWasArrayMap.get(child) ?? Array.isArray(child.material);
+      const materialWasArray = materialWasArrayMap.get(child) ?? Array.isArray(child.material);
 
       const objectNameMatch = isLedPanelName(child.name || "");
       const ancestorNameMatch = hasLedPanelAncestor(child);
@@ -1381,48 +1980,84 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
         isLedPanelName(material.name || ""),
       );
 
-      const isLedPanel =
-        objectNameMatch || materialNameMatch || ancestorNameMatch;
+      const isLedPanel = objectNameMatch || materialNameMatch || ancestorNameMatch;
       const uvResult = ledUvResults.get(child);
       const hasUv = uvResult?.hasUv ?? Boolean(child.geometry?.attributes?.uv);
 
-      const hybridLedTextureObjectKey =
-        vehicle.id === "7x5"
-          ? getHybridLedBrandingTextureKey(child.name || "")
+      const singleSideTextureKey =
+        vehicle.id === SINGLE_SIDE_BRANDING_VEHICLE_ID
+          ? getSingleSideBrandingTextureKeyForMesh(child)
           : null;
-      const hybridLedTextureMaterialKey =
-        vehicle.id === "7x5"
-          ? clonedMaterials
-              .map((material) =>
-                getHybridLedBrandingTextureKey(material.name || ""),
-              )
-              .find(Boolean) || null
-          : null;
+      const singleSideBrandingMaterial = singleSideTextureKey
+        ? singleSideBrandingMaterials.get(singleSideTextureKey)
+        : null;
+
       const hybridLedTextureKey =
-        hybridLedTextureObjectKey || hybridLedTextureMaterialKey;
+        vehicle.id === "7x5" ? getHybridLedBrandingTextureKeyForMesh(child, clonedMaterials) : null;
       const hybridLedBrandingMaterial = hybridLedTextureKey
         ? hybridLedBrandingMaterials.get(hybridLedTextureKey)
         : null;
 
-      const vehicleLogoObjectNameMatch = isGlobalLogoTargetName(
-        child.name || "",
-      );
+      const vehicleLogoObjectNameMatch = isGlobalLogoTargetName(child.name || "");
       const vehicleLogoMaterialNameMatch = clonedMaterials.some((material) =>
         isGlobalLogoTargetName(material.name || ""),
       );
-      const isVehicleLogoTarget =
-        vehicleLogoObjectNameMatch || vehicleLogoMaterialNameMatch;
+      const isVehicleLogoTarget = vehicleLogoObjectNameMatch || vehicleLogoMaterialNameMatch;
 
-      if (hybridLedBrandingMaterial) {
+      if (singleSideBrandingMaterial) {
+        forceObjectAndParentsVisible(child);
+
         const uvSpread = getUvSpread(child);
 
-        if (!uvSpread.isUsable) {
-          applyMultiPanelUvToMesh(child);
+        if (SINGLE_SIDE_BLINN_42_FORCE_GENERATE_UV || !uvSpread.isUsable) {
+          const singleSideUvResult = applySingleSideBlinn42UvToMesh(child);
+
+          if (!singleSideUvResult.applied) {
+            console.warn("[Single Side Blinn_42 Texture]", singleSideUvResult.reason, child.name);
+            applyMultiPanelUvToMesh(child);
+          }
         }
 
-        child.material = hybridLedBrandingMaterial;
+        child.material = singleSideBrandingMaterial;
         child.castShadow = false;
         child.receiveShadow = false;
+      } else if (hybridLedBrandingMaterial) {
+        if (isCabinBrandingTextureKey(hybridLedTextureKey)) {
+          forceObjectAndParentsVisible(child);
+
+          const baseMaterial =
+            clonedMaterials[0]?.clone?.() ||
+            new MeshBasicMaterial({
+              name: "hybrid_cabin_front_base_material",
+              color: "#ffffff",
+              toneMapped: true,
+              side: DoubleSide,
+            });
+
+          const cabinUvResult = applySingleCabinFrontFaceUvToMesh(child);
+
+          if (!cabinUvResult.applied) {
+            console.warn("[Hybrid Cabin Front Texture]", cabinUvResult.reason, child.name);
+
+            applyMultiPanelUvToMesh(child);
+            child.material = hybridLedBrandingMaterial;
+          } else {
+            child.material = [baseMaterial, hybridLedBrandingMaterial];
+          }
+
+          child.castShadow = false;
+          child.receiveShadow = false;
+        } else {
+          const uvSpread = getUvSpread(child);
+
+          if (!uvSpread.isUsable) {
+            applyMultiPanelUvToMesh(child);
+          }
+
+          child.material = hybridLedBrandingMaterial;
+          child.castShadow = false;
+          child.receiveShadow = false;
+        }
       } else if (isVehicleLogoTarget && sharedVehicleLogoMaterial) {
         child.material = sharedVehicleLogoMaterial;
         child.castShadow = false;
@@ -1434,9 +2069,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
         child.receiveShadow = false;
       } else {
         if (clonedMaterials.length > 0) {
-          child.material = materialWasArray
-            ? clonedMaterials
-            : clonedMaterials[0];
+          child.material = materialWasArray ? clonedMaterials : clonedMaterials[0];
         }
 
         clonedMaterials.forEach((material) => {
@@ -1509,6 +2142,7 @@ function VehicleModel({ vehicle }: { vehicle: VehicleItem }) {
     isVideoReady,
     vehicleLogoTexture,
     hybridLedBrandingTextures,
+    singleSideBrandingTextures,
   ]);
 
   return <primitive object={clonedScene} dispose={null} />;
@@ -1556,26 +2190,19 @@ function VehicleHotspots({
       {hotspots.map((hotspot, index) => (
         <Html
           key={hotspot.label}
-
           position={hotspot.position}
-
           center
-
           distanceFactor={7.5}
-
           zIndexRange={[55, 0]}
         >
           <div
-            className={`pointer-events-none flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-semibold shadow-[0_18px_44px_rgba(15,23,42,0.16)] backdrop-blur-2xl transition-all duration-700 ${ isNightMode ? "border-white/14 bg-black/62 text-white" : "border-white/90 bg-white/84 text-slate-700" }`}
-
+            className={`pointer-events-none flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-semibold shadow-[0_18px_44px_rgba(15,23,42,0.16)] backdrop-blur-2xl transition-all duration-700 ${isNightMode ? "border-white/14 bg-black/62 text-white" : "border-white/90 bg-white/84 text-slate-700"}`}
             style={{
-              animation: `hotspotFloat 2.6s ease-in-out ${
-                index * 0.18
-              }s infinite`,
+              animation: `hotspotFloat 2.6s ease-in-out ${index * 0.18}s infinite`,
             }}
           >
             <span
-              className={`relative h-2.5 w-2.5 rounded-full ${ isNightMode ? "bg-white shadow-[0_0_18px_rgba(255,255,255,0.8)]" : "bg-slate-950 shadow-[0_0_18px_rgba(15,23,42,0.22)]" }`}
+              className={`relative h-2.5 w-2.5 rounded-full ${isNightMode ? "bg-white shadow-[0_0_18px_rgba(255,255,255,0.8)]" : "bg-slate-950 shadow-[0_0_18px_rgba(15,23,42,0.22)]"}`}
             />
 
             {hotspot.label}
@@ -1620,8 +2247,7 @@ function VehicleTurntable({
   const stopDragging = useCallback(() => {
     dragStateRef.current.isDragging = false;
 
-    dragStateRef.current.pauseAutoUntil =
-      performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
+    dragStateRef.current.pauseAutoUntil = performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
   }, []);
 
   useEffect(() => {
@@ -1659,8 +2285,7 @@ function VehicleTurntable({
 
     dragStateRef.current.velocity = 0;
 
-    dragStateRef.current.pauseAutoUntil =
-      performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
+    dragStateRef.current.pauseAutoUntil = performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
   }, [vehicle.id, vehicle.rotationY]);
 
   useFrame((_, delta) => {
@@ -1719,8 +2344,7 @@ function VehicleTurntable({
         }
 
         const canAutoRotate =
-          now > dragState.pauseAutoUntil &&
-          Math.abs(dragState.velocity) < 0.002;
+          now > dragState.pauseAutoUntil && Math.abs(dragState.velocity) < 0.002;
 
         if (canAutoRotate) {
           targetRotationRef.current += AUTO_ROTATE_SPEED * delta;
@@ -1757,11 +2381,9 @@ function VehicleTurntable({
 
       dragStateRef.current.velocity = 0;
 
-      dragStateRef.current.pauseAutoUntil =
-        performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
+      dragStateRef.current.pauseAutoUntil = performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
 
-      targetRotationRef.current =
-        pivotRef.current?.rotation.y ?? vehicle.rotationY;
+      targetRotationRef.current = pivotRef.current?.rotation.y ?? vehicle.rotationY;
 
       const target = event.target as unknown as {
         setPointerCapture?: (pointerId: number) => void;
@@ -1800,8 +2422,7 @@ function VehicleTurntable({
 
     dragState.lastY = event.clientY;
 
-    dragState.pauseAutoUntil =
-      performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
+    dragState.pauseAutoUntil = performance.now() + AUTO_ROTATE_PAUSE_AFTER_DRAG_MS;
   }, []);
 
   const handlePointerUp = useCallback(
@@ -1823,17 +2444,11 @@ function VehicleTurntable({
   return (
     <group
       ref={pivotRef}
-
       scale={vehicle.scale}
-
       position={[0, 0, 0]}
-
       onPointerDown={handlePointerDown}
-
       onPointerMove={handlePointerMove}
-
       onPointerUp={handlePointerUp}
-
       onPointerCancel={handlePointerUp}
     >
       <VehicleModel vehicle={vehicle} />
@@ -1857,8 +2472,7 @@ function CameraDemoControls({
   const { camera } = useThree();
 
   const afterSwitchCameraConfig = getAfterSwitchCameraConfig(vehicleId);
-  const shouldUseVehicleCameraConfig =
-    hasVehicleSwitched || vehicleId === VEHICLES[0].id;
+  const shouldUseVehicleCameraConfig = hasVehicleSwitched || vehicleId === VEHICLES[0].id;
 
   const switchZoomOutRef = useRef({
     version: vehicleSwitchVersion,
@@ -1881,8 +2495,7 @@ function CameraDemoControls({
       !isDemoMode &&
       vehicleSwitchVersion > 0 &&
       switchZoomOutRef.current.version === vehicleSwitchVersion &&
-      now - switchZoomOutRef.current.startedAt <
-        CAMERA_SWITCH_ZOOM_OUT_DURATION_MS;
+      now - switchZoomOutRef.current.startedAt < CAMERA_SWITCH_ZOOM_OUT_DURATION_MS;
 
     const finalTargetPosition = shouldUseVehicleCameraConfig
       ? afterSwitchCameraConfig.position
@@ -1990,33 +2603,17 @@ function CameraDemoControls({
   return (
     <OrbitControls
       ref={controlsRef}
-
       makeDefault
-
       enableDamping
-
       dampingFactor={0.08}
-
       enableRotate={false}
-
       enablePan={false}
-
       enableZoom={false}
-
       zoomSpeed={0}
-
-      minDistance={
-        shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.minDistance : 5.8
-      }
-
-      maxDistance={
-        shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.maxDistance : 8.8
-      }
-
+      minDistance={shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.minDistance : 5.8}
+      maxDistance={shouldUseVehicleCameraConfig ? afterSwitchCameraConfig.maxDistance : 8.8}
       target={CAMERA_TARGET}
-
       minPolarAngle={lockedCameraAngle}
-
       maxPolarAngle={lockedCameraAngle}
     />
   );
@@ -2050,9 +2647,7 @@ function VehicleCanvas({
   return (
     <Canvas
       shadows
-
       dpr={[1, 1.85]}
-
       camera={{
         position: CAMERA_DEFAULT_POSITION,
 
@@ -2062,7 +2657,6 @@ function VehicleCanvas({
 
         far: 100,
       }}
-
       gl={{
         antialias: true,
 
@@ -2070,11 +2664,8 @@ function VehicleCanvas({
 
         powerPreference: "high-performance",
       }}
-
       onPointerDown={onUserInteract}
-
       onWheel={onUserInteract}
-
       onCreated={({ gl }) => {
         gl.toneMapping = ACESFilmicToneMapping;
 
@@ -2087,95 +2678,52 @@ function VehicleCanvas({
 
       <hemisphereLight
         intensity={isNightMode ? 0.5 : 1.04}
-
         color="#ffffff"
-
         groundColor={isNightMode ? "#111827" : "#DCE7F3"}
       />
 
       <directionalLight
         position={[5.8, 7.4, 5.6]}
-
         intensity={isNightMode ? 1.8 : 2.52}
-
         color="#ffffff"
-
         castShadow
-
         shadow-mapSize-width={2048}
-
         shadow-mapSize-height={2048}
-
         shadow-bias={-0.0007}
-
         shadow-normalBias={0.026}
-
         shadow-camera-left={-8}
-
         shadow-camera-right={8}
-
         shadow-camera-top={8}
-
         shadow-camera-bottom={-8}
       />
 
       <directionalLight
         position={[-6.4, 3.9, 4.9]}
-
         intensity={isNightMode ? 0.7 : 1.02}
-
         color={isNightMode ? "#BFD7FF" : "#F5F7FA"}
       />
 
       <directionalLight
         position={[5.1, 4.3, -6]}
-
         intensity={isNightMode ? 1.1 : 1.62}
-
         color="#ffffff"
       />
 
-      <pointLight
-        position={[-5.2, 1.6, 3]}
+      <pointLight position={[-5.2, 1.6, 3]} intensity={isNightMode ? 0.46 : 0.16} color="#5683A0" />
 
-        intensity={isNightMode ? 0.46 : 0.16}
-
-        color="#5683A0"
-      />
-
-      <pointLight
-        position={[5, 1.5, 2.7]}
-
-        intensity={isNightMode ? 0.3 : 0.1}
-
-        color="#8F93C0"
-      />
+      <pointLight position={[5, 1.5, 2.7]} intensity={isNightMode ? 0.3 : 0.1} color="#8F93C0" />
 
       <pointLight
         position={[0, 1.95, 5.05]}
-
         intensity={isNightMode || isDemoMode ? 0.82 : 0.44}
-
         color="#ffffff"
       />
 
       {isDemoMode && (
         <>
-          <pointLight
-            position={[0.8, 0.85, 2.2]}
+          <pointLight position={[0.8, 0.85, 2.2]} intensity={1.4} color="#ffffff" />
 
-            intensity={1.4}
-
-            color="#ffffff"
-          />
-
-          <pointLight
-            position={[-1.3, 0.7, 1.8]}
-
-            intensity={0.72}
-
-            color="#DCE7F3"
-          />
+          <pointLight position={[-1.3, 0.7, 1.8]} intensity={0.72} color="#DCE7F3" />
         </>
       )}
 
@@ -2196,25 +2744,18 @@ function VehicleCanvas({
             <Center position={[0, vehicle.id === "7x5" ? -0.04 : 0.18, 0]}>
               <VehicleTurntable
                 key={vehicle.id}
-
                 vehicle={vehicle}
-
                 isDemoMode={isDemoMode}
-
                 onUserInteract={onUserInteract}
               />
 
-              <VehicleHotspots
-                isDemoMode={isDemoMode}
-
-                isNightMode={isNightMode}
-              />
+              <VehicleHotspots isDemoMode={isDemoMode} isNightMode={isNightMode} />
             </Center>
           </Bounds>
         ) : (
           <Html center zIndexRange={[60, 0]}>
             <div
-              className={`rounded-2xl border px-5 py-3 text-sm font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-2xl ${ isNightMode ? "border-white/12 bg-black/48 text-white/80" : "border-white/90 bg-white/76 text-slate-600" }`}
+              className={`rounded-2xl border px-5 py-3 text-sm font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-2xl ${isNightMode ? "border-white/12 bg-black/48 text-white/80" : "border-white/90 bg-white/76 text-slate-600"}`}
             >
               Vehicle preview disabled
             </div>
@@ -2223,15 +2764,10 @@ function VehicleCanvas({
 
         <ContactShadows
           position={[0, -1.02, 0]}
-
           opacity={isNightMode ? 0.34 : 0.24}
-
           scale={9.8}
-
           blur={4.1}
-
           far={4.8}
-
           color={isNightMode ? "#020617" : "#64748B"}
         />
       </Suspense>
@@ -2288,9 +2824,7 @@ function RouteProofCards({
       {cards.map((card, index) => (
         <div
           key={card.label}
-
-          className={`rounded-2xl border px-4 py-3.5 shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 ${ isNightMode ? "border-white/12 bg-black/48 text-white" : "border-white/90 bg-white/76 text-slate-950" }`}
-
+          className={`rounded-2xl border px-4 py-3.5 shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 ${isNightMode ? "border-white/12 bg-black/48 text-white" : "border-white/90 bg-white/76 text-slate-950"}`}
           style={{
             transitionDelay: `${index * 90}ms`,
           }}
@@ -2301,9 +2835,7 @@ function RouteProofCards({
             {card.label}
           </div>
 
-          <div className="mt-1 text-sm font-semibold tracking-[-0.02em]">
-            {card.value}
-          </div>
+          <div className="mt-1 text-sm font-semibold tracking-[-0.02em]">{card.value}</div>
         </div>
       ))}
     </div>
@@ -2321,7 +2853,7 @@ function DemoStatusBar({
 }) {
   return (
     <div
-      className={`pointer-events-none absolute left-1/2 top-[14%] z-[54] hidden -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 text-xs font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 md:flex ${isDemoMode ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} ${ isNightMode ? "border-white/12 bg-black/44 text-white" : "border-white/90 bg-white/78 text-slate-700" }`}
+      className={`pointer-events-none absolute left-1/2 top-[14%] z-[54] hidden -translate-x-1/2 items-center gap-3 rounded-full border px-4 py-2 text-xs font-semibold shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl transition-all duration-700 md:flex ${isDemoMode ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} ${isNightMode ? "border-white/12 bg-black/44 text-white" : "border-white/90 bg-white/78 text-slate-700"}`}
     >
       <span className="relative flex h-2.5 w-2.5">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
@@ -2329,9 +2861,7 @@ function DemoStatusBar({
         <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
       </span>
       Live Demo Running
-      <span className={isNightMode ? "text-white/38" : "text-slate-300"}>
-        |
-      </span>
+      <span className={isNightMode ? "text-white/38" : "text-slate-300"}>|</span>
       demo-campaign.mp4 on LED panel
     </div>
   );
@@ -2409,13 +2939,44 @@ function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
   }, [onDismiss]);
 
   return (
-    <button type="button" aria-label="Drag to rotate 360 degrees" onClick={onDismiss} className={`absolute left-1/2 top-6 z-[80] flex h-[74px] w-[74px] -translate-x-1/2 items-center justify-center rounded-full border border-white/35 bg-[rgba(54,46,49,0.58)] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] outline-none backdrop-blur-xl transition-all duration-700 ease-out hover:scale-105 hover:bg-[rgba(38,34,37,0.72)] focus-visible:ring-2 focus-visible:ring-white/50 RdswNew_Rotate360Hint ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+    <button
+      type="button"
+      aria-label="Drag to rotate 360 degrees"
+      onClick={onDismiss}
+      className={`absolute left-1/2 top-6 z-[80] flex h-[74px] w-[74px] -translate-x-1/2 items-center justify-center rounded-full border border-white/35 bg-[rgba(54,46,49,0.58)] text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)] outline-none backdrop-blur-xl transition-all duration-700 ease-out hover:scale-105 hover:bg-[rgba(38,34,37,0.72)] focus-visible:ring-2 focus-visible:ring-white/50 RdswNew_Rotate360Hint ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+    >
       <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.32),rgba(255,255,255,0.08)_34%,rgba(0,0,0,0.18)_100%)]" />
 
-      <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 74 74" aria-hidden="true">
-        <circle cx="37" cy="37" r="34" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
-        <path className="RdswNew_Rotate360Arc" d="M 22 49 C 28 57, 46 57, 52 49" fill="none" stroke="rgba(255,255,255,0.88)" strokeWidth="1.8" strokeLinecap="round" />
-        <path className="RdswNew_Rotate360Arrow" d="M 50 49 L 55 48 L 52 52" fill="none" stroke="rgba(255,255,255,0.88)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox="0 0 74 74"
+        aria-hidden="true"
+      >
+        <circle
+          cx="37"
+          cy="37"
+          r="34"
+          fill="none"
+          stroke="rgba(255,255,255,0.10)"
+          strokeWidth="1"
+        />
+        <path
+          className="RdswNew_Rotate360Arc"
+          d="M 22 49 C 28 57, 46 57, 52 49"
+          fill="none"
+          stroke="rgba(255,255,255,0.88)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+        <path
+          className="RdswNew_Rotate360Arrow"
+          d="M 50 49 L 55 48 L 52 52"
+          fill="none"
+          stroke="rgba(255,255,255,0.88)"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
 
       <span className="relative z-[2] flex flex-col items-center justify-center leading-none">
@@ -2789,7 +3350,6 @@ function RotateHintCard({ onDismiss }: { onDismiss: () => void }) {
 //   );
 // }
 
-
 function VehicleSelector({
   vehicles,
   activeVehicle,
@@ -2934,11 +3494,7 @@ function VehicleSelector({
                 dx="0"
                 dy="7"
                 stdDeviation="5"
-                floodColor={
-                  isNightMode
-                    ? "rgba(255,255,255,0.16)"
-                    : "rgba(15,23,42,0.24)"
-                }
+                floodColor={isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.24)"}
               />
             </filter>
 
@@ -2953,9 +3509,7 @@ function VehicleSelector({
             width="178"
             height="7"
             rx="3.5"
-            fill={
-              isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.12)"
-            }
+            fill={isNightMode ? "rgba(255,255,255,0.16)" : "rgba(15,23,42,0.12)"}
           />
 
           <g clipPath={`url(#selectorRoadClip-${displayVehicle.id})`}>
@@ -2965,11 +3519,7 @@ function VehicleSelector({
                 y1="50.5"
                 x2="-26"
                 y2="50.5"
-                stroke={
-                  isNightMode
-                    ? "rgba(255,255,255,0.55)"
-                    : "rgba(255,255,255,0.86)"
-                }
+                stroke={isNightMode ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.86)"}
                 strokeWidth="2"
                 strokeLinecap="round"
               />
@@ -2979,11 +3529,7 @@ function VehicleSelector({
                 y1="50.5"
                 x2="38"
                 y2="50.5"
-                stroke={
-                  isNightMode
-                    ? "rgba(255,255,255,0.55)"
-                    : "rgba(255,255,255,0.86)"
-                }
+                stroke={isNightMode ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.86)"}
                 strokeWidth="2"
                 strokeLinecap="round"
               />
@@ -2993,11 +3539,7 @@ function VehicleSelector({
                 y1="50.5"
                 x2="102"
                 y2="50.5"
-                stroke={
-                  isNightMode
-                    ? "rgba(255,255,255,0.55)"
-                    : "rgba(255,255,255,0.86)"
-                }
+                stroke={isNightMode ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.86)"}
                 strokeWidth="2"
                 strokeLinecap="round"
               />
@@ -3007,11 +3549,7 @@ function VehicleSelector({
                 y1="50.5"
                 x2="166"
                 y2="50.5"
-                stroke={
-                  isNightMode
-                    ? "rgba(255,255,255,0.55)"
-                    : "rgba(255,255,255,0.86)"
-                }
+                stroke={isNightMode ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.86)"}
                 strokeWidth="2"
                 strokeLinecap="round"
               />
@@ -3058,11 +3596,7 @@ function VehicleSelector({
 
             <path
               d="M160 18H175C180 18 184 23 187 29H160Z"
-              fill={
-                isNightMode
-                  ? "rgba(15,23,42,0.72)"
-                  : "rgba(255,255,255,0.74)"
-              }
+              fill={isNightMode ? "rgba(15,23,42,0.72)" : "rgba(255,255,255,0.74)"}
             />
 
             <rect
@@ -3072,11 +3606,7 @@ function VehicleSelector({
               height="15"
               rx="2"
               transform="skewX(-16)"
-              fill={
-                isNightMode
-                  ? "rgba(255,255,255,0.88)"
-                  : "rgba(2,6,23,0.88)"
-              }
+              fill={isNightMode ? "rgba(255,255,255,0.88)" : "rgba(2,6,23,0.88)"}
             />
 
             <circle
@@ -3088,12 +3618,7 @@ function VehicleSelector({
               strokeWidth="1.5"
             />
 
-            <circle
-              cx="42"
-              cy="41"
-              r="2"
-              fill={isNightMode ? "#020617" : "#E5E7EB"}
-            />
+            <circle cx="42" cy="41" r="2" fill={isNightMode ? "#020617" : "#E5E7EB"} />
 
             <circle
               cx="171"
@@ -3104,12 +3629,7 @@ function VehicleSelector({
               strokeWidth="1.5"
             />
 
-            <circle
-              cx="171"
-              cy="41"
-              r="2"
-              fill={isNightMode ? "#020617" : "#E5E7EB"}
-            />
+            <circle cx="171" cy="41" r="2" fill={isNightMode ? "#020617" : "#E5E7EB"} />
 
             <circle cx="196" cy="35" r="2" fill="#FACC15" />
           </g>
@@ -3150,7 +3670,6 @@ function VehicleSelector({
   );
 }
 
-
 function DemoControls({
   isDemoMode,
 
@@ -3174,10 +3693,8 @@ function DemoControls({
     <div className="relative z-[62] mt-4 flex flex-wrap items-center justify-center gap-2.5">
       <button
         type="button"
-
         onClick={onToggleDemo}
-
-        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] shadow-[0_18px_44px_rgba(15,23,42,0.09)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${ isDemoMode ? "border-emerald-400/60 bg-emerald-500 text-white shadow-[0_18px_48px_rgba(16,185,129,0.24)]" : isNightMode ? "border-white/14 bg-white/10 text-white hover:bg-white/16" : "border-slate-950 bg-slate-950 text-white" }`}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] shadow-[0_18px_44px_rgba(15,23,42,0.09)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${isDemoMode ? "border-emerald-400/60 bg-emerald-500 text-white shadow-[0_18px_48px_rgba(16,185,129,0.24)]" : isNightMode ? "border-white/14 bg-white/10 text-white hover:bg-white/16" : "border-slate-950 bg-slate-950 text-white"}`}
       >
         <span className="h-2 w-2 rounded-full bg-current" />
 
@@ -3186,10 +3703,8 @@ function DemoControls({
 
       <button
         type="button"
-
         onClick={onToggleNight}
-
-        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${ isNightMode ? "border-white bg-white text-slate-950" : "border-white/90 bg-white/74 text-slate-600 hover:bg-white hover:text-slate-950" }`}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-0.5 ${isNightMode ? "border-white bg-white text-slate-950" : "border-white/90 bg-white/74 text-slate-600 hover:bg-white hover:text-slate-950"}`}
       >
         {isNightMode ? "Day View" : "Night View"}
       </button>
@@ -3368,9 +3883,7 @@ export function Hero() {
 
       ambient.style.transform = `
 
-        translate3d(calc(-50% + ${currentX * 0.22}px), calc(-50% + ${
-          currentY * 0.16
-        }px), 0)
+        translate3d(calc(-50% + ${currentX * 0.22}px), calc(-50% + ${currentY * 0.16}px), 0)
 
       `;
 
@@ -3400,11 +3913,15 @@ export function Hero() {
     };
   }, [isDemoMode]);
 
-  const isLightVehicleContrastBackground =
-    activeVehicle.id === "7x5" && !isNightMode;
+  const isLightVehicleContrastBackground = activeVehicle.id === "7x5" && !isNightMode;
 
   return (
-    <section id="home" ref={heroRef} className={`HomeBannerSectionID relative isolate min-h-screen w-full overflow-hidden text-slate-950 transition-colors duration-700 ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}`} style={{height:'max-content' }}>
+    <section
+      id="home"
+      ref={heroRef}
+      className={`HomeBannerSectionID relative isolate min-h-screen w-full overflow-hidden text-slate-950 transition-colors duration-700 ${isNightMode ? "bg-[#05070B]" : "bg-[#FAFBFC]"}`}
+      style={{ height: "max-content" }}
+    >
       <style>{`
 
         @keyframes hotspotFloat {
@@ -3453,9 +3970,7 @@ export function Hero() {
 
       <div
         ref={bgRef}
-
         className="pointer-events-none absolute -inset-10 will-change-transform transition-all duration-700"
-
         style={{
           background: isNightMode
             ? "radial-gradient(circle at 50% 8%, rgba(255,255,255,0.1) 0%, transparent 38%), radial-gradient(circle at 18% 38%, rgba(86,131,160,0.18) 0%, transparent 34%), radial-gradient(circle at 84% 34%, rgba(143,147,192,0.14) 0%, transparent 32%), linear-gradient(180deg, #070A10 0%, #080B12 28%, #0D121C 52%, #121826 74%, #05070B 100%)"
@@ -3467,9 +3982,7 @@ export function Hero() {
 
       <div
         ref={ambientRef}
-
         className="pointer-events-none absolute left-1/2 top-[66%] h-[520px] w-[1080px] rounded-full blur-3xl will-change-transform transition-all duration-700"
-
         style={{
           background: isNightMode
             ? "radial-gradient(ellipse at center, rgba(86,131,160,0.18) 0%, rgba(255,255,255,0.08) 30%, rgba(143,147,192,0.09) 48%, transparent 76%)"
@@ -3488,8 +4001,7 @@ export function Hero() {
       />
 
       <div
-        className={`pointer-events-none absolute inset-0 z-[12] transition-opacity duration-700 ${ isDemoMode ? isNightMode ? "opacity-60" : "opacity-34" : "opacity-0" }`}
-
+        className={`pointer-events-none absolute inset-0 z-[12] transition-opacity duration-700 ${isDemoMode ? (isNightMode ? "opacity-60" : "opacity-34") : "opacity-0"}`}
         style={{
           background:
             "radial-gradient(circle at 50% 48%, transparent 0%, transparent 34%, rgba(0,0,0,0.24) 72%, rgba(0,0,0,0.48) 100%)",
@@ -3507,9 +4019,9 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-4 pt-[96px] text-center md:px-8 md:pt-[104px] lg:pt-[104px] xl:pt-[112px] RdswNew_HomeBannerMain" >
+      <div className="relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col items-center px-4 pt-[96px] text-center md:px-8 md:pt-[104px] lg:pt-[104px] xl:pt-[112px] RdswNew_HomeBannerMain">
         <h1
-          className={`relative z-40 max-w-4xl bg-clip-text text-[36px] font-semibold leading-[1.03] tracking-[-0.055em] text-transparent transition-all duration-700 md:text-[52px] lg:text-[50px] RdswNew_HeroTitle ${ isNightMode ? "bg-gradient-to-b from-white via-slate-200 to-slate-500" : "bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500" }`}
+          className={`relative z-40 max-w-4xl bg-clip-text text-[36px] font-semibold leading-[1.03] tracking-[-0.055em] text-transparent transition-all duration-700 md:text-[52px] lg:text-[50px] RdswNew_HeroTitle ${isNightMode ? "bg-gradient-to-b from-white via-slate-200 to-slate-500" : "bg-gradient-to-b from-slate-950 via-slate-800 to-slate-500"}`}
         >
           Take Your Brand Where Your Customers Are
         </h1>
@@ -3522,21 +4034,15 @@ export function Hero() {
 
         <VehicleSelector
           vehicles={VEHICLES}
-
           activeVehicle={activeVehicle}
-
           isNightMode={isNightMode}
-
           onSelect={handleVehicleSelect}
         />
 
         <DemoControls
           isDemoMode={isDemoMode}
-
           isNightMode={isNightMode}
-
           onToggleDemo={handleToggleDemo}
-
           onToggleNight={handleToggleNight}
         />
 
@@ -3576,18 +4082,27 @@ export function Hero() {
           />
         </div> */}
 
-        
-        <div ref={canvasWrapRef} className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100svh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100svh-264px)] lg:top-[236px] lg:h-[calc(100svh-256px)]">
-  <VehicleCanvas vehicle={activeVehicle} isDemoMode={isDemoMode} isNightMode={isNightMode} hasVehicleSwitched={hasVehicleSwitched} vehicleSwitchVersion={vehicleSwitchVersion} onUserInteract={dismissRotateHint} />
+        <div
+          ref={canvasWrapRef}
+          className="absolute inset-x-0 top-[252px] z-10 mx-auto h-[calc(100svh-272px)] min-h-[330px] max-h-[500px] w-full max-w-[1160px] touch-none overflow-visible will-change-transform transition-transform duration-700 RdswNew_VehicleCanvasWrap md:top-[244px] md:h-[calc(100svh-264px)] lg:top-[236px] lg:h-[calc(100svh-256px)]"
+        >
+          <VehicleCanvas
+            vehicle={activeVehicle}
+            isDemoMode={isDemoMode}
+            isNightMode={isNightMode}
+            hasVehicleSwitched={hasVehicleSwitched}
+            vehicleSwitchVersion={vehicleSwitchVersion}
+            onUserInteract={dismissRotateHint}
+          />
 
-  {showRotateHint && !hasSeenRotateHint && !isDemoMode && (
-    <RotateHintCard onDismiss={dismissRotateHint} />
-  )}
+          {showRotateHint && !hasSeenRotateHint && !isDemoMode && (
+            <RotateHintCard onDismiss={dismissRotateHint} />
+          )}
 
-  <RouteProofCards isDemoMode={isDemoMode} isNightMode={isNightMode} />
+          <RouteProofCards isDemoMode={isDemoMode} isNightMode={isNightMode} />
 
-  <DemoStatusBar isDemoMode={isDemoMode} isNightMode={isNightMode} />
-</div>
+          <DemoStatusBar isDemoMode={isDemoMode} isNightMode={isNightMode} />
+        </div>
       </div>
 
       {/* <div

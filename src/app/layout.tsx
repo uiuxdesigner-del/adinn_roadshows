@@ -212,6 +212,7 @@ export default function RootLayout({
       <GoogleTagManager gtmId="GTM-T2MDR4W" />
 
       <body className={`${outfit.variable} antialiased`}>
+        <meta name="google-site-verification" content="5l6_w1IFbXbp4Kzr9B2ePstAEiWwz_WZGYdfLz8AX6w" />
         {/* Microsoft Clarity */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`
